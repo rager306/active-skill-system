@@ -1,0 +1,123 @@
+[project]
+name = "active-skill-system"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "activegraph[llm]",
+    "python-dotenv>=1.2.2",
+    "pyyaml>=6.0.3",
+]
+
+[tool.uv.sources]
+activegraph = { path = "../vendor-source/activegraph" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/active_skill_system"]
+
+[project.scripts]
+active-skill-diligence = "active_skill_system.composition.diligence:main"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.155.7",
+    "import-linter>=2",
+    "pyrefly>=1.1.1",
+    "pytest>=8",
+    "pytest-gremlins>=1.8.1",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.15.18",
+    "ty>=0.0.52",
+]
+
+[tool.importlinter]
+root_packages = ["active_skill_system"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Onion/hexagonal layers (inward dependencies only)"
+type = "layers"
+layers = [
+    "active_skill_system.composition",
+    "active_skill_system.adapters",
+    "active_skill_system.application",
+    "active_skill_system.domain",
+]
+
+[[tool.importlinter.contracts]]
+name = "Domain + application are infra-free"
+type = "forbidden"
+source_modules = [
+    "active_skill_system.domain",
+    "active_skill_system.application",
+]
+forbidden_modules = ["activegraph", "anthropic", "openai"]
+
+# ── ruff (Astral): lint + format ──────────────────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+src = ["src", "tests"]
+extend-exclude = ["vendor-source"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]  # line length handled by formatter
+
+[tool.ruff.lint.isort]
+known-first-party = ["active_skill_system"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ── ty (Astral): type checker ─────────────────────────────────────────────
+# ty auto-detects the project root + .venv; python version is in [tool.ty.environment].
+[tool.ty.environment]
+python-version = "3.13"
+
+# ── pyrefly (Meta): type checker ──────────────────────────────────────────
+[tool.pyrefly]
+python-version = "3.13"
+search-path = ["src"]
+
+# ── pytest ────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+filterwarnings = ["error"]
+markers = [
+    "llm: tests that make real LLM calls (deselected unless --runllm)",
+    "slow: long-running tests (e.g. mutation-friendly suites)",
+]
+
+# ── hypothesis (property-based) ───────────────────────────────────────────
+[tool.hypothesis]
+profiles = ["dev", "ci"]
+
+# ── mutmut (mutation testing) ─────────────────────────────────────────────
+[tool.mutmut]
+source_paths = ["src/active_skill_system"]
+runner = "uv run pytest -x -q tests"
+# ── pytest-gremlins (mutation testing) ─────────────────────────────
+# Run with: uv run pytest --gremlins tests/test_minimax_provider.py
+#   --gremlins                       enable
+#   --gremlin-cache                  incremental (skip unchanged)
+#   --gremlin-parallel               multi-process
+#   --gremlin-operators=...          limit to a subset
+#   --gremlin-report=html,json       choose report formats
+[tool.pytest-gremlins]
+paths = [
+    "src/active_skill_system/adapters/llm/minimax.py",
+]
+operators = [
+    "arithmetic",
+    "boolean",
+    "boundary",
+    "comparison",
+]
+cache = false
+report = ["html", "json"]
