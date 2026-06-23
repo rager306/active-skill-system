@@ -52,3 +52,12 @@ vendor/
 coverage/
 .cache/
 tmp/
+*.db
+.mutmut-cache
+.pytest_cache
+.hypothesis
+htmlcov
+.coverage
+.coverage.*
+mutants/
+mutmut-stats.json
