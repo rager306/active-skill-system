@@ -61,3 +61,7 @@ htmlcov
 .coverage.*
 mutants/
 mutmut-stats.json
+
+# SQLite WAL/SHM sidecar files
+*.db-shm
+*.db-wal
