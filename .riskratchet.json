@@ -2,8 +2,308 @@
   "version": "2",
   "entries": [
     {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
+      "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
+      "qualname": "_project_root",
+      "score": 11.25,
+      "components": {
+        "coverage_gap": 16.6667,
+        "structural_complexity": 10.0,
+        "branch_gap": 25.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "35609847be661bb1d98cbd4c0aa3c7b3f45dfa6f68c542f675718597ec69f73a",
+      "signature": "32b5ccfecee6a3fcc7ec8f341aab9bf41ecf51a7979debb4c0f58681b750cdaf"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
+      "qualname": "load_env",
+      "score": 26.6667,
+      "components": {
+        "coverage_gap": 66.6667,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 66.6667,
+        "sprawl": 0.0
+      },
+      "fingerprint": "855d48883cdf8a4a28147cf801069a5a57e0004120c5e0d0a85c4a2073693d01",
+      "signature": "0b76876a5ff5dd476e1c81ba6e8974ca0acad54f973286fd5b80c6e6ab709957"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.__init__",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6ba09bcf4cd51be5634f9d48e4472f5de7ef42c12b106490da9a8a34be10473d",
+      "signature": "aa2ada6125928683f3d811f5fa1c4c2df883dc085e7091f2cd609b3713c221dd"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider._client",
+      "score": 14.75,
+      "components": {
+        "coverage_gap": 20.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "231e8188332fc296648e2f488a87804610a4778669bafce904b76f8e51475322",
+      "signature": "633448eb9bb0064929ccad86eeb1b388c1bb077be0da1857dc92a15ad3030e73"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider._remember_turn",
+      "score": 21.25,
+      "components": {
+        "coverage_gap": 16.6667,
+        "structural_complexity": 35.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2a004a11094a0389d6b10f2e05868b65d42df78e55c2e8f7f60f5e5d14a59979",
+      "signature": "b004341989c52ccf12b18f47161ee0e31b84608a42df5cb41d00205d05204edb"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider._restore_thinking",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "fb45f2ef80f97b1f99cd6dba9fdf6bf3cd8e7262fa445b25b5c18fda13179e9a",
+      "signature": "143bc7beae2feccd3f6e9c7c47ef1ab0fb2c4d88832aa6dc22f76d0e54fe6d3a"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider._turn_blocks",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "29e194c797a110be32ae335848319f38669bb55909aec3c1f5e41651baa7962a",
+      "signature": "1d83650cb3cd5525cc8a0063a8aece9cc65dfe3e98c2155f0219c71dec5e7564"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider.complete",
+      "score": 70.0379,
+      "components": {
+        "coverage_gap": 96.9697,
+        "structural_complexity": 65.0,
+        "branch_gap": 100.0,
+        "churn": 0.0,
+        "public_surface": 96.9697,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1d06827925b5ce0415cf1ec73c0b1984c40193ea91f589b13e1c658f30fcc613",
+      "signature": "ec31bd3464947a4a41afc1f6ce319bff4c95eaa4192ae50ef8932644f6713d7c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider.count_tokens",
+      "score": 17.25,
+      "components": {
+        "coverage_gap": 40.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 40.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "40d2d822e86a2700ebbcb401a44fa05e2f0245080d2e2e976394ba61a79e8535",
+      "signature": "69c3d6eb64ac3f26dbc639ac07c0a59eb676f45f441c96e6b834a821d6e9e85b"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
+      "qualname": "ThinkingTurnCache.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b6532ead143c2ef56375c29fee4b62acfa3033966f4aef6e6209d49cb0b2018d",
+      "signature": "8826b260d78172e9895de429ac9549872c9b3fc52bc59ed8c9edd429e5221f78"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
+      "qualname": "ThinkingTurnCache.remember",
+      "score": 11.25,
+      "components": {
+        "coverage_gap": 12.5,
+        "structural_complexity": 15.0,
+        "branch_gap": 16.6667,
+        "churn": 0.0,
+        "public_surface": 12.5,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b515052bcfe5e086c09c15147beb7cdb0c5b6fe9918e4b6b6863ec5366ae269a",
+      "signature": "46f065bb2ec8a5eb4094060f22efc070cfe95a1223d77fc1d983267dfe65e703"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
+      "qualname": "ThinkingTurnCache.restore",
+      "score": 18.3333,
+      "components": {
+        "coverage_gap": 8.3333,
+        "structural_complexity": 45.0,
+        "branch_gap": 25.0,
+        "churn": 0.0,
+        "public_surface": 8.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bcb70ab6dcc4d001a3c25cc10caa9b13ccbc920a9e34bd7746711cad275d6d79",
+      "signature": "143bc7beae2feccd3f6e9c7c47ef1ab0fb2c4d88832aa6dc22f76d0e54fe6d3a"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
+      "qualname": "_block_to_dict",
+      "score": 27.5,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 55.0,
+        "branch_gap": 25.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3c574206acd10cbba92a3466677a1b1f67b2a77a5c5e39ec233f4a15192940ab",
+      "signature": "1c6247f73f6ad37330f8d12575501777a7f089ddf34f501890a3ffb0e49c95ae"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_tokens.py",
+      "qualname": "count_tokens_fallback",
+      "score": 7.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1a3d6fefd65025d81b0c3d734b9fceca9c72ccffce0b61a5a9ed80cdd5be8571",
+      "signature": "dc7122ceee30d7f9a51688b6a1fad426b01fc9da3fd746424d5c4e92d0f8d908"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.__init__",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0e1022822ff31694a5f47c0cda79b6f2dda86cf011d9085e7d0222df72c0406c",
+      "signature": "532e2b7caa1ad73b2a15b8d5ac988abadf2669e3632f20945519753b73a9b562"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter._default_factory",
+      "score": 49.25,
+      "components": {
+        "coverage_gap": 90.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 100.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "aaf6f803b39fce8b306224af4e5574bfaed8d910d0c5715e4d5e283f1618fc94",
+      "signature": "202e4e8ab8de308123861c7063eab150711a92a29e4f1b73a9ffa18ac6781d40"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.diff",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8abf76d10044885366f4e9f57b24f3bb2ce03059133fa4c28e88db164cbe3973",
+      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.export_trace",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "99bac75c18a60d2b5a378bd35c76273591e8f522909d5c0ceddf9a9ee2c505c7",
+      "signature": "4bdaf6e802de1ea03f0b7d772296a62e7b6a71bf46ff36488341291c9c75ed8c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.fork",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "cc2bb5df9ef0d9dda115ad1f6028fdc89cb6ee5f584d3f8a9e28f244843051aa",
+      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.replay",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bcd6dad8dd3929771616a6fe27d7e7dabb2da303da93d18e46723082816ce5eb",
+      "signature": "00f831198e77af109420a9f77ab1c88a1376e75c542b194160af96e8cb037004"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "ActiveGraphRuntimeAdapter.run_goal",
       "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
@@ -13,128 +313,113 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "ddc89506580530367240cd9fa369bdc3c70c443f60672dc123ca888f79e9df47",
-      "signature": "aa2ada6125928683f3d811f5fa1c4c2df883dc085e7091f2cd609b3713c221dd"
+      "fingerprint": "483817833d27302fcdbbc88aa7b2c3af3c0f3db94da1fd1c8f25b4960b21f239",
+      "signature": "c5f022e9fa12fdea87f9092ff73f18870e6b1d809fa0a6c59997b9f1b9948b78"
     },
     {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "MiniMaxProvider._client",
-      "score": 15.75,
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_cost_usd",
+      "score": 12.25,
       "components": {
-        "coverage_gap": 20.0,
-        "structural_complexity": 5.0,
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
         "branch_gap": 50.0,
         "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "231e8188332fc296648e2f488a87804610a4778669bafce904b76f8e51475322",
-      "signature": "633448eb9bb0064929ccad86eeb1b388c1bb077be0da1857dc92a15ad3030e73"
+      "fingerprint": "8ffc712c0b23ac8e3f41451db4e648282073594efd5c79255224872ee5f6b312",
+      "signature": "bbf0d1dd7130a90359ad923a301fef5cd396461176295a62119b2ed221f6443a"
     },
     {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "MiniMaxProvider._remember_turn",
-      "score": 23.25,
-      "components": {
-        "coverage_gap": 20.0,
-        "structural_complexity": 45.0,
-        "branch_gap": 33.3333,
-        "churn": 10.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "c0dc14fb653d61876513573746154fb3f0467af6cba773185b6070af075dab60",
-      "signature": "b004341989c52ccf12b18f47161ee0e31b84608a42df5cb41d00205d05204edb"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "MiniMaxProvider._restore_thinking",
-      "score": 18.5,
-      "components": {
-        "coverage_gap": 8.3333,
-        "structural_complexity": 45.0,
-        "branch_gap": 25.0,
-        "churn": 10.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "072e95b89ceb404e20a549480ee0a5453f1ffb5af2fbc3b205fc746861ed1ac4",
-      "signature": "143bc7beae2feccd3f6e9c7c47ef1ab0fb2c4d88832aa6dc22f76d0e54fe6d3a"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "MiniMaxProvider.complete",
-      "score": 71.0379,
-      "components": {
-        "coverage_gap": 96.9697,
-        "structural_complexity": 65.0,
-        "branch_gap": 100.0,
-        "churn": 10.0,
-        "public_surface": 96.9697,
-        "sprawl": 0.0
-      },
-      "fingerprint": "2ed380a8c9dffcfe051322b8b072ad9775e30e08e1d765e726b8a5c7f9bc05d4",
-      "signature": "ec31bd3464947a4a41afc1f6ce319bff4c95eaa4192ae50ef8932644f6713d7c"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "MiniMaxProvider.count_tokens",
-      "score": 53.8409,
-      "components": {
-        "coverage_gap": 72.7273,
-        "structural_complexity": 35.0,
-        "branch_gap": 100.0,
-        "churn": 10.0,
-        "public_surface": 72.7273,
-        "sprawl": 0.0
-      },
-      "fingerprint": "07b00ae62657f36f5c0f25ef1636a7850e1e3b9709bd32c7042938942a273026",
-      "signature": "69c3d6eb64ac3f26dbc639ac07c0a59eb676f45f441c96e6b834a821d6e9e85b"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "_block_to_dict",
-      "score": 29.75,
-      "components": {
-        "coverage_gap": 37.5,
-        "structural_complexity": 55.0,
-        "branch_gap": 25.0,
-        "churn": 10.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "e7da126fc2cc6f29dbb86d32d65b3e6ad7b153895747cf52e76b101024a915b6",
-      "signature": "1c6247f73f6ad37330f8d12575501777a7f089ddf34f501890a3ffb0e49c95ae"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "_project_root",
-      "score": 12.25,
-      "components": {
-        "coverage_gap": 16.6667,
-        "structural_complexity": 10.0,
-        "branch_gap": 25.0,
-        "churn": 10.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "5e5e502300e399ede50b9d79e42324c0f82affee6fcafab2504a4b67d07f4cc6",
-      "signature": "32b5ccfecee6a3fcc7ec8f341aab9bf41ecf51a7979debb4c0f58681b750cdaf"
-    },
-    {
-      "path": "src/active_skill_system/adapters/llm/minimax.py",
-      "qualname": "load_env",
-      "score": 27.6667,
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_count_event_type",
+      "score": 39.75,
       "components": {
         "coverage_gap": 66.6667,
+        "structural_complexity": 25.0,
+        "branch_gap": 83.3333,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "59a72baf098eb095c426656bf7d5f01967929868ef865154b833b3af0e6a7b1d",
+      "signature": "69f1c68df352455e858dee2586762a98ce49aee58a47db87fb5af9150efdbf3c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_count_events",
+      "score": 27.25,
+      "components": {
+        "coverage_gap": 50.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bc3ca9b04cbe510e4d5b7ce125b1277fcbf687cb62298cab1fd9304214346b30",
+      "signature": "2fcd0ae74437c82ed49e6474a3f33f8623ddd663093dfa8b02339a60b970cc27"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_count_llm_calls",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 66.6667,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "6a170b19be0836ca54fc0a977848f881c1b4308e02a3a0003fabfb089139ed4a",
-      "signature": "0b76876a5ff5dd476e1c81ba6e8974ca0acad54f973286fd5b80c6e6ab709957"
+      "fingerprint": "49462b19c1e1391da00a7ddd032bdc067cd9baf0801588667abc1433a9e77abd",
+      "signature": "2fcd0ae74437c82ed49e6474a3f33f8623ddd663093dfa8b02339a60b970cc27"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_count_tool_calls",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "caa403a053380deaa4eca9480b1fb4c758ccab1a8c0e28a2ef878b37261394d4",
+      "signature": "2fcd0ae74437c82ed49e6474a3f33f8623ddd663093dfa8b02339a60b970cc27"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_snapshot",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ae5752aeca48debee22f1e4f0b9e86c8a140df179f02a526ec5adfde919d5d06",
+      "signature": "20015c7db86f2e0c46ca74b59bbb7d9a74f93e41b54bd44a2fa8fbfa4e4b601c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/runtime/activegraph.py",
+      "qualname": "_summarize_event",
+      "score": 49.25,
+      "components": {
+        "coverage_gap": 90.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 100.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b4fa7bf715cfb53926292ce6876ee6a4208ef7dd787a5540aafa783c7aaa2671",
+      "signature": "f33f2065fe61e18932e86959429e0a5fdd5b7bde40721cb45d72b328675a7ea5"
     },
     {
       "path": "src/active_skill_system/application/ports/llm.py",
@@ -152,19 +437,634 @@
       "signature": "04123744a291da88291939b729cecd5a64ee686a3b555e39dcebd2e59d94396e"
     },
     {
-      "path": "src/active_skill_system/composition/diligence.py",
-      "qualname": "main",
-      "score": 61.0,
+      "path": "src/active_skill_system/application/ports/runtime.py",
+      "qualname": "RuntimePort.diff",
+      "score": 1.0,
       "components": {
-        "coverage_gap": 100.0,
-        "structural_complexity": 20.0,
-        "branch_gap": 100.0,
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "4f97f5ef14f998c970b721a8b41776edebf44731a37944c9e0629282e5f00d5c",
-      "signature": "3179b0ae14d14bb56c63d93b74dec98b259b8480a3ad65656e0665731436d11a"
+      "fingerprint": "e54a20782200933914aec1bc83d6b1f4b0fdab5c476d2b37ef33cb357cf36591",
+      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/runtime.py",
+      "qualname": "RuntimePort.export_trace",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c1351d5f310309de8dd3812b459c3865cbef5e26d6ca95e3554c715d4588e873",
+      "signature": "4bdaf6e802de1ea03f0b7d772296a62e7b6a71bf46ff36488341291c9c75ed8c"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/runtime.py",
+      "qualname": "RuntimePort.fork",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6540f856d057f202addb9447b234e1129850d649d7321dbd5d5fc7f19524d7ce",
+      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/runtime.py",
+      "qualname": "RuntimePort.replay",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a083a1c02f84c3287eddd76b3034de0422f290004bb0a174e29ea2d9953905b6",
+      "signature": "00f831198e77af109420a9f77ab1c88a1376e75c542b194160af96e8cb037004"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/runtime.py",
+      "qualname": "RuntimePort.run_goal",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3bba7f27489e881c9415966b7573667b670a7814aa295f869feee6a9d62034b7",
+      "signature": "c5f022e9fa12fdea87f9092ff73f18870e6b1d809fa0a6c59997b9f1b9948b78"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning.py",
+      "qualname": "RunReasoningUseCase.__init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "544ebaa80421e6f3e3261ee0ca6193b3bd311915cf6c3eda3dd56f76ca5d4b56",
+      "signature": "5aa4f730be71bd36516911047cfe93599d91a095c8b0fd2631b1a114bbc6ff91"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning.py",
+      "qualname": "RunReasoningUseCase.run",
+      "score": 5.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 20.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4494183350437d067be48fbea6a7d104d177b487c242e608e741aae84ac7cda4",
+      "signature": "ecbf0ed3431327114b66d44f0695441550e64f2bc5e525f601b9c8222e9d9e10"
+    },
+    {
+      "path": "src/active_skill_system/composition/diligence.py",
+      "qualname": "_build_factory",
+      "score": 28.5,
+      "components": {
+        "coverage_gap": 91.6667,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "88783543fde07071c7f79574a77114445b86a250803fdecc1fd5f45e494b7ac7",
+      "signature": "999039af17683c46ba38bbb330f462ec73d9289b81f0c7b29b2b6dbd2768a741"
+    },
+    {
+      "path": "src/active_skill_system/composition/diligence.py",
+      "qualname": "_build_factory.factory",
+      "score": 32.25,
+      "components": {
+        "coverage_gap": 100.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "86452ebc5c0b8ed268f96fb3e501cd7a7db223998b2f2e06a000b641883a85b4",
+      "signature": "d9a2d1caefef08033a8a53e29a85a1fbeed83cb25541265a4227b4c4e3903b34"
+    },
+    {
+      "path": "src/active_skill_system/composition/diligence.py",
+      "qualname": "_default_wiring",
+      "score": 25.7143,
+      "components": {
+        "coverage_gap": 85.7143,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "90c9fcfe4d286379ee2ff6638f4e53ec64e8249a8dd17627bbc3c74e4ca28d30",
+      "signature": "999039af17683c46ba38bbb330f462ec73d9289b81f0c7b29b2b6dbd2768a741"
+    },
+    {
+      "path": "src/active_skill_system/composition/diligence.py",
+      "qualname": "main",
+      "score": 13.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 35.0,
+        "branch_gap": 33.3333,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "27d9fc96a78349b96752f577583a8933fac255280423122e90af27f9c90ebe8d",
+      "signature": "915317b0f4a79c81c6e176d8db66dd7af00be7f05680a0bb83fa970941ed144a"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "Evolution.__post_init__",
+      "score": 4.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2415aba7074daabe53c6ffc9b7a8ff7bbc22f8656cfd538be737fabbbab56fc2",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "EvolutionId.__post_init__",
+      "score": 24.3333,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 10.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 33.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "dd1d71b7d48cbaaa46673633dedeac48356684305eff5244b5adc7d70492307e",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "EvolutionId.__str__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "143a2992d458461862f9a14cf5c4e567f1e36c45ee72a35c32b7388e620f202e",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "Mutation.__post_init__",
+      "score": 32.0,
+      "components": {
+        "coverage_gap": 40.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 40.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8179f42f9fc4d7dfbcddcff532c40b59e9e9023efab7a9eb6ab17b823ef3ae6d",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "_child_id_not_in_parents",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4aa48bde9b4fc8fa89da984e5e4ec9da19b11afc232597ba20cbc52d9e2d2665",
+      "signature": "ac2fb6463de9b56c10cb9b9601f1a3f953022fb1df994a33794b06ff45f2fad8"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "_fitness_in_unit_interval",
+      "score": 13.25,
+      "components": {
+        "coverage_gap": 20.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a37c3e6f07d01b2535d86371bd08a88f7b9daee8c0473db1a510a5c2ebb556ea",
+      "signature": "ac2fb6463de9b56c10cb9b9601f1a3f953022fb1df994a33794b06ff45f2fad8"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "_parent_ids_are_hashable",
+      "score": 14.75,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "805c62be42136a3b7def9d4e1ab1508b809430d68aa5c67ebff1d08e4fd929a9",
+      "signature": "ac2fb6463de9b56c10cb9b9601f1a3f953022fb1df994a33794b06ff45f2fad8"
+    },
+    {
+      "path": "src/active_skill_system/domain/evolution.py",
+      "qualname": "_parent_ids_non_empty",
+      "score": 19.75,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "550f63a86a69ad6f4767840d6246009ad2e753e3e5c2c5471585429fd8db5418",
+      "signature": "ac2fb6463de9b56c10cb9b9601f1a3f953022fb1df994a33794b06ff45f2fad8"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "Expression.__post_init__",
+      "score": 4.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0a0e27b63ca2b02dde6b07be55cf5f1e5263b89074f5d42257cf499ed8c635b1",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "ExpressionId.__post_init__",
+      "score": 24.3333,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 10.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 33.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "44cdefd0d724b7a51666f5c3cac81c4b4dd353951d05bdb5b5aa6424bf872f9d",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "ExpressionId.__str__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "143a2992d458461862f9a14cf5c4e567f1e36c45ee72a35c32b7388e620f202e",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "_args_finite",
+      "score": 19.75,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a71fdfe1e828e60d16c7ccb91d0c88a876c7052b99cbb1476485dcc93ddb48a9",
+      "signature": "656499ed7275baa12294dbf6a34a4a7c6cdfbef80ba84557e5aa18f6d6ad9a63"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "_evidence_ids_are_hashable",
+      "score": 14.75,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "d15ea00b89cfecf73f52aa722015d120c1f74d033156a16341ddf9dde0b2d458",
+      "signature": "656499ed7275baa12294dbf6a34a4a7c6cdfbef80ba84557e5aa18f6d6ad9a63"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "_evidence_ids_unique",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "cac5f775db5fe10e19660dfdb44acdaea83746cdd953433d8dcd71a06ff3ff7b",
+      "signature": "656499ed7275baa12294dbf6a34a4a7c6cdfbef80ba84557e5aa18f6d6ad9a63"
+    },
+    {
+      "path": "src/active_skill_system/domain/expression.py",
+      "qualname": "_status_valid",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c0e7b40354c72a699abb63a3c4f11be1a42c283e060c6fac6487d55654332e79",
+      "signature": "656499ed7275baa12294dbf6a34a4a7c6cdfbef80ba84557e5aa18f6d6ad9a63"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "Genome.__post_init__",
+      "score": 4.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "64a50ccc0f7a370ba2a7ddd13af33bcadd2dd8a5f3cb8e9abbc275610f61c36b",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "Genome.check_invariants",
+      "score": 43.9167,
+      "components": {
+        "coverage_gap": 66.6667,
+        "structural_complexity": 5.0,
+        "branch_gap": 100.0,
+        "churn": 10.0,
+        "public_surface": 66.6667,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9d37bfa4c569c429873c31407ead4de6e3a182aa79bf5eae263f5576dbf298d8",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "GenomeId.__post_init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9f2c0a0366401edbdf2319c6b85a20dd7c4bf8e1abaae0b528bb509a4e4400ff",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "GenomeId.__str__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "143a2992d458461862f9a14cf5c4e567f1e36c45ee72a35c32b7388e620f202e",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "_capabilities_non_empty",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b2befb732e7c5df4a52786ad0186eadfd84ba3ea84b5fabe6bd2ed8e11bf79e5",
+      "signature": "1d465f2584d4e3d73150090902f18f12d00f1fc8ad58899b23749c8281f8ebbd"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "_name_non_empty",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "76b92e663518d19bc475034b1029466be20315ab7f31480b2739f0b153c679ae",
+      "signature": "1d465f2584d4e3d73150090902f18f12d00f1fc8ad58899b23749c8281f8ebbd"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "_non_empty_set",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "d2b738f77fd177abc4c5e89cd8102572c163f5e548d80a16daeabc21e6e880ae",
+      "signature": "ba4a9daf3f53830c2b46b91c6e8e6ba73b25e623e3b57e2748b3362077ca55e4"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "_non_empty_str",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "51e9b29d02a408312f67e510068451c11beaaa924e691bc404d77455035e0f2f",
+      "signature": "efa7124499fa2cc8410ed2a95ae533edb3eb868d8b5c8ef9554e0ee66b48ca2f"
+    },
+    {
+      "path": "src/active_skill_system/domain/genome.py",
+      "qualname": "_signature_non_empty",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "13b60a1d1d32ef8b53b7d31f40cd0c6038c4eef60ecc3543e07a06f3cd2fd3ba",
+      "signature": "1d465f2584d4e3d73150090902f18f12d00f1fc8ad58899b23749c8281f8ebbd"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "GovernancePolicy.__post_init__",
+      "score": 4.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "67aebe717416490b5adabc42bfec468b7c78db45f5634d37b3c4064dfb17ae70",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "GovernancePolicy.default_policy",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7fcf63fe49c8e8735c03f3e2a9f2a075d1dd4cf954eec9315d50782f561d15d1",
+      "signature": "b78702c2fdcdd10d0ea0312cc827832dac3d386964ccc8ed2d392e6671cba94f"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "_max_evolution_depth_positive",
+      "score": 14.5,
+      "components": {
+        "coverage_gap": 20.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2b09a6685109eeb4fffd3b724c5d920eb854f76d7fb996fac6cac13d4cca106c",
+      "signature": "dbfe41a170a8fa496f7afc9e4abc3527ebb7809ec22a720fd4335e784a49ae1b"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "_review_threshold_in_unit_interval",
+      "score": 13.25,
+      "components": {
+        "coverage_gap": 20.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "54a82243f9d4b8a157e203b6a54d80713c4b184e33da545d01c16c529c6c337b",
+      "signature": "dbfe41a170a8fa496f7afc9e4abc3527ebb7809ec22a720fd4335e784a49ae1b"
+    },
+    {
+      "path": "src/active_skill_system/scripts/risk_delta.py",
+      "qualname": "_key",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1b71d278f7b8a7aac53c568aca1ab35e060edb04779879cf35202070007e31f5",
+      "signature": "cc08058977d66653f6f547e11b8a5dafcc69a7e2062a885f5049467ea381f6d8"
+    },
+    {
+      "path": "src/active_skill_system/scripts/risk_delta.py",
+      "qualname": "compute_risk_delta",
+      "score": 12.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 50.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9532eaca33dca5eba1288d6a49793fd9aa96c204745df38e5684e30639423914",
+      "signature": "8b3e1f7e5c20e74c318ca065e40cef5b62085d6f7ed5625afffae62f63a84baf"
+    },
+    {
+      "path": "src/active_skill_system/scripts/risk_delta.py",
+      "qualname": "run_risk_delta",
+      "score": 53.5,
+      "components": {
+        "coverage_gap": 90.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 100.0,
+        "churn": 0.0,
+        "public_surface": 90.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ca932d31c5d4124eece17df9112998598afa3483e15cbf5bca5bd763464118f3",
+      "signature": "af67c6b232af678e3822ab5017b41d820799e4b0537bdc706cfcf1bf592bb32d"
     }
   ]
 }

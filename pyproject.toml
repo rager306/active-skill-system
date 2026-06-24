@@ -113,7 +113,7 @@ runner = "uv run pytest -x -q tests"
 #   --gremlin-report=html,json       choose report formats
 [tool.pytest-gremlins]
 paths = [
-    "src/active_skill_system/adapters/llm/minimax.py",
+    "src/active_skill_system/adapters/llm/minimax/_provider.py",
 ]
 operators = [
     "arithmetic",

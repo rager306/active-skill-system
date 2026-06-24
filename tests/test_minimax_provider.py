@@ -27,6 +27,66 @@ def test_explicit_model_is_honored(model: str) -> None:
     assert _provider(model).default_model == model
 
 
+# ── extracted pure modules: _tokens.count_tokens_fallback ─────────────────
+
+
+def test_count_tokens_fallback_floor_and_scaling() -> None:
+    from active_skill_system.adapters.llm.minimax._tokens import count_tokens_fallback
+
+    # empty input still returns at least 1 (cost gate needs a positive int)
+    assert count_tokens_fallback(system="", messages=[], model="m") == 1
+    # 4 chars -> 1 token (char/4 heuristic)
+    assert count_tokens_fallback(system="abcd", messages=[], model="m") == 1
+    assert count_tokens_fallback(system="abcdefgh", messages=[], model="m") == 2
+
+
+def test_count_tokens_fallback_counts_messages_and_tool_calls() -> None:
+    from activegraph.llm.types import LLMMessage, ToolCall
+
+    from active_skill_system.adapters.llm.minimax._tokens import count_tokens_fallback
+
+    msg = LLMMessage(
+        role="assistant",
+        content="abcd",  # 4 chars
+        tool_calls=[ToolCall(id="t1", name="weather", args={"q": "SF"})],
+    )
+    n = count_tokens_fallback(system="abcd", messages=[msg], model="m")
+    assert n >= 4  # system(1) + content(1) + tool name/args contribute
+
+
+# ── extracted pure modules: _thinking.ThinkingTurnCache ───────────────────
+
+
+def test_thinking_turn_cache_remember_and_restore() -> None:
+    from active_skill_system.adapters.llm.minimax._thinking import ThinkingTurnCache
+
+    cache = ThinkingTurnCache(limit=4)
+    full = [
+        {"type": "thinking", "thinking": "why", "signature": "s1"},
+        {"type": "tool_use", "id": "toolu_1", "name": "g", "input": {}},
+    ]
+    cache.remember(["toolu_1"], full)
+    assert list(cache.blocks) == ["toolu_1"]
+
+    wire = [
+        {"role": "assistant", "content": [{"type": "text", "text": "x"}, {"type": "tool_use", "id": "toolu_1"}]},
+        {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "toolu_1", "content": "r"}]},
+    ]
+    out = cache.restore(wire)
+    assert out[0]["content"][0]["type"] == "thinking"  # restored
+    assert out[1]["content"][0]["type"] == "tool_result"  # untouched
+
+
+def test_thinking_turn_cache_evicts_when_over_limit() -> None:
+    from active_skill_system.adapters.llm.minimax._thinking import ThinkingTurnCache
+
+    cache = ThinkingTurnCache(limit=2)
+    cache.remember(["a"], [{"type": "text", "text": "1"}])
+    cache.remember(["b"], [{"type": "text", "text": "2"}])
+    cache.remember(["c"], [{"type": "text", "text": "3"}])
+    assert list(cache.blocks) == ["b", "c"]  # oldest evicted
+
+
 @given(model=st.sampled_from(["MiniMax-M3", "MiniMax-M3-512k", "MiniMax-M2.7-highspeed"]))
 def test_default_model_for_known_minimax(model: str) -> None:
     assert _provider(model).default_model == model
@@ -88,7 +148,7 @@ class _Raw:
 
 
 def test_block_to_dict_preserves_thinking_signature() -> None:
-    from active_skill_system.adapters.llm.minimax import _block_to_dict
+    from active_skill_system.adapters.llm.minimax._thinking import _block_to_dict
 
     b = _block_to_dict(_Block("thinking", thinking="reasoning", signature="sig-123"))
     assert b == {"type": "thinking", "thinking": "reasoning", "signature": "sig-123"}
