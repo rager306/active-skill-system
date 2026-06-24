@@ -27,8 +27,10 @@ dev = [
     "import-linter>=2",
     "pyrefly>=1.1.1",
     "pytest>=8",
+    "pytest-cov>=7.1.0",
     "pytest-gremlins>=1.8.1",
     "pytest-xdist>=3.8.0",
+    "riskratchet>=0.2.12",
     "ruff>=0.15.18",
     "ty>=0.0.52",
 ]
@@ -121,3 +123,21 @@ operators = [
 ]
 cache = false
 report = ["html", "json"]
+
+[tool.riskratchet]
+# Paths to scan. Edit to match your package layout.
+paths = ["src"]
+# Coverage JSON location (written by `pytest --cov --cov-report=json:coverage.json`).
+coverage = "coverage.json"
+# Tracked in git so ratchet gate is reproducible across clones.
+baseline = ".riskratchet.json"
+# CI gate thresholds (from defaults; tighten as the code base stabilizes).
+fail_new_above = 50.0
+fail_regression_above = 5.0
+fail_component_regression_above = 15.0
+# Use coverage.json when present; fall back to pessimistic policy otherwise.
+missing_coverage = "pessimistic"
+# 90-day churn window (matches defaults).
+churn_window_days = 90
+# Component weights — keep defaults until the code base stabilises.
+weights = { coverage_gap = 0.30, structural_complexity = 0.25, branch_gap = 0.15, churn = 0.10, public_surface = 0.10, sprawl = 0.10 }

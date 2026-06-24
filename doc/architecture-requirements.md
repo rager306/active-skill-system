@@ -6,7 +6,7 @@ lives in `.gsd/REQUIREMENTS.md` (GSD-managed symlink to
 shadow that mirrors the GSD document so requirements have a stable, reviewable
 git history.
 
-Last reconciled: 2026-06-23, post-M001 hex/onion audit.
+Last reconciled: 2026-06-23, post-M001 hex/onion audit + riskratchet adoption (D002).
 
 ---
 
@@ -242,6 +242,112 @@ print('ok')"` работает без сети и без activegraph Runtime.
 
 ---
 
+## R010 — riskratchet CI gate (maintainability ratchet)
+
+- **Class**: operability
+- **Status**: active
+
+Проект использует **riskratchet 0.2.12** (https://pypi.org/project/riskratchet/)
+как CI-gate. `riskratchet check` запускается после
+`pytest --cov --cov-branch --cov-report=json:coverage.json`; exit 1
+(regression) или 2 (usage error) ломают CI. Baseline
+`.riskratchet.json` отслеживается в git (source-of-truth, 11 функций на
+2026-06-23). При первом принятии baseline создаётся через
+`riskratchet init --with-baseline`.
+
+**Why it matters.** Без автоматического ratchet-gate AI-агент (GSD) может
+незаметно повышать maintainability-риск кода (cyclomatic complexity,
+branch coverage, public surface). Ratchet фиксирует нижнюю границу
+качества и заставляет каждое повышение быть явным решением (обновить
+baseline + обосновать). riskratchet создан специально для AI-assisted
+Python (см. D002).
+
+**Validation.**
+- `uv run riskratchet check src --coverage coverage.json --baseline .riskratchet.json` exit 0 на baseline-совместимом PR, exit 1 на регрессии.
+- `uv run riskratchet doctor` все 6 проверок PASS.
+- `coverage.json` регенерируется pytest-cov (не коммитится, в `.gitignore`).
+
+**Owner**: `pyproject.toml [tool.riskratchet]`, `.riskratchet.json`, CI workflow.
+
+---
+
+## R011 — Risk score is monotonic (ratchet semantics)
+
+- **Class**: constraint
+- **Status**: active
+
+Risk score функций не должен расти относительно baseline. Любое повышение
+риска — явное решение (обновить baseline + обоснование в PR/SUMMARY.md).
+Понижение риска — допустимо без baseline-обновления (ratchet может
+только ползти вверх). Пороги по умолчанию: `fail_regression_above =
+5.0`, `fail_new_above = 50.0`, `fail_component_regression_above = 15.0`.
+
+**Why it matters.** Ratchet-семантика: метрика монотонно растёт, понижение
+не допускается неявно. Это даёт строгую гарантию того, что код не
+становится сложнее/coverage-хуже со временем, без необходимости чистить
+legacy в один заход.
+
+**Validation.** `uv run riskratchet check` exits 0 на baseline + лучше;
+exits 1 на baseline + хуже. Понижение risk score отдельной функции не
+ломает CI.
+
+**Owner**: `.riskratchet.json` (baseline).
+
+---
+
+## R012 — 6-component risk score (coverage / complexity / branch / churn / public / sprawl)
+
+- **Class**: quality-attribute
+- **Status**: active
+
+Risk score каждой функции — это взвешенная сумма 6 нормализованных
+компонентов: `coverage_gap` (30%), `structural_complexity` (25%),
+`branch_gap` (15%), `churn` (10%), `public_surface` (10%), `sprawl`
+(10%). Веса настраиваются в `[tool.riskratchet.weights]`, но
+валидируются и ренормализуются — опечатка/отрицательный вес не должен
+молча ослаблять CI-gate. Также считается **CRAP** (`CC² ×
+(1-line_coverage)³ + CC`) как дополнительный ранкер.
+
+**Why it matters.** Многофакторная модель ловит то, что coverage/
+complexity по отдельности не видят: branch coverage без тестов, public
+API без покрытия, churn + complexity = горячий код, sprawl (длинная
+функция в большом файле). Каждый компонент сигнализирует о своём классе
+проблем; вместе они дают actionable signal агенту/ревьюеру.
+
+**Validation.** `uv run riskratchet explain src/<module>.py::<func>`
+выводит score + 6 компонентов + CRAP + complexity/coverage/churn/public/
+lines. Default weights воспроизводятся через `riskratchet scan`.
+
+**Owner**: `pyproject.toml [tool.riskratchet.weights]`.
+
+---
+
+## R013 — Risk delta записан в GSD SUMMARY.md
+
+- **Class**: operability
+- **Status**: active
+
+При завершении GSD-slice и milestone (`gsd_slice_complete` /
+`gsd_milestone_complete`) проверяется изменение risk score относительно
+baseline. Если в slice изменились отслеживаемые файлы —
+`riskratchet scan src --coverage coverage.json` запускается; топ-3
+изменения пишутся в SUMMARY.md в раздел `deviations` (если риск вырос)
+или `lessons_learned` (если понизился).
+
+**Why it matters.** Без записи risk-делты в GSD-артефакты AI-агент в
+следующей итерации не увидит, что его изменения повысили
+maintainability-риск, и будет повторять ту же ошибку. Привязка
+risk-отчёта к GSD-state замыкает цикл "измерил → записал → следующий
+агент учёл".
+
+**Validation.** `gsd_slice_complete` после работы, которая изменяла
+`src/`, запускает `riskratchet scan src --coverage coverage.json` и
+пишет топ-3 изменения score в SUMMARY.md (если есть изменения).
+
+**Owner**: `gsd_slice_complete` / `gsd_milestone_complete` handlers.
+
+---
+
 ## Summary table
 
 | ID | Class | Summary |
@@ -255,3 +361,7 @@ print('ok')"` работает без сети и без activegraph Runtime.
 | R007 | operability | CI enforcement of layering |
 | R008 | operability | Side-effects only in `main()` |
 | R009 | operability | Lazy infra imports in composition |
+| R010 | operability | riskratchet CI gate |
+| R011 | constraint | Risk score is monotonic (ratchet) |
+| R012 | quality-attribute | 6-component risk score |
+| R013 | operability | Risk delta в GSD SUMMARY.md |
