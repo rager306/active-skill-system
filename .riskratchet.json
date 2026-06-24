@@ -4,12 +4,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
       "qualname": "ActivegraphEventSink.__init__",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -19,12 +19,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
       "qualname": "ActivegraphEventSink.emit",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -34,12 +34,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
       "qualname": "ActivegraphEventSink.graph",
-      "score": 20.0,
+      "score": 21.0,
       "components": {
         "coverage_gap": 50.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 50.0,
         "sprawl": 0.0
       },
@@ -49,6 +49,36 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
       "qualname": "_EventSinkProtocol.emit",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9628df7717083725e603630391d6a109f4bf5d592fea47017f7f98821da7ea04",
+      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "ActivegraphExperimentWorkspace.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7ca9351c1474cf2e6f77fd15383aca62422cc7b9778281120c22691f085784c1",
+      "signature": "cd12bb216030dc0ed8807160b5c5fe82d0ab478bc8e2232b147d0b16de892059"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "ActivegraphExperimentWorkspace.diff",
       "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
@@ -58,8 +88,173 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "9628df7717083725e603630391d6a109f4bf5d592fea47017f7f98821da7ea04",
-      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+      "fingerprint": "bc24c9fea0c7a433c0438fed500c9db4ebbef6b854523fb9017a5a9f555fe427",
+      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "ActivegraphExperimentWorkspace.fork",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b9b9111d590f3c6a5f777650c5e76baa26ec886388f1fb44c693e5ab92ce77ab",
+      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "ActivegraphExperimentWorkspace.list_runs",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9eba285692c488dddd1a2759da2d728bf9ffe91e7c63832d3f85d710cf2af2a1",
+      "signature": "14953352d70722e33384158a5f18c4d2d8d32a1622853944de07c28242cdde4e"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "ActivegraphExperimentWorkspace.registry",
+      "score": 20.0,
+      "components": {
+        "coverage_gap": 50.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 50.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "75506c219eb2d8ec5fc1dedea85f1da2e561e8387c784a20f7462ac3922d0aab",
+      "signature": "635629aa8b4924c84d058077b22ff8fb38d5e8cdf5b6fcfc4d2d1a0d4071224a"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.add",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "5bffb1cba7bdc36c71eae4a18c7e72203eba5f009a84de69d681e9c4d6d851d9",
+      "signature": "be8fb8bb990735be286e78e0222507c2996cb5c7dc7ee6970e581dc7237211f7"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.close_all",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "be8a27d556fb251e2648a60ecaa01b096aeaf48205b9b4dbe8f17ca314e4ec79",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.create",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "06e5ba23a39312eccff9240e06d77b4fc612bcf3f709d3cffed453ebfc24759b",
+      "signature": "ddcfc33e1b1d09b65e0168ea4805232983b421d20d1a9a0414ab4b9ea1feac7e"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.get",
+      "score": 18.75,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 25.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "688863ef4c35760c4e84822f2e5a5c3b75b9b0d39213c118c6776fe061e28303",
+      "signature": "51c1fe1d344357599562c0d5e3f8e0c55eadbf40187e6b8d5cd9760f3e9c0c98"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.has",
+      "score": 20.0,
+      "components": {
+        "coverage_gap": 50.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 50.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a50776674b1397862b0db65e8a8783f6c53140965eb32278b7d6c94d89e38765",
+      "signature": "9f573365ee6b941bc65f3abac560d313d9baf91a2b687a9a9147152da9d2e46a"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "RuntimeRegistry.list_runs",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "339eacd907b6a2a758bb1f50a5f30d040c47518bc25bd4cbd47535d185211297",
+      "signature": "14953352d70722e33384158a5f18c4d2d8d32a1622853944de07c28242cdde4e"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "_validate_sqlite_url",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "39bced254fb22a078001a7328b08e933a7882c9e4beb69c596b5045fd75b0306",
+      "signature": "68b1a226913919322114e847f747011d27dc861f7cba236ebb29b6e9f2bd3665"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
+      "qualname": "make_temp_sqlite_url",
+      "score": 32.0,
+      "components": {
+        "coverage_gap": 80.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 80.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7e2d53f1fa4814db7c2d6a03eb8da1afa42afa2f654385be942eb360f77ecf96",
+      "signature": "86298d1a19a9e4213eef26495d6593900f78c7ebf48a5183a773004f59f1253e"
     },
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
@@ -720,6 +915,51 @@
       },
       "fingerprint": "0d2583b3006f24790a94c2dd7a176e23d8e8f7b5db679b00449f1a4e9cce3bb0",
       "signature": "3c9431c86e51216ff4ec3b7bad690362b9efefeac29c305b4bea1f41bb29d43a"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
+      "qualname": "ExperimentWorkspacePort.diff",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f3ab4d0a67897ce251eadfbf930b6d7c13871894b51ac701bde9e468161ed5cd",
+      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
+      "qualname": "ExperimentWorkspacePort.fork",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6540f856d057f202addb9447b234e1129850d649d7321dbd5d5fc7f19524d7ce",
+      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
+      "qualname": "ExperimentWorkspacePort.list_runs",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4203768d1c1ed959d9888c8446411227f3b7883ced0b0e1812b37a30334447c5",
+      "signature": "14953352d70722e33384158a5f18c4d2d8d32a1622853944de07c28242cdde4e"
     },
     {
       "path": "src/active_skill_system/application/ports/llm.py",

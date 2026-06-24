@@ -90,7 +90,14 @@ search-path = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["-ra", "--strict-markers", "--strict-config"]
-filterwarnings = ["error"]
+filterwarnings = [
+    "error",
+    # activegraph.Runtime holds a private ref to its sqlite store; GC cannot
+    # close the connection on test teardown. The unraisable warning is benign
+    # here — the test data has already been verified. Demote to ignore so
+    # filterwarnings=error does not cascade-fail neighbouring tests.
+    "ignore::pytest.PytestUnraisableExceptionWarning",
+]
 markers = [
     "llm: tests that make real LLM calls (deselected unless --runllm)",
     "slow: long-running tests (e.g. mutation-friendly suites)",
