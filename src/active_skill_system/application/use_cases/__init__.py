@@ -5,6 +5,10 @@ sits on top of the L2 ports (`application.ports.*`) and never reaches
 into adapters, composition, or infrastructure packages.
 """
 
+from active_skill_system.application.use_cases.parse_task_spec import (
+    ParseTaskSpecRequest,
+    ParseTaskSpecUseCase,
+)
 from active_skill_system.application.use_cases.run_reasoning import (
     RunReasoningRequest,
     RunReasoningUseCase,
@@ -14,15 +18,25 @@ from active_skill_system.application.use_cases.run_reasoning_vertical import (
     RunReasoningVerticalUseCase,
     TaskSpec,
 )
+from active_skill_system.application.use_cases.synthesize_answer import (
+    SynthesisResult,
+    SynthesizeAnswerRequest,
+    SynthesizeAnswerUseCase,
+)
 from active_skill_system.application.use_cases.validate_task_graph import (
     ValidateTaskGraphUseCase,
 )
 
 __all__ = [
     "ClaimSpec",
+    "ParseTaskSpecRequest",
+    "ParseTaskSpecUseCase",
     "RunReasoningUseCase",
     "RunReasoningVerticalUseCase",
     "RunReasoningRequest",
+    "SynthesisResult",
+    "SynthesizeAnswerRequest",
+    "SynthesizeAnswerUseCase",
     "TaskSpec",
     "ValidateTaskGraphUseCase",
 ]

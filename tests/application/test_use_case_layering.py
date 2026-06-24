@@ -190,6 +190,11 @@ def test_public_use_case_package_exports_expected_symbols() -> None:
         "RunReasoningVerticalUseCase",
         "TaskSpec",
         "ClaimSpec",
+        "SynthesisResult",
+        "SynthesizeAnswerRequest",
+        "SynthesizeAnswerUseCase",
+        "ParseTaskSpecUseCase",
+        "ParseTaskSpecRequest",
     }, (
         f"Unexpected public surface: {pkg.__all__!r}"
     )

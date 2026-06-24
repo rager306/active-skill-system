@@ -64,12 +64,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "ActivegraphExperimentWorkspace.__init__",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -79,12 +79,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "ActivegraphExperimentWorkspace.diff",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -94,12 +94,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "ActivegraphExperimentWorkspace.fork",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -109,12 +109,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "ActivegraphExperimentWorkspace.list_runs",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -124,12 +124,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "ActivegraphExperimentWorkspace.registry",
-      "score": 20.0,
+      "score": 21.0,
       "components": {
         "coverage_gap": 50.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 50.0,
         "sprawl": 0.0
       },
@@ -139,12 +139,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.add",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -154,12 +154,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.close_all",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -169,12 +169,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.create",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -184,12 +184,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.get",
-      "score": 18.75,
+      "score": 19.75,
       "components": {
         "coverage_gap": 25.0,
         "structural_complexity": 5.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 25.0,
         "sprawl": 0.0
       },
@@ -199,12 +199,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.has",
-      "score": 20.0,
+      "score": 21.0,
       "components": {
         "coverage_gap": 50.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 50.0,
         "sprawl": 0.0
       },
@@ -214,12 +214,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "RuntimeRegistry.list_runs",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -229,12 +229,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "_validate_sqlite_url",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -244,12 +244,12 @@
     {
       "path": "src/active_skill_system/adapters/activegraph_experiment_workspace.py",
       "qualname": "make_temp_sqlite_url",
-      "score": 32.0,
+      "score": 33.0,
       "components": {
         "coverage_gap": 80.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 80.0,
         "sprawl": 0.0
       },
@@ -348,6 +348,21 @@
     },
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
+      "qualname": "MiniMaxProvider._to_activegraph_messages",
+      "score": 44.75,
+      "components": {
+        "coverage_gap": 83.3333,
+        "structural_complexity": 15.0,
+        "branch_gap": 100.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "68151b5311a7138005ae69ce06c57707cb585273bb3916bed087a30f00ddba7e",
+      "signature": "07cd3b92b3aec28b22d4929be5c1ff2fa452bdbda043ab7dbdcc3e2372e26b8d"
+    },
+    {
+      "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._turn_blocks",
       "score": 1.0,
       "components": {
@@ -364,16 +379,16 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.complete",
-      "score": 71.0379,
+      "score": 71.0735,
       "components": {
-        "coverage_gap": 96.9697,
+        "coverage_gap": 97.0588,
         "structural_complexity": 65.0,
         "branch_gap": 100.0,
         "churn": 10.0,
-        "public_surface": 96.9697,
+        "public_surface": 97.0588,
         "sprawl": 0.0
       },
-      "fingerprint": "1d06827925b5ce0415cf1ec73c0b1984c40193ea91f589b13e1c658f30fcc613",
+      "fingerprint": "6fb5efff33f3b8f47900dd9e8de16d46abc82965296148822dfd4f288b6e3a09",
       "signature": "ec31bd3464947a4a41afc1f6ce319bff4c95eaa4192ae50ef8932644f6713d7c"
     },
     {
@@ -919,51 +934,6 @@
     {
       "path": "src/active_skill_system/application/ports/experiment_workspace.py",
       "qualname": "ExperimentWorkspacePort.diff",
-      "score": 0.0,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 0.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "f3ab4d0a67897ce251eadfbf930b6d7c13871894b51ac701bde9e468161ed5cd",
-      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
-    },
-    {
-      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
-      "qualname": "ExperimentWorkspacePort.fork",
-      "score": 0.0,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 0.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "6540f856d057f202addb9447b234e1129850d649d7321dbd5d5fc7f19524d7ce",
-      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
-    },
-    {
-      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
-      "qualname": "ExperimentWorkspacePort.list_runs",
-      "score": 0.0,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 0.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "4203768d1c1ed959d9888c8446411227f3b7883ced0b0e1812b37a30334447c5",
-      "signature": "14953352d70722e33384158a5f18c4d2d8d32a1622853944de07c28242cdde4e"
-    },
-    {
-      "path": "src/active_skill_system/application/ports/llm.py",
-      "qualname": "LLMProviderPort.complete",
       "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
@@ -973,8 +943,53 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "554cf701361924684b8b9b8f10de48862966cc576b4f0e3b8c8f7ac8af3ed6e7",
-      "signature": "04123744a291da88291939b729cecd5a64ee686a3b555e39dcebd2e59d94396e"
+      "fingerprint": "f3ab4d0a67897ce251eadfbf930b6d7c13871894b51ac701bde9e468161ed5cd",
+      "signature": "34308b58e61993b616fc15b6186ec97fb70c0730251a45b2e0b62fb3edaef5f3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
+      "qualname": "ExperimentWorkspacePort.fork",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6540f856d057f202addb9447b234e1129850d649d7321dbd5d5fc7f19524d7ce",
+      "signature": "3aafa73a52c7589041755a3edd61247d749f03deac778e3710d0536f4b4f9ca3"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/experiment_workspace.py",
+      "qualname": "ExperimentWorkspacePort.list_runs",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4203768d1c1ed959d9888c8446411227f3b7883ced0b0e1812b37a30334447c5",
+      "signature": "14953352d70722e33384158a5f18c4d2d8d32a1622853944de07c28242cdde4e"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/llm.py",
+      "qualname": "LLMProviderPort.complete",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "fe07f1c5ae7b43aa1c838dab2a15ae0174c080538bf9b85f1c84f2cb0b930e90",
+      "signature": "866b858b01b136f800123286a8dc67277241d5e2b0f722793a31fe307376c0ac"
     },
     {
       "path": "src/active_skill_system/application/ports/runtime.py",
@@ -1052,6 +1067,111 @@
       "signature": "c5f022e9fa12fdea87f9092ff73f18870e6b1d809fa0a6c59997b9f1b9948b78"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "ParseTaskSpecUseCase.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "629229fdac1ced3830cf288d9448e18b48ce6aa32a01bdd18c1a4627233df410",
+      "signature": "95f66a59982bc562af7306ef6f17695b66547d82c098f3561e95bc32c912c61f"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "ParseTaskSpecUseCase.run",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "897103bbd8b573d27725e6f631d44b76c47cf086d5c9923cc32336e1d74f4f67",
+      "signature": "12e966656583c025402aedf7bf5a9a7fd5f3e8749c5364366b030c949eb40761"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "_build_user_prompt",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "674d5a2a359a2a4e26776f9a013200cf58a058fec497ba9aea9f0fcb0042369b",
+      "signature": "8abc5bb182f1202b9e4a04acb820743b5eefbc5e70912774cb4e89d0bc203552"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "_decode_json",
+      "score": 14.25,
+      "components": {
+        "coverage_gap": 10.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "74c02cbe86a5bb47a1ed558ebbad99525794ab71690ac1e4c7a0d7362f3bc778",
+      "signature": "3dcf35fce5dc1c5d6cda1238f71d7dbb358c98a50b7095d795b576cdff280930"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "_extract_text",
+      "score": 32.9167,
+      "components": {
+        "coverage_gap": 55.5556,
+        "structural_complexity": 15.0,
+        "branch_gap": 83.3333,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4f75ac100116abcf4792984ee7fa70b6d18e8bc4721f3f94dcc360731c8014ff",
+      "signature": "ed0b327fb18a39ade02de93f0b18b09b27441d50274e237a63794861ce715efc"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "_parse_task_spec_payload",
+      "score": 25.7531,
+      "components": {
+        "coverage_gap": 17.3913,
+        "structural_complexity": 65.0,
+        "branch_gap": 28.5714,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ae737d55c54f9cbfb0463f4a07d258b1e48ebeb5c4b5965452703e7592be8eb8",
+      "signature": "c0f6e8a9cce78a61509cad57570a9959c2ab9612f59e80bb3160a7363937f84c"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "_strip_code_fence",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6ba24f3c578f445431b72234cdfef20be2cddab74973605afc2a2890176d0a9c",
+      "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/run_reasoning.py",
       "qualname": "RunReasoningUseCase.__init__",
       "score": 1.0,
@@ -1127,6 +1247,81 @@
       "signature": "9851f1916305d0b42eacd75e04dcbd51fdd29b5c49b41653c950884037c98a23"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
+      "qualname": "SynthesizeAnswerUseCase.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "629229fdac1ced3830cf288d9448e18b48ce6aa32a01bdd18c1a4627233df410",
+      "signature": "95f66a59982bc562af7306ef6f17695b66547d82c098f3561e95bc32c912c61f"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
+      "qualname": "SynthesizeAnswerUseCase.run",
+      "score": 5.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 20.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8b806c6eb3b69e7e4e1f67bc04e4cc3c23c14c99291ceee432230771018d70ee",
+      "signature": "713d017d6bc07a86414968e12a4874d85ffc22e5c5b68a0a80b0bdc6bd985c3a"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
+      "qualname": "_build_user_prompt",
+      "score": 6.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "26643edfe28772540e2a08ad278d03050ffc1f7af2853fb8ed6cb00511a44458",
+      "signature": "eb7222f7a81f1113c2ae070b488a706d165c1c82a19503b5dc8b6dd4913265ce"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
+      "qualname": "_extract_text",
+      "score": 32.9167,
+      "components": {
+        "coverage_gap": 55.5556,
+        "structural_complexity": 15.0,
+        "branch_gap": 83.3333,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "70862b82383c7cf337305ae3c1478b31644f031be9a25af2076d724953af2877",
+      "signature": "ed0b327fb18a39ade02de93f0b18b09b27441d50274e237a63794861ce715efc"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
+      "qualname": "_partial_answer",
+      "score": 12.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 20.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ed97953715dc2247c5b3bf6c70a94f3c38b022727b1e7efb3edff676f3053321",
+      "signature": "f7b0693a671dd3c2507827ebdd18e3589858712a6f3817eaa5e12d84ffda8d14"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "ValidateTaskGraphUseCase.validate",
       "score": 23.5,
@@ -1144,11 +1339,11 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 14.3654,
+      "score": 10.1827,
       "components": {
-        "coverage_gap": 15.3846,
+        "coverage_gap": 7.6923,
         "structural_complexity": 20.0,
-        "branch_gap": 25.0,
+        "branch_gap": 12.5,
         "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0

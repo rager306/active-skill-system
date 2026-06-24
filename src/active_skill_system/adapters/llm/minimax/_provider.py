@@ -22,10 +22,11 @@ from activegraph.llm.anthropic import (
     _retry_after_seconds,
 )
 from activegraph.llm.errors import LLMBehaviorError
-from activegraph.llm.types import LLMMessage, LLMResponse, ToolCall
+from activegraph.llm.types import LLMMessage as _AgLLMMessage, LLMResponse, ToolCall
 
 from active_skill_system.adapters.llm.minimax._thinking import ThinkingTurnCache, _block_to_dict
 from active_skill_system.adapters.llm.minimax._tokens import count_tokens_fallback
+from active_skill_system.application.ports.llm import LLMMessage
 
 
 class MiniMaxProvider(AnthropicProvider):
@@ -76,6 +77,32 @@ class MiniMaxProvider(AnthropicProvider):
         """Swap rebuilt assistant tool-turns back to their cached full blocks."""
         return self._cache.restore(wire_messages)
 
+    @staticmethod
+    def _to_activegraph_messages(messages: list[LLMMessage]) -> list[_AgLLMMessage]:
+        """Convert application-port LLMMessage values to activegraph's type.
+
+        Lives here (L3 adapter) so the application layer (L2) stays
+        infra-free (R002): use-cases construct ``LLMMessage`` from
+        ``application.ports.llm``; only the adapter imports activegraph's
+        equivalent.
+        """
+        converted = []
+        for m in messages:
+            tool_calls = tuple(
+                ToolCall(id=tc.id, name=tc.name, args=dict(tc.args))
+                for tc in m.tool_calls
+            )
+            converted.append(
+                _AgLLMMessage(
+                    role=m.role,
+                    content=m.content,
+                    tool_use_id=m.tool_call_id,
+                    tool_name=m.tool_name,
+                    tool_calls=tool_calls or None,
+                )
+            )
+        return converted
+
     def complete(  # noqa: D401 - signature mirrors the Protocol
         self,
         *,
@@ -90,7 +117,8 @@ class MiniMaxProvider(AnthropicProvider):
         tools: list[dict[str, Any]] | None = None,
     ) -> LLMResponse:
         client = self._client()
-        wire_messages = self._restore_thinking([_message_to_anthropic(m) for m in messages])
+        ag_messages = self._to_activegraph_messages(messages)
+        wire_messages = self._restore_thinking([_message_to_anthropic(m) for m in ag_messages])
         kwargs: dict[str, Any] = {
             "model": model,
             "max_tokens": int(max_tokens),
