@@ -422,6 +422,246 @@
       "signature": "f33f2065fe61e18932e86959429e0a5fdd5b7bde40721cb45d72b328675a7ea5"
     },
     {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "EventSink.emit",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9628df7717083725e603630391d6a109f4bf5d592fea47017f7f98821da7ea04",
+      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "ListEventSink.emit",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f5efa0a84531ddacb98313318d8d00f99f6d12c63b748a9b63a19d0eec1a0c60",
+      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "88b0c3cee21a269c90da34a91fb8156f66664a60d5823d0ae20a7e322bb0c1aa",
+      "signature": "ebb905bc3722212a797952f96ab1144211cef14206d7f9d128e9c5e43eb9f897"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.events",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "85fec44773c2111a474df4ee094b50a234cbb295f47f642059e8e77a7ecdd5e2",
+      "signature": "c39ddb2f28340741342ca4a83917c3739164fc5c619f109c4f053d6981c42d1c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.on_claim_promoted",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "11f2c91e4fad2319f2c7b7e0057cf8a18292f29ea475aaf4ba74f834aa5179ad",
+      "signature": "8f72916ab40ca27c94e8c81b0204044914f775d8252c6df2e42bce8d5532bfb9"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.on_edge_added",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2e3f438654b791dd06737faa24f5e40a13259e45e73abc9a3bbdfc848b9d88c5",
+      "signature": "f64a25b8d9117c5a0ef0642edc7e9fcd3ba74858974a365f6df9e0fa29fc50fe"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.on_fsm_transitioned",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "977d4dca2d620fb46cbefb28c774863b1b6fcc950f406e18c19f7e1c39625446",
+      "signature": "de1cb8b2d21fc1c4f768ec470833f840ad18341204dcd52b1a8156eef4fd9056"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.on_graph_committed",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "449f253634ecb13c7fb58b5176ac14fc77734c18403f529bf20e5365c8cdd596",
+      "signature": "35b56c85ae923a24eaa6c85b4255f25a7472bb9ad9c65c5f538c009d10db689b"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphBridge.on_node_added",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "06a6c24feb38327b884a6f96116794ab05f7ac734872465136234d26a659c4a2",
+      "signature": "0348e6fdea7a6b78d9a8f18e868075fe8fa42c3a99909d6aab7da91b2385aee4"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "TaskGraphState.apply_event",
+      "score": 7.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3cff932d53e5f825019cb5c5246ddd22f362048cd430d89e3970fec556a97003",
+      "signature": "98a09f9a0127229af52c98ca41635e5643b7a1df3bafa065d4fd4bb07d3bfd33"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_claim_payload",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "53167881348e7fc816b6cec03465dca0d59ddddba0c737c3ece17290cbcb4521",
+      "signature": "b34ae02fb3df06be3776d7c6d667f89f4661a726f661de69eab38087a4ceeab3"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_deserialize_edge",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a3deb5e796b6e9bb57cd6157b37cb49be20d772e2f4261dfec86199c5bf87f63",
+      "signature": "c3b5bddc6745a3fb09502d863f0825003f25e79b2f7cccf2e116dd8335d3116f"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_deserialize_node",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8203fede9c93d75f9f618e837d7072bb4f447442d80d147bc7944a5e35a5a16d",
+      "signature": "1d94143ffa3d0a5b70870dcf9eaee4501f542f98af6ed4b65fcf7cf3dd252480"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_edge_payload",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "17a6b578dc054d24698cbb9dfd0549e1afa1d6ee722cb3d2348595a559f85e74",
+      "signature": "7b5372b2756497b20a431b5c76a7d473c347fcb57c164eccaaa778426c6ec7b6"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_fsm_payload",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "07196cd50244084faadafd7c8ef72b5ea03022af953c261bc07d166e36143e5d",
+      "signature": "1fb2f68155113724535c55fa9c29cb18c3f5c1bb0e17360c9bbd89c06f507fcd"
+    },
+    {
+      "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
+      "qualname": "_node_payload",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0d2583b3006f24790a94c2dd7a176e23d8e8f7b5db679b00449f1a4e9cce3bb0",
+      "signature": "3c9431c86e51216ff4ec3b7bad690362b9efefeac29c305b4bea1f41bb29d43a"
+    },
+    {
       "path": "src/active_skill_system/application/ports/llm.py",
       "qualname": "LLMProviderPort.complete",
       "score": 1.0,
@@ -544,12 +784,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
       "qualname": "RunReasoningVerticalUseCase.__init__",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -559,12 +799,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
       "qualname": "RunReasoningVerticalUseCase.run",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -574,12 +814,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
       "qualname": "_build_graph",
-      "score": 9.0,
+      "score": 10.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 30.0,
         "branch_gap": 10.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -589,12 +829,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "ValidateTaskGraphUseCase.validate",
-      "score": 22.5,
+      "score": 23.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 90.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -604,12 +844,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 9.1827,
+      "score": 14.3654,
       "components": {
-        "coverage_gap": 7.6923,
+        "coverage_gap": 15.3846,
         "structural_complexity": 20.0,
-        "branch_gap": 12.5,
-        "churn": 0.0,
+        "branch_gap": 25.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -619,12 +859,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_propagate_grounded_support",
-      "score": 10.0,
+      "score": 11.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 40.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1114,12 +1354,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/claim.py",
       "qualname": "Claim.__post_init__",
-      "score": 27.6786,
+      "score": 28.6786,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 45.0,
         "branch_gap": 33.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -1129,12 +1369,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/claim.py",
       "qualname": "Claim.grounded",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1144,12 +1384,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/claim.py",
       "qualname": "Claim.with_status",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1159,12 +1399,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/claim.py",
       "qualname": "_is_grounded",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1174,12 +1414,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/edges.py",
       "qualname": "TaskEdge.__post_init__",
-      "score": 23.25,
+      "score": 24.25,
       "components": {
         "coverage_gap": 25.0,
         "structural_complexity": 35.0,
         "branch_gap": 30.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 25.0,
         "sprawl": 0.0
       },
@@ -1189,12 +1429,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/fsm.py",
       "qualname": "RunFSM.__post_init__",
-      "score": 18.0,
+      "score": 19.0,
       "components": {
         "coverage_gap": 20.0,
         "structural_complexity": 25.0,
         "branch_gap": 25.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 20.0,
         "sprawl": 0.0
       },
@@ -1204,12 +1444,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/fsm.py",
       "qualname": "RunFSM.transition",
-      "score": 11.25,
+      "score": 12.25,
       "components": {
         "coverage_gap": 12.5,
         "structural_complexity": 15.0,
         "branch_gap": 16.6667,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 12.5,
         "sprawl": 0.0
       },
@@ -1219,12 +1459,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/fsm.py",
       "qualname": "_legal",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1234,12 +1474,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/fsm.py",
       "qualname": "is_legal_transition",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1249,12 +1489,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.__post_init__",
-      "score": 27.4808,
+      "score": 28.4808,
       "components": {
         "coverage_gap": 23.0769,
         "structural_complexity": 55.0,
         "branch_gap": 30.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 23.0769,
         "sprawl": 0.0
       },
@@ -1264,12 +1504,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.add_edge",
-      "score": 18.75,
+      "score": 19.75,
       "components": {
         "coverage_gap": 25.0,
         "structural_complexity": 5.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 25.0,
         "sprawl": 0.0
       },
@@ -1279,12 +1519,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.add_node",
-      "score": 18.75,
+      "score": 19.75,
       "components": {
         "coverage_gap": 25.0,
         "structural_complexity": 5.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 25.0,
         "sprawl": 0.0
       },
@@ -1294,12 +1534,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.commit",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1309,12 +1549,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.has",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1324,12 +1564,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "_dangling_edges",
-      "score": 5.0,
+      "score": 6.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1339,12 +1579,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "TaskNode.__post_init__",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1354,12 +1594,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "TaskNodeId.__post_init__",
-      "score": 23.3333,
+      "score": 24.3333,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 10.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 33.3333,
         "sprawl": 0.0
       },
@@ -1369,12 +1609,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "TaskNodeId.__str__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1384,12 +1624,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "_id_non_empty",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1399,12 +1639,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "_kind_valid",
-      "score": 18.75,
+      "score": 19.75,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 5.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1414,12 +1654,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "_text_non_empty_for_factual",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
