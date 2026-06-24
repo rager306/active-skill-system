@@ -289,16 +289,16 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.__init__",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "6ba09bcf4cd51be5634f9d48e4472f5de7ef42c12b106490da9a8a34be10473d",
+      "fingerprint": "34380deeb9352377ab5fbea83bf73e6a5df27c812dd1f7113a211a2e23df444e",
       "signature": "aa2ada6125928683f3d811f5fa1c4c2df883dc085e7091f2cd609b3713c221dd"
     },
     {
@@ -334,12 +334,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._restore_thinking",
-      "score": 1.0,
+      "score": 2.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -690,6 +690,66 @@
       },
       "fingerprint": "b4fa7bf715cfb53926292ce6876ee6a4208ef7dd787a5540aafa783c7aaa2671",
       "signature": "f33f2065fe61e18932e86959429e0a5fdd5b7bde40721cb45d72b328675a7ea5"
+    },
+    {
+      "path": "src/active_skill_system/adapters/simple_calc_tool.py",
+      "qualname": "SimpleCalcTool.invoke",
+      "score": 6.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0ece4cd9cb8b530c3847265642a6d13b67ff23b8a29a731f9501aa1f76b7e44b",
+      "signature": "b5ff23bafcd1619d23e1f24656deba7d867c6e029f67c612902956ca9541f581"
+    },
+    {
+      "path": "src/active_skill_system/adapters/simple_calc_tool.py",
+      "qualname": "_eval_node",
+      "score": 30.4605,
+      "components": {
+        "coverage_gap": 47.3684,
+        "structural_complexity": 30.0,
+        "branch_gap": 58.3333,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "85203fa2660c92ef45471323b5befb0ba70c9f5d9750ff240557cc773aba3f81",
+      "signature": "1666b2217994a1409cee9fe666e5e91ed472da9b09989da81dcffc2a8932ba30"
+    },
+    {
+      "path": "src/active_skill_system/adapters/simple_search_tool.py",
+      "qualname": "SimpleSearchTool.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8df6af3def59df562e1b6689cd31342ae166823a85a1a1d35d4f0ad340b6ad1f",
+      "signature": "836c5940e0dab6f3bfe4844976498fd4b98bc56871e2c51edb3316357858a940"
+    },
+    {
+      "path": "src/active_skill_system/adapters/simple_search_tool.py",
+      "qualname": "SimpleSearchTool.invoke",
+      "score": 12.5,
+      "components": {
+        "coverage_gap": 12.5,
+        "structural_complexity": 20.0,
+        "branch_gap": 16.6667,
+        "churn": 0.0,
+        "public_surface": 12.5,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6942c79b139498f1362f03d874e4b75083c61a528cbbde76aff24a3b3c637e80",
+      "signature": "b5ff23bafcd1619d23e1f24656deba7d867c6e029f67c612902956ca9541f581"
     },
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
@@ -1067,113 +1127,83 @@
       "signature": "c5f022e9fa12fdea87f9092ff73f18870e6b1d809fa0a6c59997b9f1b9948b78"
     },
     {
+      "path": "src/active_skill_system/application/ports/tool.py",
+      "qualname": "ToolPort.invoke",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a33f71e0137328770cddbb6e7024b45ead3d9cfc6427cb2199199a2ac5357b6c",
+      "signature": "b5ff23bafcd1619d23e1f24656deba7d867c6e029f67c612902956ca9541f581"
+    },
+    {
+      "path": "src/active_skill_system/application/tools/registry.py",
+      "qualname": "ToolRegistry.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bc77e27b5edf41731026bc590ff69f743e95474f47fea488213ba5e7a24f63b9",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/tools/registry.py",
+      "qualname": "ToolRegistry.get_by_capability",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1a3a72cb3baffbfdc4f7cda19727e90b35b5436fb31f3763a05a656be028f0b8",
+      "signature": "001a8e79997f7520be91f403f1834c100177506b2ced8fdae53bcdaa78bfefe2"
+    },
+    {
+      "path": "src/active_skill_system/application/tools/registry.py",
+      "qualname": "ToolRegistry.list_tools",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "291bdafaf9dd149b1694704d1da0a27b5a8014d9ab25e958ec1bfc568f34a3eb",
+      "signature": "663035eceb2c141527c315f53a6c70101f36e3cf2924682ab8e8b7e61484e29a"
+    },
+    {
+      "path": "src/active_skill_system/application/tools/registry.py",
+      "qualname": "ToolRegistry.register",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "de73309459ea900e968c3ce34d553f92bf6f587bf4f7ecfa6e9c96a956b3240a",
+      "signature": "21dd1d0b38e609d1f72a23d2de9390f1b952e2a12a836b3db20aea81cce6324b"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/extract_facts.py",
       "qualname": "VisionExtractionUseCase.__init__",
-      "score": 0.0,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 0.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "d638f5a8ec810211913e398bc7647f847be445626bf75a23dc3a62a6d4f9881e",
-      "signature": "288e09a2b4e3d2ef17aac3efba7620a553b24b573b74302ad076d95f9388ec2b"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "VisionExtractionUseCase.extract",
-      "score": 15.2283,
-      "components": {
-        "coverage_gap": 8.6957,
-        "structural_complexity": 35.0,
-        "branch_gap": 20.0,
-        "churn": 0.0,
-        "public_surface": 8.6957,
-        "sprawl": 0.0
-      },
-      "fingerprint": "c89acf975287074632ee0c5acbea99c7a7603da2432cfac1cc2252b0ffb5cc32",
-      "signature": "03249952c005ac832db851796c3c07d866f5a6c0931f205c047f1ed41849fd12"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "_build_messages",
-      "score": 1.25,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 5.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "febe7aae6f94d79418ab4ac4e3b1107accb52424c74d10791e05f8fcefafbd42",
-      "signature": "474f06ffb21312981618dd106f743c6ee0c6ae4cf1b1d98190a175d9b77a14df"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "_build_user_prompt",
-      "score": 0.0,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 0.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "d3baa93cab2319367ee6fd523c076fd7919cf0c94999c0a729d0c5c6377e3a3c",
-      "signature": "8abc5bb182f1202b9e4a04acb820743b5eefbc5e70912774cb4e89d0bc203552"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "_decode_facts_payload",
-      "score": 32.0,
-      "components": {
-        "coverage_gap": 40.0,
-        "structural_complexity": 50.0,
-        "branch_gap": 50.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "e728761ac17675dd88346ef0ad5555e3121926f7b03b1b605d9cd3c5faa3c21f",
-      "signature": "415898a8f4cf41058b3ef922d62e899de9507db286d36dfac9c221cdc84b7202"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "_extract_text",
-      "score": 32.9167,
-      "components": {
-        "coverage_gap": 55.5556,
-        "structural_complexity": 15.0,
-        "branch_gap": 83.3333,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "70862b82383c7cf337305ae3c1478b31644f031be9a25af2076d724953af2877",
-      "signature": "ed0b327fb18a39ade02de93f0b18b09b27441d50274e237a63794861ce715efc"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
-      "qualname": "_strip_code_fence",
-      "score": 1.25,
-      "components": {
-        "coverage_gap": 0.0,
-        "structural_complexity": 5.0,
-        "branch_gap": 0.0,
-        "churn": 0.0,
-        "public_surface": 0.0,
-        "sprawl": 0.0
-      },
-      "fingerprint": "c2d5616eaadc0d44c51ee355b899b19348ec0a0e167216fa00e020e01746daf4",
-      "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
-    },
-    {
-      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
-      "qualname": "ParseTaskSpecUseCase.__init__",
       "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
@@ -1183,18 +1213,123 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
+      "fingerprint": "d638f5a8ec810211913e398bc7647f847be445626bf75a23dc3a62a6d4f9881e",
+      "signature": "288e09a2b4e3d2ef17aac3efba7620a553b24b573b74302ad076d95f9388ec2b"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "VisionExtractionUseCase.extract",
+      "score": 16.2283,
+      "components": {
+        "coverage_gap": 8.6957,
+        "structural_complexity": 35.0,
+        "branch_gap": 20.0,
+        "churn": 10.0,
+        "public_surface": 8.6957,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c89acf975287074632ee0c5acbea99c7a7603da2432cfac1cc2252b0ffb5cc32",
+      "signature": "03249952c005ac832db851796c3c07d866f5a6c0931f205c047f1ed41849fd12"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "_build_messages",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "febe7aae6f94d79418ab4ac4e3b1107accb52424c74d10791e05f8fcefafbd42",
+      "signature": "474f06ffb21312981618dd106f743c6ee0c6ae4cf1b1d98190a175d9b77a14df"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "_build_user_prompt",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "d3baa93cab2319367ee6fd523c076fd7919cf0c94999c0a729d0c5c6377e3a3c",
+      "signature": "8abc5bb182f1202b9e4a04acb820743b5eefbc5e70912774cb4e89d0bc203552"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "_decode_facts_payload",
+      "score": 33.0,
+      "components": {
+        "coverage_gap": 40.0,
+        "structural_complexity": 50.0,
+        "branch_gap": 50.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e728761ac17675dd88346ef0ad5555e3121926f7b03b1b605d9cd3c5faa3c21f",
+      "signature": "415898a8f4cf41058b3ef922d62e899de9507db286d36dfac9c221cdc84b7202"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "_extract_text",
+      "score": 33.9167,
+      "components": {
+        "coverage_gap": 55.5556,
+        "structural_complexity": 15.0,
+        "branch_gap": 83.3333,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "70862b82383c7cf337305ae3c1478b31644f031be9a25af2076d724953af2877",
+      "signature": "ed0b327fb18a39ade02de93f0b18b09b27441d50274e237a63794861ce715efc"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/extract_facts.py",
+      "qualname": "_strip_code_fence",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c2d5616eaadc0d44c51ee355b899b19348ec0a0e167216fa00e020e01746daf4",
+      "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
+      "qualname": "ParseTaskSpecUseCase.__init__",
+      "score": 2.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 20.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
       "fingerprint": "0d5206fc79a0b8215c1f32de9c9740ab4a53cf999194d4d0aed49c9913671aae",
       "signature": "6caaa570a99c729bc81af1017570607fef42a4866febfad431a5867397c46d5e"
     },
     {
       "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
       "qualname": "ParseTaskSpecUseCase.run",
-      "score": 21.4545,
+      "score": 22.4545,
       "components": {
         "coverage_gap": 13.6364,
         "structural_complexity": 55.0,
         "branch_gap": 8.3333,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 13.6364,
         "sprawl": 0.0
       },
@@ -1277,6 +1412,96 @@
       "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/repair_loop.py",
+      "qualname": "RepairLoopUseCase.__init__",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "427ee77bf11ff1ecf89d159b777b29c7d5c38c0467f2bf52285c149964ed31f9",
+      "signature": "3d07c6f7a957a3c2741ad2a8fe5e24927a12c4d4080f954aea1f63c81c5fc18d"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/repair_loop.py",
+      "qualname": "RepairLoopUseCase.run",
+      "score": 13.3381,
+      "components": {
+        "coverage_gap": 2.5641,
+        "structural_complexity": 40.0,
+        "branch_gap": 8.3333,
+        "churn": 0.0,
+        "public_surface": 2.5641,
+        "sprawl": 10.625
+      },
+      "fingerprint": "359e4caf22eefd458fae2bb1f7189b9feea6006d8d8612b45d12ba4e72bea2a3",
+      "signature": "34595a315479cafa73ed74330f5b74ce5fa2b3d56cdd26967f8e04fe45d88b4a"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/repair_loop.py",
+      "qualname": "_classify_gaps",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "93ffcfd9994e287da1b179d06504e65e07c7e4150a211210a73451464c26e26e",
+      "signature": "63e773aba68735883c96ce886479973fefd0da5b376541f287035dd97f2c9d12"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/repair_policy.py",
+      "qualname": "RepairPolicy.__post_init__",
+      "score": 23.3333,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 10.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 33.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4cb1b4e2529109771acac5b3c95d6d48a22dc341c997023b203308d01f6584b9",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/repair_policy.py",
+      "qualname": "RepairPolicy.action_for",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "83f572c6b211c61bdd9b2bc920928d469859387bb2a567b89f9ae6a1d6387155",
+      "signature": "0a205d28f595b6846c4a2824e47937ba7d6a2ab1134345d8acd7a52d31f7bec0"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/repair_policy.py",
+      "qualname": "RepairPolicy.default_policy",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "586b126a7b2e9b13cb57f13319770b18460a3aa53cb2d3967d4a7f9fe84158f3",
+      "signature": "bb5aae157ad9c269fcce0d676834a00d92fbbdf9eae906696462c7c78385d68d"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/run_reasoning.py",
       "qualname": "RunReasoningUseCase.__init__",
       "score": 1.0,
@@ -1339,17 +1564,62 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
       "qualname": "_build_graph",
-      "score": 13.1429,
+      "score": 14.1429,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 40.0,
         "branch_gap": 14.2857,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "ede49b10e8ef7564ba7c2636c18d44ed06643ed6a2bf09234366085574d2e18d",
       "signature": "9851f1916305d0b42eacd75e04dcbd51fdd29b5c49b41653c950884037c98a23"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
+      "qualname": "RunReasoningWithRepairUseCase.__init__",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9b2afb55983c846cfb7944debdfe82616491b5c5dd1f9289bb58ad897979d470",
+      "signature": "554c0ced94516276384ad720f604984546daba7e001c693a9aaee7871f70f379"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
+      "qualname": "RunReasoningWithRepairUseCase._execute_action_with_tools",
+      "score": 18.2794,
+      "components": {
+        "coverage_gap": 11.7647,
+        "structural_complexity": 35.0,
+        "branch_gap": 40.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6c48ce450aa3d94f0edd77fd9af1b4ea4cc99f119b3bbe569278a380980eef6e",
+      "signature": "a8b4839569132731c814acab4e7573e8ee572910875dda1b566c58e74f1cad88"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
+      "qualname": "RunReasoningWithRepairUseCase.run",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f23044a4bfa5f9a7a3c74bb4c2a4b3d4fa1e4e8920520acf3daf7b740352389c",
+      "signature": "9ff7128ff415d7fed83f2088a0e7e8ee462e431484556169f09f669f769b0057"
     },
     {
       "path": "src/active_skill_system/application/use_cases/synthesize_answer.py",
@@ -1444,11 +1714,11 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 10.1827,
+      "score": 14.3654,
       "components": {
-        "coverage_gap": 7.6923,
+        "coverage_gap": 15.3846,
         "structural_complexity": 20.0,
-        "branch_gap": 12.5,
+        "branch_gap": 25.0,
         "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
@@ -2087,6 +2357,36 @@
       "signature": "0b43bf0c3e03774a8ff3a08c2ae439c1dbc6c485917198461f87d9b85d4ef22e"
     },
     {
+      "path": "src/active_skill_system/domain/runtime/gap.py",
+      "qualname": "GapClassification.__post_init__",
+      "score": 17.1667,
+      "components": {
+        "coverage_gap": 16.6667,
+        "structural_complexity": 30.0,
+        "branch_gap": 20.0,
+        "churn": 0.0,
+        "public_surface": 16.6667,
+        "sprawl": 0.0
+      },
+      "fingerprint": "09a255c0947f2e20d586e8f8b0b7def3f2a894356205c6370b00bb7667242113",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/gap.py",
+      "qualname": "severity_rank",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "fd5f7b4ee379c97238f4fc332a090a8b789b99bf3b38bcd1aa8fa8f97234fa1c",
+      "signature": "6fdf397a01ccd3c629449acbc1fd2e25c2006f20c09c4a37a3c02b88253bceb5"
+    },
+    {
       "path": "src/active_skill_system/domain/runtime/graph.py",
       "qualname": "TaskGraph.__post_init__",
       "score": 28.4808,
@@ -2179,12 +2479,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/media_ref.py",
       "qualname": "MediaRef.__post_init__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2194,12 +2494,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/media_ref.py",
       "qualname": "_validate_media_type",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2209,12 +2509,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/media_ref.py",
       "qualname": "_validate_url",
-      "score": 5.0,
+      "score": 6.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2224,12 +2524,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "TaskNode.__post_init__",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2299,12 +2599,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/nodes.py",
       "qualname": "_media_evidence_only",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2325,6 +2625,81 @@
       },
       "fingerprint": "e1e567e2594e9b6dc3fdf0d6c369fec7c5246cd43015b5358978a94e42d5026f",
       "signature": "5eb59ec143ad0afc6b1abceff67b874bd74c1aa0df288de03980e5bb08b8e6fc"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/patch.py",
+      "qualname": "GraphPatch.__post_init__",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8331a40175ecf52756c12bd6471e3d23d2f71f5f2cf703a87fe45cb81569da70",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/patch.py",
+      "qualname": "GraphPatch.apply",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1e5bfc70d363ab973fe94516cdd6ef583b3e459fb1db01c6b2a4e11d09c5d9fa",
+      "signature": "2f8b5f0234e24a9cf07d3425102611de0df8419e894524679d1cf82816e2f89c"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/patch.py",
+      "qualname": "PatchOp.__post_init__",
+      "score": 22.6786,
+      "components": {
+        "coverage_gap": 28.5714,
+        "structural_complexity": 25.0,
+        "branch_gap": 33.3333,
+        "churn": 0.0,
+        "public_surface": 28.5714,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3819461ce88f7b35439a4e0aee5a842c0a3e4d3065b26c8fe5448d90e3b32584",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/patch.py",
+      "qualname": "_apply_op",
+      "score": 8.125,
+      "components": {
+        "coverage_gap": 6.25,
+        "structural_complexity": 15.0,
+        "branch_gap": 16.6667,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a55ec5a240b0a3872c327eea61ed5cb89639d92d78b12222b7e9d94f6f532a4e",
+      "signature": "e76055529cb5d693902f301191d8fe80d8801411e9b0f3d67a2aec1e9ba5e2db"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/patch.py",
+      "qualname": "is_measurable_improvement",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a07f8b65c8f47d00ed0cf55858863f157a96de4013708e593f8b642a757fcff8",
+      "signature": "7e0a2dbd5bac8a82de6b3991c3e0add81f6b190a18f58ab47b239b54d2ffaca6"
     },
     {
       "path": "src/active_skill_system/scripts/risk_delta.py",

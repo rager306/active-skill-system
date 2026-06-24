@@ -14,6 +14,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import StrEnum
 
+from active_skill_system.domain.runtime.media_ref import MediaRef
+
 
 class NodeKind(StrEnum):
     """Kind of a Task Graph node (concept.md §4.1 node-type table)."""
@@ -114,7 +116,7 @@ class TaskNode:
     text: str = ""
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     meta: tuple[tuple[str, str], ...] = ()
-    media: "MediaRef | None" = None  # type: ignore[name-defined]  # noqa: F821
+    media: MediaRef | None = None
 
     def __post_init__(self) -> None:
         errors: list[str] = []

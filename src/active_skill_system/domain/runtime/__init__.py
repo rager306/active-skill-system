@@ -6,20 +6,13 @@ Pure domain. NO I/O, NO infrastructure imports (R002). Frozen dataclasses with
 Entities (re-exported):
 
   TaskNode, NodeKind, TaskNodeId (nodes.py)
-    Typed reasoning-graph nodes: Goal/Fact/Evidence/Constraint/Hypothesis/
-    Gap/Mechanism/Claim/Decision/Action/Result.
-
   TaskEdge, EdgeKind (edges.py)
-    Typed relations: SUPPORTS/REQUIRES/DERIVED_FROM/CONTRADICTS/BLOCKS/
-    SATISFIES/REFINES/DEPENDS_ON/PRODUCES/INVALIDATES.
-
   Claim, ClaimStatus, GroundingKind (claim.py)
-    Factual assertions with a lifecycle. Anti-fantasy invariant: a Claim
-    cannot be promoted to VERIFIED without independent grounding (evidence
-    OR a legitimate grounding kind).
-
   TaskGraph (graph.py)
-    Immutable, versioned reasoning graph (monotone versioning + parent linkage).
+  RunFSM, RunState (fsm.py)
+  MediaRef, ALLOWED_MEDIA_TYPES (media_ref.py)
+  GapClass, GapClassification, Severity (gap.py)
+  GraphPatch, PatchOp, is_measurable_improvement (patch.py)
 """
 
 from active_skill_system.domain.runtime.claim import (
@@ -36,15 +29,29 @@ from active_skill_system.domain.runtime.fsm import (
     RunState,
     is_legal_transition,
 )
+from active_skill_system.domain.runtime.gap import (
+    GapClass,
+    GapClassification,
+    Severity,
+    severity_rank,
+)
 from active_skill_system.domain.runtime.graph import TaskGraph
 from active_skill_system.domain.runtime.media_ref import (
     ALLOWED_MEDIA_TYPES,
     MediaRef,
 )
 from active_skill_system.domain.runtime.nodes import NodeKind, TaskNode, TaskNodeId
+from active_skill_system.domain.runtime.patch import (
+    GraphPatch,
+    PatchOp,
+    is_measurable_improvement,
+)
 
 __all__ = [
     "ALLOWED_MEDIA_TYPES",
+    "GapClass",
+    "GapClassification",
+    "GraphPatch",
     "LEGAL_TRANSITIONS",
     "LEGITIMATE_GROUNDING",
     "Claim",
@@ -53,12 +60,16 @@ __all__ = [
     "GroundingKind",
     "MediaRef",
     "NodeKind",
+    "PatchOp",
     "RunFSM",
     "RunState",
+    "Severity",
     "TERMINAL_STATES",
     "TaskEdge",
     "TaskGraph",
     "TaskNode",
     "TaskNodeId",
     "is_legal_transition",
+    "is_measurable_improvement",
+    "severity_rank",
 ]
