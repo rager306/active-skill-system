@@ -2,6 +2,66 @@
   "version": "2",
   "entries": [
     {
+      "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
+      "qualname": "ActivegraphEventSink.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a0c64004c272ba663c90a7b200797df06226b183f0f45fc25f9d64ecdb95cb07",
+      "signature": "faa58ad0526418ab48dbc0a745385734994622e62c89a4b7fa0c7c970e4c348e"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
+      "qualname": "ActivegraphEventSink.emit",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "d8c29d89869502c566e12902f06889fb31e7a28f886b865940156bf1a4b15704",
+      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
+      "qualname": "ActivegraphEventSink.graph",
+      "score": 20.0,
+      "components": {
+        "coverage_gap": 50.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 50.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6a49026ccb67f8d414e5b83029a595933425d9643bba789160a307dbf3012347",
+      "signature": "048fb15ae749338d021d7b1e22d2b4224ef82ff545652fc059f7f7f2e1525b3c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/activegraph_event_sink.py",
+      "qualname": "_EventSinkProtocol.emit",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9628df7717083725e603630391d6a109f4bf5d592fea47017f7f98821da7ea04",
+      "signature": "4b857e9003891a676b572b06fc5d57ebcb39b6c7b760ea14a21c1daa846d5bd0"
+    },
+    {
       "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
       "qualname": "_project_root",
       "score": 12.25,
@@ -424,12 +484,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "EventSink.emit",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -439,12 +499,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "ListEventSink.emit",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -454,12 +514,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.__init__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -469,12 +529,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.events",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -484,12 +544,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.on_claim_promoted",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -499,12 +559,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.on_edge_added",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -514,12 +574,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.on_fsm_transitioned",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -529,12 +589,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.on_graph_committed",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -544,12 +604,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphBridge.on_node_added",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -559,12 +619,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "TaskGraphState.apply_event",
-      "score": 7.5,
+      "score": 8.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -574,12 +634,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_claim_payload",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -589,12 +649,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_deserialize_edge",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -604,12 +664,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_deserialize_node",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -619,12 +679,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_edge_payload",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -634,12 +694,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_fsm_payload",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -649,12 +709,12 @@
     {
       "path": "src/active_skill_system/adapters/taskgraph_bridge.py",
       "qualname": "_node_payload",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
