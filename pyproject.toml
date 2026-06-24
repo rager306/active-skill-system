@@ -121,6 +121,10 @@ runner = "uv run pytest -x -q tests"
 [tool.pytest-gremlins]
 paths = [
     "src/active_skill_system/adapters/llm/minimax/_provider.py",
+    "src/active_skill_system/application/use_cases/repair_loop.py",
+    "src/active_skill_system/application/use_cases/validate_task_graph.py",
+    "src/active_skill_system/adapters/simple_calc_tool.py",
+    "src/active_skill_system/adapters/simple_search_tool.py",
 ]
 operators = [
     "arithmetic",

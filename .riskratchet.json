@@ -694,12 +694,12 @@
     {
       "path": "src/active_skill_system/adapters/simple_calc_tool.py",
       "qualname": "SimpleCalcTool.invoke",
-      "score": 6.25,
+      "score": 7.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -709,12 +709,12 @@
     {
       "path": "src/active_skill_system/adapters/simple_calc_tool.py",
       "qualname": "_eval_node",
-      "score": 30.4605,
+      "score": 31.4605,
       "components": {
         "coverage_gap": 47.3684,
         "structural_complexity": 30.0,
         "branch_gap": 58.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -724,12 +724,12 @@
     {
       "path": "src/active_skill_system/adapters/simple_search_tool.py",
       "qualname": "SimpleSearchTool.__init__",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -739,12 +739,12 @@
     {
       "path": "src/active_skill_system/adapters/simple_search_tool.py",
       "qualname": "SimpleSearchTool.invoke",
-      "score": 12.5,
+      "score": 13.5,
       "components": {
         "coverage_gap": 12.5,
         "structural_complexity": 20.0,
         "branch_gap": 16.6667,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 12.5,
         "sprawl": 0.0
       },
@@ -1129,12 +1129,12 @@
     {
       "path": "src/active_skill_system/application/ports/tool.py",
       "qualname": "ToolPort.invoke",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1144,12 +1144,12 @@
     {
       "path": "src/active_skill_system/application/tools/registry.py",
       "qualname": "ToolRegistry.__init__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1159,12 +1159,12 @@
     {
       "path": "src/active_skill_system/application/tools/registry.py",
       "qualname": "ToolRegistry.get_by_capability",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1174,12 +1174,12 @@
     {
       "path": "src/active_skill_system/application/tools/registry.py",
       "qualname": "ToolRegistry.list_tools",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1189,12 +1189,12 @@
     {
       "path": "src/active_skill_system/application/tools/registry.py",
       "qualname": "ToolRegistry.register",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1414,12 +1414,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_loop.py",
       "qualname": "RepairLoopUseCase.__init__",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1429,12 +1429,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_loop.py",
       "qualname": "RepairLoopUseCase.run",
-      "score": 13.3381,
+      "score": 14.3381,
       "components": {
         "coverage_gap": 2.5641,
         "structural_complexity": 40.0,
         "branch_gap": 8.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 2.5641,
         "sprawl": 10.625
       },
@@ -1444,12 +1444,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_loop.py",
       "qualname": "_classify_gaps",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1459,12 +1459,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_policy.py",
       "qualname": "RepairPolicy.__post_init__",
-      "score": 23.3333,
+      "score": 24.3333,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 10.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 33.3333,
         "sprawl": 0.0
       },
@@ -1474,12 +1474,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_policy.py",
       "qualname": "RepairPolicy.action_for",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1489,12 +1489,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/repair_policy.py",
       "qualname": "RepairPolicy.default_policy",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1579,12 +1579,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
       "qualname": "RunReasoningWithRepairUseCase.__init__",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1594,12 +1594,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
       "qualname": "RunReasoningWithRepairUseCase._execute_action_with_tools",
-      "score": 18.2794,
+      "score": 19.2794,
       "components": {
         "coverage_gap": 11.7647,
         "structural_complexity": 35.0,
         "branch_gap": 40.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1609,12 +1609,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning_with_repair.py",
       "qualname": "RunReasoningWithRepairUseCase.run",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2359,12 +2359,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/gap.py",
       "qualname": "GapClassification.__post_init__",
-      "score": 17.1667,
+      "score": 18.1667,
       "components": {
         "coverage_gap": 16.6667,
         "structural_complexity": 30.0,
         "branch_gap": 20.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 16.6667,
         "sprawl": 0.0
       },
@@ -2374,12 +2374,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/gap.py",
       "qualname": "severity_rank",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2629,12 +2629,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/patch.py",
       "qualname": "GraphPatch.__post_init__",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2644,12 +2644,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/patch.py",
       "qualname": "GraphPatch.apply",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2659,12 +2659,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/patch.py",
       "qualname": "PatchOp.__post_init__",
-      "score": 22.6786,
+      "score": 23.6786,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 25.0,
         "branch_gap": 33.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -2674,12 +2674,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/patch.py",
       "qualname": "_apply_op",
-      "score": 8.125,
+      "score": 9.125,
       "components": {
         "coverage_gap": 6.25,
         "structural_complexity": 15.0,
         "branch_gap": 16.6667,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2689,12 +2689,12 @@
     {
       "path": "src/active_skill_system/domain/runtime/patch.py",
       "qualname": "is_measurable_improvement",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
