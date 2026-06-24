@@ -195,6 +195,9 @@ def test_public_use_case_package_exports_expected_symbols() -> None:
         "SynthesizeAnswerUseCase",
         "ParseTaskSpecUseCase",
         "ParseTaskSpecRequest",
+        "VisionExtractionUseCase",
+        "Fact",
+        "Facts",
     }, (
         f"Unexpected public surface: {pkg.__all__!r}"
     )

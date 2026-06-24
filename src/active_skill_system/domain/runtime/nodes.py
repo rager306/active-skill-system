@@ -80,6 +80,20 @@ def _text_non_empty_for_factual(node: TaskNode) -> None:
         )
 
 
+def _media_evidence_only(node: TaskNode) -> None:
+    """A media attachment is a grounding anchor; only EVIDENCE carries one.
+
+    Other node kinds (FACT, CLAIM, etc.) describe their content via text
+    and meta. Putting media on, e.g., a CLAIM would conflate the claim
+    (the assertion) with its evidence (the attachment).
+    """
+    if node.media is not None and node.kind is not NodeKind.EVIDENCE:
+        raise ValueError(
+            f"TaskNode({node.id}) of kind {node.kind} cannot carry a media "
+            f"attachment; only EVIDENCE nodes do (got media={node.media!r})"
+        )
+
+
 @dataclass(frozen=True)
 class TaskNode:
     """A node in the Task Graph reasoning structure.
@@ -90,6 +104,9 @@ class TaskNode:
       - text: human-readable content (non-empty for factual kinds).
       - created_at: UTC timestamp (tz-aware).
       - meta: frozen mapping of extra attributes (optional).
+      - media: optional MediaRef (image / future: video) attached to the
+        node. Constrained to EVIDENCE-kind nodes: a media attachment is a
+        grounding anchor for an evidence, not a fact in itself.
     """
 
     id: TaskNodeId
@@ -97,10 +114,16 @@ class TaskNode:
     text: str = ""
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     meta: tuple[tuple[str, str], ...] = ()
+    media: "MediaRef | None" = None  # type: ignore[name-defined]  # noqa: F821
 
     def __post_init__(self) -> None:
         errors: list[str] = []
-        for check in (_id_non_empty, _kind_valid, _text_non_empty_for_factual):
+        for check in (
+            _id_non_empty,
+            _kind_valid,
+            _text_non_empty_for_factual,
+            _media_evidence_only,
+        ):
             try:
                 check(self)
             except ValueError as e:

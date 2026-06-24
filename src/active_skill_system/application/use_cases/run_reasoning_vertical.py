@@ -24,6 +24,7 @@ from active_skill_system.application.use_cases.validate_task_graph import (
 )
 from active_skill_system.domain.runtime import (
     EdgeKind,
+    MediaRef,
     NodeKind,
     TaskEdge,
     TaskGraph,
@@ -47,11 +48,18 @@ class ClaimSpec:
 
 @dataclass(frozen=True)
 class TaskSpec:
-    """Structured input to the vertical slice (no free text / LLM parsing yet)."""
+    """Structured input to the vertical slice (no free text / LLM parsing yet).
+
+    ``attachments`` is a tuple of ``MediaRef`` (M008): images (or future
+    video) that the pipeline will use for vision extraction before the
+    reasoning pass. Vision-extracted facts land in ``facts`` after the
+    ParseTaskSpecUseCase runs.
+    """
 
     goal: str
     facts: tuple[str, ...] = ()
     claims: tuple[ClaimSpec, ...] = ()
+    attachments: tuple[MediaRef, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -125,6 +133,18 @@ def _build_graph(spec: TaskSpec) -> TaskGraph:
                 )
             graph = graph.add_edge(
                 TaskEdge(source=eid, target=cid, kind=EdgeKind.DERIVED_FROM)
+            )
+
+    # Attachments (M008): for each MediaRef in spec.attachments, ensure an
+    # Evidence node exists with media=MediaRef. These act as grounding
+    # anchors for any claim that has matching evidence_id. The validator
+    # still treats these Evidence nodes as grounded (Fact/Evidence kinds are
+    # inherently grounded by the validate_task_graph logic).
+    for i, media in enumerate(spec.attachments):
+        eid = TaskNodeId(f"attachment{i}")
+        if not graph.has(eid):
+            graph = graph.add_node(
+                TaskNode(id=eid, kind=NodeKind.EVIDENCE, text="", media=media)
             )
 
     return graph.commit()

@@ -29,10 +29,14 @@ from dataclasses import dataclass
 from typing import Any
 
 from active_skill_system.application.ports.llm import LLMMessage, LLMProviderPort
+from active_skill_system.application.use_cases.extract_facts import (
+    VisionExtractionUseCase,
+)
 from active_skill_system.application.use_cases.run_reasoning_vertical import (
     ClaimSpec,
     TaskSpec,
 )
+from active_skill_system.domain.runtime.media_ref import MediaRef
 
 
 @dataclass(frozen=True)
@@ -40,6 +44,7 @@ class ParseTaskSpecRequest:
     """Input to ``ParseTaskSpecUseCase.run``."""
 
     goal: str
+    attachments: tuple[MediaRef, ...] = ()
 
 
 _SYSTEM_PROMPT = (
@@ -91,24 +96,36 @@ def _parse_task_spec_payload(payload: dict) -> TaskSpec:
 
 
 class ParseTaskSpecUseCase:
-    """Parse a free-text goal into a structured ``TaskSpec`` via an LLM."""
+    """Parse a free-text goal into a structured ``TaskSpec`` via an LLM.
 
-    def __init__(self, llm_provider: LLMProviderPort | None = None) -> None:
+    When ``ParseTaskSpecRequest.attachments`` is non-empty, the use-case
+    also runs ``VisionExtractionUseCase`` (separate LLM call) and prepends
+    vision-extracted facts to the LLM-parsed facts. Vision is best-effort:
+    a failure logs a warning and continues with text-only facts (graceful
+    degradation, never raises).
+    """
+
+    def __init__(
+        self,
+        llm_provider: LLMProviderPort | None = None,
+        *,
+        vision_extractor: VisionExtractionUseCase | None = None,
+    ) -> None:
         self._llm = llm_provider
+        self._vision = vision_extractor
 
     def run(self, request: ParseTaskSpecRequest) -> TaskSpec:
         if not isinstance(request.goal, str) or not request.goal.strip():
             raise ValueError("ParseTaskSpecRequest.goal must be a non-empty string")
+        if not isinstance(request.attachments, tuple):
+            raise ValueError("ParseTaskSpecRequest.attachments must be a tuple of MediaRef")
         if self._llm is None:
             raise RuntimeError(
                 "ParseTaskSpecUseCase requires an LLMProviderPort (R005); "
                 "composition must wire MiniMaxProvider or a fake."
             )
 
-        # The output_schema argument is optional in the port; we pass a Pydantic-
-        # free dict-shaped schema as a hint. Concrete adapters that support
-        # structured output (Anthropic) honour it; adapters that don't just
-        # fall back to free text which we parse defensively below.
+        # Step 1: LLM parses free-text goal into a TaskSpec (text-only path).
         raw = self._llm.complete(
             system=_SYSTEM_PROMPT,
             messages=[LLMMessage(role="user", content=_build_user_prompt(request.goal))],
@@ -121,7 +138,32 @@ class ParseTaskSpecUseCase:
         )
         raw_text = _extract_text(raw)
         payload = _decode_json(raw_text)
-        return _parse_task_spec_payload(payload)
+        spec = _parse_task_spec_payload(payload)
+
+        # Step 2: vision extraction (M008). If attachments are present and a
+        # vision_extractor is wired, prepend vision facts to the LLM facts.
+        # Vision is best-effort: failures are swallowed by the extractor
+        # (graceful degradation), so we never raise here.
+        vision_facts: tuple[str, ...] = ()
+        if request.attachments and self._vision is not None:
+            try:
+                facts = self._vision.extract(request.goal, request.attachments)
+                if facts is not None and facts.items:
+                    vision_facts = tuple(f.text for f in facts.items)
+            except Exception:  # noqa: BLE001 — defensive; extractor should already
+                # swallow, but we belt-and-brace around it.
+                pass
+        # If attachments are present (whether vision ran or not), propagate
+        # them so downstream stages (e.g. RunReasoningVertical) can still
+        # see them. Vision facts (possibly empty) are prepended.
+        if request.attachments:
+            spec = TaskSpec(
+                goal=spec.goal,
+                facts=vision_facts + spec.facts,
+                claims=spec.claims,
+                attachments=request.attachments,
+            )
+        return spec
 
 
 def _extract_text(response: Any) -> str:

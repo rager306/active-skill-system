@@ -5,6 +5,11 @@ sits on top of the L2 ports (`application.ports.*`) and never reaches
 into adapters, composition, or infrastructure packages.
 """
 
+from active_skill_system.application.use_cases.extract_facts import (
+    Fact,
+    Facts,
+    VisionExtractionUseCase,
+)
 from active_skill_system.application.use_cases.parse_task_spec import (
     ParseTaskSpecRequest,
     ParseTaskSpecUseCase,
@@ -29,6 +34,8 @@ from active_skill_system.application.use_cases.validate_task_graph import (
 
 __all__ = [
     "ClaimSpec",
+    "Fact",
+    "Facts",
     "ParseTaskSpecRequest",
     "ParseTaskSpecUseCase",
     "RunReasoningUseCase",
@@ -39,4 +46,5 @@ __all__ = [
     "SynthesizeAnswerUseCase",
     "TaskSpec",
     "ValidateTaskGraphUseCase",
+    "VisionExtractionUseCase",
 ]

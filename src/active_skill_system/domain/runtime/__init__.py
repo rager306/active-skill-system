@@ -37,15 +37,21 @@ from active_skill_system.domain.runtime.fsm import (
     is_legal_transition,
 )
 from active_skill_system.domain.runtime.graph import TaskGraph
+from active_skill_system.domain.runtime.media_ref import (
+    ALLOWED_MEDIA_TYPES,
+    MediaRef,
+)
 from active_skill_system.domain.runtime.nodes import NodeKind, TaskNode, TaskNodeId
 
 __all__ = [
+    "ALLOWED_MEDIA_TYPES",
     "LEGAL_TRANSITIONS",
     "LEGITIMATE_GROUNDING",
     "Claim",
     "ClaimStatus",
     "EdgeKind",
     "GroundingKind",
+    "MediaRef",
     "NodeKind",
     "RunFSM",
     "RunState",
