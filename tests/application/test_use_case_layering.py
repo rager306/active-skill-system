@@ -183,7 +183,14 @@ def test_public_use_case_package_exports_expected_symbols() -> None:
     assert hasattr(pkg, "__all__"), (
         "use_case package must declare `__all__` to define its public API."
     )
-    assert set(pkg.__all__) == {"RunReasoningUseCase", "RunReasoningRequest"}, (
+    assert set(pkg.__all__) == {
+        "RunReasoningUseCase",
+        "RunReasoningRequest",
+        "ValidateTaskGraphUseCase",
+        "RunReasoningVerticalUseCase",
+        "TaskSpec",
+        "ClaimSpec",
+    }, (
         f"Unexpected public surface: {pkg.__all__!r}"
     )
 

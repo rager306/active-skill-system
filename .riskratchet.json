@@ -4,12 +4,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
       "qualname": "_project_root",
-      "score": 11.25,
+      "score": 12.25,
       "components": {
         "coverage_gap": 16.6667,
         "structural_complexity": 10.0,
         "branch_gap": 25.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -19,12 +19,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_env.py",
       "qualname": "load_env",
-      "score": 26.6667,
+      "score": 27.6667,
       "components": {
         "coverage_gap": 66.6667,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 66.6667,
         "sprawl": 0.0
       },
@@ -34,12 +34,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.__init__",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -49,12 +49,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._client",
-      "score": 14.75,
+      "score": 15.75,
       "components": {
         "coverage_gap": 20.0,
         "structural_complexity": 5.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -64,12 +64,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._remember_turn",
-      "score": 21.25,
+      "score": 22.25,
       "components": {
         "coverage_gap": 16.6667,
         "structural_complexity": 35.0,
         "branch_gap": 50.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -79,12 +79,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._restore_thinking",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -94,12 +94,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._turn_blocks",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -109,12 +109,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.complete",
-      "score": 70.0379,
+      "score": 71.0379,
       "components": {
         "coverage_gap": 96.9697,
         "structural_complexity": 65.0,
         "branch_gap": 100.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 96.9697,
         "sprawl": 0.0
       },
@@ -124,12 +124,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.count_tokens",
-      "score": 17.25,
+      "score": 18.25,
       "components": {
         "coverage_gap": 40.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 40.0,
         "sprawl": 0.0
       },
@@ -139,12 +139,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
       "qualname": "ThinkingTurnCache.__init__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -154,12 +154,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
       "qualname": "ThinkingTurnCache.remember",
-      "score": 11.25,
+      "score": 12.25,
       "components": {
         "coverage_gap": 12.5,
         "structural_complexity": 15.0,
         "branch_gap": 16.6667,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 12.5,
         "sprawl": 0.0
       },
@@ -169,12 +169,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
       "qualname": "ThinkingTurnCache.restore",
-      "score": 18.3333,
+      "score": 19.3333,
       "components": {
         "coverage_gap": 8.3333,
         "structural_complexity": 45.0,
         "branch_gap": 25.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 8.3333,
         "sprawl": 0.0
       },
@@ -184,12 +184,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_thinking.py",
       "qualname": "_block_to_dict",
-      "score": 27.5,
+      "score": 28.5,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 55.0,
         "branch_gap": 25.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -199,12 +199,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_tokens.py",
       "qualname": "count_tokens_fallback",
-      "score": 7.5,
+      "score": 8.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -542,14 +542,104 @@
       "signature": "ecbf0ed3431327114b66d44f0695441550e64f2bc5e525f601b9c8222e9d9e10"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
+      "qualname": "RunReasoningVerticalUseCase.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "15626b8b89ddb576308a72dbd5566230d18d23d2712ab2bb614d0d3efb3eb323",
+      "signature": "05379dcb1634f69d8dec0baacd0681e080462fb8840a93d0e7575365e04a02c0"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
+      "qualname": "RunReasoningVerticalUseCase.run",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ac040cd478747d9e7d10b738911355ef68b18620e4e583f010d7814e656c3c25",
+      "signature": "57c88079f236ff34bcdc88e5b5b8628a651885f71145ee87004490226f6537a9"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/run_reasoning_vertical.py",
+      "qualname": "_build_graph",
+      "score": 9.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 10.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "29ea8254ea60d13d484317492f1a077d8c0e76647a589280b6eee8d083122c22",
+      "signature": "9851f1916305d0b42eacd75e04dcbd51fdd29b5c49b41653c950884037c98a23"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
+      "qualname": "ValidateTaskGraphUseCase.validate",
+      "score": 22.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 90.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "771e5dc06f699b2ece5b5360c3591e0a3b00c36a528febe0930a4b3681038661",
+      "signature": "f956812f7b8f9f978fef9082e437c9090813db174c9d748ee842d1a86e63eb56"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
+      "qualname": "_goal_supported",
+      "score": 9.1827,
+      "components": {
+        "coverage_gap": 7.6923,
+        "structural_complexity": 20.0,
+        "branch_gap": 12.5,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "92fa59c9bd59f7f6ed57fc0f67bf26f836cb0eaeed9369c78a7051fba6d8c0d1",
+      "signature": "67477968f36aa32f967520569549cc948a98a18a3094d2530317b86d050c4251"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
+      "qualname": "_propagate_grounded_support",
+      "score": 10.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 40.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a8889b2fce8c778f67f07a9ced338d130d611186d26766da70a527a436d57eeb",
+      "signature": "fa9d6188e80760b8fdefc5177bf5d79b9ae2876174e58f85752c96a0c4f3ac00"
+    },
+    {
       "path": "src/active_skill_system/composition/diligence.py",
       "qualname": "_build_factory",
-      "score": 28.5,
+      "score": 29.5,
       "components": {
         "coverage_gap": 91.6667,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -559,12 +649,12 @@
     {
       "path": "src/active_skill_system/composition/diligence.py",
       "qualname": "_build_factory.factory",
-      "score": 32.25,
+      "score": 33.25,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -574,12 +664,12 @@
     {
       "path": "src/active_skill_system/composition/diligence.py",
       "qualname": "_default_wiring",
-      "score": 25.7143,
+      "score": 26.7143,
       "components": {
         "coverage_gap": 85.7143,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -589,12 +679,12 @@
     {
       "path": "src/active_skill_system/composition/diligence.py",
       "qualname": "main",
-      "score": 13.75,
+      "score": 14.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 35.0,
         "branch_gap": 33.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1022,8 +1112,23 @@
       "signature": "dbfe41a170a8fa496f7afc9e4abc3527ebb7809ec22a720fd4335e784a49ae1b"
     },
     {
-      "path": "src/active_skill_system/scripts/risk_delta.py",
-      "qualname": "_key",
+      "path": "src/active_skill_system/domain/runtime/claim.py",
+      "qualname": "Claim.__post_init__",
+      "score": 27.6786,
+      "components": {
+        "coverage_gap": 28.5714,
+        "structural_complexity": 45.0,
+        "branch_gap": 33.3333,
+        "churn": 0.0,
+        "public_surface": 28.5714,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9e0b773561ad783e4a8303b9993ef97e3a471a0553f23b72763beaf94a302af3",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/claim.py",
+      "qualname": "Claim.grounded",
       "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
@@ -1033,18 +1138,318 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
+      "fingerprint": "561f207d3f30dffef8df01578bc1783112b086394d0a038931d1b6b43c6f87a2",
+      "signature": "6a03028364c20a78d647102beaa63fde3ee8791a675df770fc0d65cb0da66d3c"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/claim.py",
+      "qualname": "Claim.with_status",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "cafa8c68914060523e280b365857c24e1542c03ffbb937710b94444ec4df9c17",
+      "signature": "b8d28e11190cd809ec73a39f098d9d40a4d5b4f7810689bba06c63d6e8526f26"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/claim.py",
+      "qualname": "_is_grounded",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9f680e62768f1cd710e161828f298dbf57481bcd0e721793ccbe8459aa4d3648",
+      "signature": "b2ef897e6431d073e2331eddbc53a2fa5c3f8d13d22fa5eb9751fc74a2485ff0"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/edges.py",
+      "qualname": "TaskEdge.__post_init__",
+      "score": 23.25,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 35.0,
+        "branch_gap": 30.0,
+        "churn": 0.0,
+        "public_surface": 25.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6bf9cc177999b7a36a2a94bf2cddcbe3f4daf1c61871b88d1ed8d22baf14a714",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/fsm.py",
+      "qualname": "RunFSM.__post_init__",
+      "score": 18.0,
+      "components": {
+        "coverage_gap": 20.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 25.0,
+        "churn": 0.0,
+        "public_surface": 20.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "05bb0d1bbcca1ae7b7d257e2da2aa8c7e6951ee298654401e95db27dc51a78ba",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/fsm.py",
+      "qualname": "RunFSM.transition",
+      "score": 11.25,
+      "components": {
+        "coverage_gap": 12.5,
+        "structural_complexity": 15.0,
+        "branch_gap": 16.6667,
+        "churn": 0.0,
+        "public_surface": 12.5,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4f9e455ad6a63092d4997c9c6b68cc36331963d09c0258257e08921c3ec5da28",
+      "signature": "bc73f1da089bf824e9c08f8a91cf8a38c1cba84db07802cd7400215b401942f0"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/fsm.py",
+      "qualname": "_legal",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "29a869ae76c5ece4f50833b84c93a57fae9f643379fda4dc75a7e6de2a962067",
+      "signature": "8992734c11322699801c90bbab45b0dbbd3f9cecc49c42bbcd488525c09305bb"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/fsm.py",
+      "qualname": "is_legal_transition",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2874992963fe8d06be255da5a9f09a1210489d7a1c19622133f8f2fb8efa976e",
+      "signature": "0b43bf0c3e03774a8ff3a08c2ae439c1dbc6c485917198461f87d9b85d4ef22e"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "TaskGraph.__post_init__",
+      "score": 27.4808,
+      "components": {
+        "coverage_gap": 23.0769,
+        "structural_complexity": 55.0,
+        "branch_gap": 30.0,
+        "churn": 0.0,
+        "public_surface": 23.0769,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3f1c088c3afff08198a5ba1b0e1e7fa81d61f4913d3e115d890c62ddc7f19dc8",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "TaskGraph.add_edge",
+      "score": 18.75,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 25.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "971fe153801710a29edcf2d6128960b79868e3496a6b24bcec2de0a439b0f266",
+      "signature": "9e90a11d23870859f1c6450af7b001028a4462c26acda85de05cf6bfdc2918a3"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "TaskGraph.add_node",
+      "score": 18.75,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 25.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f901e37e3a6fdefa38f270592a3d75c7d43c57a451b005cfd1170f9ef003d2d0",
+      "signature": "16dc4a05a4b7c173ef0835540de2db345bccdfb66cbcf1eadf90e93e255b9d1f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "TaskGraph.commit",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c099155bd08bbba09d36de6011f0e073d6367d6bad0b6ef84bef6b2adce0f544",
+      "signature": "726b44ecaa106d6a00047c003001e67575297fab15f5c091c543502e88834986"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "TaskGraph.has",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e863553d2480c2774e899912dd6776cdb2749b5ae988b89b99eadd3e1f45218c",
+      "signature": "0433f14afb40c54a2aba3832221a89da64d9486cca8304fd68b3c6c496219aff"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/graph.py",
+      "qualname": "_dangling_edges",
+      "score": 5.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 20.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9a48f75b32ceb7ca4a89dc47d689319f6c9f44a63a08fa36a0a8d938f744c922",
+      "signature": "70cbae623b575c5a561b2526498bbdbf3b100a72458b34cd93f8abb5903ae4aa"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "TaskNode.__post_init__",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "438c3403f00fb28f7a14b93bb94958a55132b09d67dcfacb4a8eda033fd531fc",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "TaskNodeId.__post_init__",
+      "score": 23.3333,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 10.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 33.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "834228052cd7435d0dbb677833b5aebfbe98be81b85cdc544fa2dbb270d65b1d",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "TaskNodeId.__str__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "143a2992d458461862f9a14cf5c4e567f1e36c45ee72a35c32b7388e620f202e",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "_id_non_empty",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "5adb24e84ab645c670f0eb81c2ee9b07d25b4d17a3ae70ce8563970d236f70ab",
+      "signature": "5eb59ec143ad0afc6b1abceff67b874bd74c1aa0df288de03980e5bb08b8e6fc"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "_kind_valid",
+      "score": 18.75,
+      "components": {
+        "coverage_gap": 33.3333,
+        "structural_complexity": 5.0,
+        "branch_gap": 50.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "500cca67dcaee86fa4084156260d0b6cdbf0e0b563641e8cfec49fa70602f8c4",
+      "signature": "5eb59ec143ad0afc6b1abceff67b874bd74c1aa0df288de03980e5bb08b8e6fc"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/nodes.py",
+      "qualname": "_text_non_empty_for_factual",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e1e567e2594e9b6dc3fdf0d6c369fec7c5246cd43015b5358978a94e42d5026f",
+      "signature": "5eb59ec143ad0afc6b1abceff67b874bd74c1aa0df288de03980e5bb08b8e6fc"
+    },
+    {
+      "path": "src/active_skill_system/scripts/risk_delta.py",
+      "qualname": "_key",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
       "fingerprint": "1b71d278f7b8a7aac53c568aca1ab35e060edb04779879cf35202070007e31f5",
       "signature": "cc08058977d66653f6f547e11b8a5dafcc69a7e2062a885f5049467ea381f6d8"
     },
     {
       "path": "src/active_skill_system/scripts/risk_delta.py",
       "qualname": "compute_risk_delta",
-      "score": 12.5,
+      "score": 13.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 50.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1054,12 +1459,12 @@
     {
       "path": "src/active_skill_system/scripts/risk_delta.py",
       "qualname": "run_risk_delta",
-      "score": 53.5,
+      "score": 54.5,
       "components": {
         "coverage_gap": 90.0,
         "structural_complexity": 10.0,
         "branch_gap": 100.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 90.0,
         "sprawl": 0.0
       },

@@ -9,5 +9,20 @@ from active_skill_system.application.use_cases.run_reasoning import (
     RunReasoningRequest,
     RunReasoningUseCase,
 )
+from active_skill_system.application.use_cases.run_reasoning_vertical import (
+    ClaimSpec,
+    RunReasoningVerticalUseCase,
+    TaskSpec,
+)
+from active_skill_system.application.use_cases.validate_task_graph import (
+    ValidateTaskGraphUseCase,
+)
 
-__all__ = ["RunReasoningUseCase", "RunReasoningRequest"]
+__all__ = [
+    "ClaimSpec",
+    "RunReasoningUseCase",
+    "RunReasoningVerticalUseCase",
+    "RunReasoningRequest",
+    "TaskSpec",
+    "ValidateTaskGraphUseCase",
+]
