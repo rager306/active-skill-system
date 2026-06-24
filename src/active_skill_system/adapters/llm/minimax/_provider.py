@@ -39,7 +39,9 @@ class MiniMaxProvider(AnthropicProvider):
         self.default_model = model or os.environ.get("ANTHROPIC_MODEL", "MiniMax-M3")
         # MiniMax-M3 ships thinking OFF by default; adaptive turns it on so M3
         # actually reasons (and the thinking-preservation shim has blocks to keep).
-        self._enable_thinking = enable_thinking and self.default_model.startswith("MiniMax-M3")
+        # Handle both bare ("MiniMax-M3") and prefixed ("minimax/MiniMax-M3") forms —
+        # the local router (http://127.0.0.1:20128) uses the prefixed form.
+        self._enable_thinking = enable_thinking and "MiniMax-M3" in self.default_model
         self._cache = ThinkingTurnCache()
 
     @property
