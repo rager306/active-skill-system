@@ -992,6 +992,96 @@
       "signature": "3c9431c86e51216ff4ec3b7bad690362b9efefeac29c305b4bea1f41bb29d43a"
     },
     {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetController.enforce",
+      "score": 23.9286,
+      "components": {
+        "coverage_gap": 28.5714,
+        "structural_complexity": 30.0,
+        "branch_gap": 33.3333,
+        "churn": 0.0,
+        "public_surface": 28.5714,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4a18a72afc2b37e0b17f0885166d8ffda784f8b7eb728b345ad56014e1ed5825",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetController.is_exhausted",
+      "score": 15.0,
+      "components": {
+        "coverage_gap": 12.5,
+        "structural_complexity": 30.0,
+        "branch_gap": 16.6667,
+        "churn": 0.0,
+        "public_surface": 12.5,
+        "sprawl": 0.0
+      },
+      "fingerprint": "4697ecb4dac3f2bd7f851f9bfaf651100ad9bf06a8a8e2f7ee222af39ca7e2a0",
+      "signature": "9d755fd3bacf68b9797cfc5cdc79d1a02ac87121aee62da46c5601bbdaaed1c7"
+    },
+    {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetController.remaining",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c73af583e42fae02148d90101a9f0a365904611f44fd2794e525dad412289244",
+      "signature": "efe4a732acadf6c153ce5fbf79221a43533201503fc7755a061e2ea2dfb9940a"
+    },
+    {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetController.track",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "02124cbea9fd2ce3916006b7d86b7001d23effdfe3187ff639e5758eb3b427b5",
+      "signature": "35817c1e11510889b23a5956e2a7e2fbdd7b31fc01728877f16b92813933df9e"
+    },
+    {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetController.used",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a876f870206b73b014d116ab9522b3f5e75c43aba9d008227fedcb1a7f440521",
+      "signature": "421e8d1292b6e593cda160c30c19c9454709b433fdff93f033766f9b6d5ef9b5"
+    },
+    {
+      "path": "src/active_skill_system/application/budget_controller.py",
+      "qualname": "BudgetExhausted.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7f4d0db3c758c8ea4c6a37a5845912b9162bb39f72657eadc803eed630f01568",
+      "signature": "b964cfbd7523dded67d3b854ed6a526e13ec8a788a81fddd55731dd86c3c6ea0"
+    },
+    {
       "path": "src/active_skill_system/application/model_registry.py",
       "qualname": "ModelRegistry.__init__",
       "score": 1.0,
@@ -1234,12 +1324,12 @@
     {
       "path": "src/active_skill_system/application/prompt_library.py",
       "qualname": "default_prompt_registry",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1249,12 +1339,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "PromptRegistry.__init__",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1264,12 +1354,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "PromptRegistry.get_by_id",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1279,12 +1369,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "PromptRegistry.list_all",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1294,12 +1384,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "PromptRegistry.register",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1309,12 +1399,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "PromptRenderer.render",
-      "score": 5.0,
+      "score": 6.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1324,12 +1414,12 @@
     {
       "path": "src/active_skill_system/application/prompt_registry.py",
       "qualname": "_SafeDict.__missing__",
-      "score": 15.0,
+      "score": 16.0,
       "components": {
         "coverage_gap": 50.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1500,6 +1590,36 @@
       },
       "fingerprint": "c2d5616eaadc0d44c51ee355b899b19348ec0a0e167216fa00e020e01746daf4",
       "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/output_verifier.py",
+      "qualname": "OutputVerifierUseCase.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "15626b8b89ddb576308a72dbd5566230d18d23d2712ab2bb614d0d3efb3eb323",
+      "signature": "05379dcb1634f69d8dec0baacd0681e080462fb8840a93d0e7575365e04a02c0"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/output_verifier.py",
+      "qualname": "OutputVerifierUseCase.verify",
+      "score": 6.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "5d25984fc9c51298b30daaba7699ec263154d5bbb104eaed3387d4d76a73d069",
+      "signature": "726a99f053565b4c63625f979b3e32a7696839a7b7ff1a273332936189337206"
     },
     {
       "path": "src/active_skill_system/application/use_cases/parse_task_spec.py",
@@ -1909,11 +2029,11 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 14.3654,
+      "score": 10.1827,
       "components": {
-        "coverage_gap": 15.3846,
+        "coverage_gap": 7.6923,
         "structural_complexity": 20.0,
-        "branch_gap": 25.0,
+        "branch_gap": 12.5,
         "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
@@ -2449,12 +2569,12 @@
     {
       "path": "src/active_skill_system/domain/prompt_genome.py",
       "qualname": "PromptGenome.__post_init__",
-      "score": 11.25,
+      "score": 12.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2464,12 +2584,12 @@
     {
       "path": "src/active_skill_system/domain/prompt_genome.py",
       "qualname": "PromptGenome.slot_names",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2479,12 +2599,12 @@
     {
       "path": "src/active_skill_system/domain/prompt_genome.py",
       "qualname": "PromptSlot.__post_init__",
-      "score": 2.5,
+      "score": 3.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
