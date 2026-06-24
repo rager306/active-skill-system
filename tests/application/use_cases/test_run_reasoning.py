@@ -31,11 +31,9 @@ from active_skill_system.application.ports.runtime import (
     RunGoal,
     RunResult,
     RuntimePort,
-    TraceLine,
 )
 from active_skill_system.application.use_cases import RunReasoningUseCase
 from active_skill_system.application.use_cases.run_reasoning import RunReasoningRequest
-
 
 # ── fakes ─────────────────────────────────────────────────────────────────
 
