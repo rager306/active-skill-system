@@ -338,3 +338,50 @@ def test_format_result_contains_both_fitness_lines() -> None:
     assert "candidate_fitness" in summary
     assert "cycles reduction" in summary
     assert "reason:" in summary
+
+
+# ── M019 S03: PolyhedralCostModel integration ─────────────────────────────
+
+
+def test_build_polyhedral_evolvable_returns_evolvable() -> None:
+    """The polyhedral helper must produce a wired Evolvable."""
+    evolvable = compiler_evolution._build_polyhedral_evolvable()
+    assert isinstance(evolvable, Evolvable)
+
+
+def test_format_result_includes_cost_model_label() -> None:
+    """The summary line must show the cost model used (M019 S03)."""
+    from active_skill_system.application.evolution_engine import PromotionResult
+
+    result = PromotionResult(
+        promoted=True,
+        promoted_genome=(_tile(),),
+        baseline_fitness=FitnessSignal(quality=0.0, cost=3.0, latency=1.0, regression=False),
+        candidate_fitness=FitnessSignal(quality=0.945, cost=1.0, latency=1.0, regression=False),
+        iterations_used=1,
+        reason="test",
+    )
+    summary_polyhedral = compiler_evolution._format_result(result, baseline_cycles=1000, cost_model="polyhedral")
+    assert "cost model: polyhedral" in summary_polyhedral
+    summary_default = compiler_evolution._format_result(result, baseline_cycles=1000)
+    assert "cost model: pedagogical" in summary_default
+
+
+def test_main_with_polyhedral_flag_uses_polyhedral_summary(capsys: pytest.CaptureFixture[str]) -> None:
+    """`--use-polyhedral-model` flag must produce a summary with 'cost model: polyhedral'."""
+    exit_code = compiler_evolution.main(
+        ["--baseline-cycles", "1000", "--max-iterations", "2", "--use-polyhedral-model"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "cost model: polyhedral" in captured.out
+
+
+def test_main_default_uses_pedagogical_summary(capsys: pytest.CaptureFixture[str]) -> None:
+    """Default mode (no --use-polyhedral-model) must produce a summary with 'cost model: pedagogical'."""
+    exit_code = compiler_evolution.main(
+        ["--baseline-cycles", "1000", "--max-iterations", "2"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "cost model: pedagogical" in captured.out

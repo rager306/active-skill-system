@@ -73,6 +73,28 @@ def _build_transformation_evolvable() -> Any:
     return TransformationGenomeEvolvable(invoker=_invoker)
 
 
+def _build_polyhedral_evolvable() -> Any:
+    """Build a fully-wired :class:`TransformationGenomeEvolvable` using the PolyhedralCostModel.
+
+    M019 S03: drop-in replacement for ``_build_transformation_evolvable`` that
+    uses the realistic polyhedral cost model (analytical cache + vectorization
+    models) instead of the pedagogical CompilerToolStub. Same lazy-import
+    pattern (R008/R009 compliant).
+    """
+    from active_skill_system.adapters.polyhedral_cost_model import PolyhedralCostModel
+    from active_skill_system.application.evolvable_adapters import (
+        TransformationGenomeEvolvable,
+    )
+
+    tool = PolyhedralCostModel()
+
+    def _invoker(args: dict[str, Any]) -> tuple[bool, str]:
+        result = tool.invoke(args)
+        return (result.success, result.text)
+
+    return TransformationGenomeEvolvable(invoker=_invoker)
+
+
 def _default_candidates() -> tuple:
     """Pedagogical 3-candidate set: TILE / UNROLL / FUSION with moderate sizes.
 
@@ -202,11 +224,12 @@ def _baseline_to_dict(baseline: Any) -> dict[str, Any]:
 # ── CLI entrypoint ────────────────────────────────────────────────────────
 
 
-def _format_result(result: Any, baseline_cycles: int) -> str:
+def _format_result(result: Any, baseline_cycles: int, cost_model: str = "pedagogical") -> str:
     """Format a PromotionResult as a single-line CLI summary + a detail block."""
     status = "PROMOTED" if result.promoted else "No improvement"
     lines = [
         f"{status} (iterations_used={result.iterations_used})",
+        f"  cost model: {cost_model}",
         f"  baseline_fitness:  quality={result.baseline_fitness.quality:.4f} "
         f"cost={result.baseline_fitness.cost:.2f} "
         f"latency={result.baseline_fitness.latency:.2f}ms "
@@ -257,6 +280,11 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Suppress per-candidate trace; only print the final summary.",
     )
+    parser.add_argument(
+        "--use-polyhedral-model",
+        action="store_true",
+        help="Use the realistic PolyhedralCostModel (cache + vectorization) instead of the pedagogical CompilerToolStub.",
+    )
     return parser.parse_args(argv)
 
 
@@ -283,7 +311,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         candidates = _default_candidates()
 
-    evolvable = _build_transformation_evolvable()
+    if args.use_polyhedral_model:
+        evolvable = _build_polyhedral_evolvable()
+        cost_model_name = "polyhedral"
+    else:
+        evolvable = _build_transformation_evolvable()
+        cost_model_name = "pedagogical"
     # Defensive runtime type check: helper should always return an Evolvable.
     from active_skill_system.domain.evolvable import Evolvable
 
@@ -315,7 +348,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         evolvable=evolvable,
     )
 
-    print(_format_result(result, args.baseline_cycles), flush=True)
+    print(_format_result(result, args.baseline_cycles, cost_model_name), flush=True)
     return 0
 
 

@@ -130,6 +130,9 @@ class CompilerMetrics:
     spills: int
     energy_proxy: float
     is_valid: bool = True
+    # M019 S01: cost-model extensions (default values preserve backward compat).
+    cache_misses: int = 0
+    vectorization_factor: float = 0.0
 
     def __post_init__(self) -> None:
         errors: list[str] = []
@@ -143,6 +146,17 @@ class CompilerMetrics:
             errors.append(f"energy_proxy must be a non-negative number (got {self.energy_proxy!r})")
         if not isinstance(self.is_valid, bool):
             errors.append(f"is_valid must be a bool (got {type(self.is_valid).__name__})")
+        # M019 S01: cost-model extensions.
+        if not isinstance(self.cache_misses, int) or isinstance(self.cache_misses, bool) or self.cache_misses < 0:
+            errors.append(f"cache_misses must be a non-negative int (got {self.cache_misses!r})")
+        if (
+            not isinstance(self.vectorization_factor, (int, float))
+            or isinstance(self.vectorization_factor, bool)
+            or not (0.0 <= float(self.vectorization_factor) <= 1.0)
+        ):
+            errors.append(
+                f"vectorization_factor must be in [0.0, 1.0] (got {self.vectorization_factor!r})"
+            )
         if errors:
             raise ValueError("CompilerMetrics invariant violation: " + "; ".join(errors))
 
@@ -153,7 +167,8 @@ class CompilerMetrics:
         schedules, better means strictly lower cycles, OR same cycles with
         strictly lower spills, OR same cycles+spills with strictly lower
         energy_proxy. reg_pressure is reported but not in the ranking
-        (carried as a side observation for diagnostics).
+        (carried as a side observation for diagnostics). M019 S01: cache_misses
+        and vectorization_factor are tie-breakers after cycles+spills+energy_proxy.
         """
         if not isinstance(other, CompilerMetrics):
             return False
@@ -167,6 +182,19 @@ class CompilerMetrics:
             if self.spills < other.spills:
                 return True
             if self.spills == other.spills and float(self.energy_proxy) < float(other.energy_proxy):
+                return True
+            if (
+                self.spills == other.spills
+                and float(self.energy_proxy) == float(other.energy_proxy)
+                and self.cache_misses < other.cache_misses
+            ):
+                return True
+            if (
+                self.spills == other.spills
+                and float(self.energy_proxy) == float(other.energy_proxy)
+                and self.cache_misses == other.cache_misses
+                and float(self.vectorization_factor) > float(other.vectorization_factor)
+            ):
                 return True
         return False
 
