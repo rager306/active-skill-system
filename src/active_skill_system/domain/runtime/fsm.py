@@ -130,3 +130,15 @@ class RunFSM:
                 f"illegal transition: {self.state} -> {dst} is not in the legal table"
             )
         return RunFSM(state=dst, history=self.history + (dst,))
+
+    def cancel(self) -> RunFSM:
+        """Transition to CANCELLED from any active (non-terminal) state.
+
+        Raises:
+            ValueError: if the FSM is already in a terminal state.
+        """
+        if self.state in TERMINAL_STATES:
+            raise ValueError(
+                f"RunFSM in terminal state {self.state} cannot be cancelled"
+            )
+        return RunFSM(state=RunState.CANCELLED, history=self.history + (RunState.CANCELLED,))

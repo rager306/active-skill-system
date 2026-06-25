@@ -994,12 +994,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.enforce",
-      "score": 23.9286,
+      "score": 24.9286,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 30.0,
         "branch_gap": 33.3333,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -1009,12 +1009,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.is_exhausted",
-      "score": 15.0,
+      "score": 16.0,
       "components": {
         "coverage_gap": 12.5,
         "structural_complexity": 30.0,
         "branch_gap": 16.6667,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 12.5,
         "sprawl": 0.0
       },
@@ -1024,12 +1024,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.remaining",
-      "score": 3.75,
+      "score": 4.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1039,12 +1039,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.track",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1054,12 +1054,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.used",
-      "score": 0.0,
+      "score": 1.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1069,6 +1069,36 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetExhausted.__init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7f4d0db3c758c8ea4c6a37a5845912b9162bb39f72657eadc803eed630f01568",
+      "signature": "b964cfbd7523dded67d3b854ed6a526e13ec8a788a81fddd55731dd86c3c6ea0"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceEntry.__post_init__",
+      "score": 8.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 35.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "264cf778014f04182d366eb013a6178b1a06d84bea52689077d4164b32de99e1",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.__init__",
       "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
@@ -1078,8 +1108,158 @@
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "7f4d0db3c758c8ea4c6a37a5845912b9162bb39f72657eadc803eed630f01568",
-      "signature": "b964cfbd7523dded67d3b854ed6a526e13ec8a788a81fddd55731dd86c3c6ea0"
+      "fingerprint": "ea322d27b9963d0f94844163c49cdc6ec9f22cb1d4740e7557bda8acb1727f2a",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.__len__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "dae4ace3bcd5c3417516ac149c40c20a9dda28bf3f48a4e1b0794948f9180ba9",
+      "signature": "4da8961e79f32e5bae34d91bd1ce9a8cec40b4f44a4dce99020588d6673a37e5"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.append",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e58aa87d56f52456199e978dba76e67d4cabbcba9d824fdf3c946ec6e6826d73",
+      "signature": "960810b2f937cddc003c5f929b07b94309d6e734b6da9121228efc2fa4a25d21"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.filter_by_accepted",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "014d8260b04eefe76c6e629be006b87dbcc3a0af75bf3bc1989206ab50d7c4a2",
+      "signature": "b37769846358cf7809040224a7c3c481bdf26506ad3ed1d479bde17338666a29"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.filter_by_patch",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "75193afce9297f2e9ce3ac9e835cf7e38a0d89026a3c8d156bdf46dab54bd1c9",
+      "signature": "b211034c1025eb8f718d4a320fd211b3e31f5335f5ac0dac76b38ff0ccc5a649"
+    },
+    {
+      "path": "src/active_skill_system/application/evidence_ledger.py",
+      "qualname": "EvidenceLedger.list_all",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c162a93f6e96859dd04b6a9534e8d4a3103b023e073c63c964ef95c15b711253",
+      "signature": "b1c7dd5d083090bcde7589cd4fb731d18439bd879dab4751fa0e110b0dc739e7"
+    },
+    {
+      "path": "src/active_skill_system/application/idempotency.py",
+      "qualname": "IdempotencyStore.__init__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "beed5b5292cc9983a1bdb349484c0db094eb5d57dc7358b2887b9138cd1941c6",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/idempotency.py",
+      "qualname": "IdempotencyStore.clear",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "303c0bcdb532d48cb0dec5c859cfe1458df667b9b7f8e6538bafcfdc173e321d",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/application/idempotency.py",
+      "qualname": "IdempotencyStore.get",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7aa5aa09a6152bce2681e27d10591f2fd94dfe47b07db1657f1b7d1a76ad3c91",
+      "signature": "7924c74c310363c61d7eda7d7063b13e1e9afdaa84cd6c11ea8c4b91e3f9d763"
+    },
+    {
+      "path": "src/active_skill_system/application/idempotency.py",
+      "qualname": "IdempotencyStore.has",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "67662333418d0d267890a709ab3e7df9b34efff85fbe550678797a9850ff7e99",
+      "signature": "76c60e6826e79273eac17afad8b706d91d62696de3761dc880c5acb981e1af0a"
+    },
+    {
+      "path": "src/active_skill_system/application/idempotency.py",
+      "qualname": "IdempotencyStore.register",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f7be443b4afb4b7afba1cc39fadd51a90f518197b4c6ea25ac97241505c4f1ff",
+      "signature": "15edbdfbb970cee2280349a436ba998838652b09b7082534e969052279736ac1"
     },
     {
       "path": "src/active_skill_system/application/model_registry.py",
@@ -1309,17 +1489,47 @@
     {
       "path": "src/active_skill_system/application/ports/tool.py",
       "qualname": "ToolPort.invoke",
-      "score": 1.0,
+      "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 0.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "a33f71e0137328770cddbb6e7024b45ead3d9cfc6427cb2199199a2ac5357b6c",
       "signature": "b5ff23bafcd1619d23e1f24656deba7d867c6e029f67c612902956ca9541f581"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/tool.py",
+      "qualname": "ToolPort.verify",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "cd2a60621c1e75a32c081dfb558190ec081de90a10c3ef7ae12cb1625d16f8c8",
+      "signature": "d0c69ec3a7294fda36745a80d22f3b6cf1603159f23571e3f6f7677ee9ac37cc"
+    },
+    {
+      "path": "src/active_skill_system/application/ports/tool.py",
+      "qualname": "VerifiedToolResult.from_tool_result",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "28ed81ec9641cdf0e2cb54a7c9a8ac4a215f33f43fe9b825335dc61d46248e2d",
+      "signature": "b1aae353fc1123407078dede5a23b1d5503f5c1c6a19b4e2534234932816ba06"
     },
     {
       "path": "src/active_skill_system/application/prompt_library.py",
@@ -1458,13 +1668,28 @@
     },
     {
       "path": "src/active_skill_system/application/tools/registry.py",
+      "qualname": "ToolRegistry.list_by_profile",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "00bcb14e07c4b397295cbcfa005c9ba35bcda0b29283a8a938a87ca455b4ba8a",
+      "signature": "66bd16f3e89fae04371ba5078bcc8256c97fc5dc6774b2d5be7c815ecfe1c87d"
+    },
+    {
+      "path": "src/active_skill_system/application/tools/registry.py",
       "qualname": "ToolRegistry.list_tools",
-      "score": 1.0,
+      "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 0.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1594,12 +1819,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/output_verifier.py",
       "qualname": "OutputVerifierUseCase.__init__",
-      "score": 1.25,
+      "score": 2.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1609,12 +1834,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/output_verifier.py",
       "qualname": "OutputVerifierUseCase.verify",
-      "score": 6.25,
+      "score": 7.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2029,11 +2254,11 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 10.1827,
+      "score": 14.3654,
       "components": {
-        "coverage_gap": 7.6923,
+        "coverage_gap": 15.3846,
         "structural_complexity": 20.0,
-        "branch_gap": 12.5,
+        "branch_gap": 25.0,
         "churn": 10.0,
         "public_surface": 0.0,
         "sprawl": 0.0
@@ -2478,32 +2703,62 @@
     },
     {
       "path": "src/active_skill_system/domain/governance.py",
-      "qualname": "GovernancePolicy.__post_init__",
-      "score": 4.75,
+      "qualname": "ApprovalRequest.__post_init__",
+      "score": 14.8333,
+      "components": {
+        "coverage_gap": 8.3333,
+        "structural_complexity": 40.0,
+        "branch_gap": 10.0,
+        "churn": 0.0,
+        "public_surface": 8.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "20c364ad9e3bd92b22f1331269666bb30058e1d874fdb692ae4de56e48a2faf9",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "ApprovalRequest.with_status",
+      "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
-        "structural_complexity": 15.0,
+        "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 0.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "67aebe717416490b5adabc42bfec468b7c78db45f5634d37b3c4064dfb17ae70",
+      "fingerprint": "33f04b39747d76c964a792bb4d75b42fbdf90ae50364b87560a9de0e1079b3dd",
+      "signature": "f6e8e0842fa1569fa852f0f93da615aa22e0a496685057774e727db416abb035"
+    },
+    {
+      "path": "src/active_skill_system/domain/governance.py",
+      "qualname": "GovernancePolicy.__post_init__",
+      "score": 5.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 20.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e6ef464798d3f498308ee4924e28f9524a84c472018cf7ade4c82e09b7f67554",
       "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
     },
     {
       "path": "src/active_skill_system/domain/governance.py",
       "qualname": "GovernancePolicy.default_policy",
-      "score": 1.0,
+      "score": 0.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 0.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
-      "fingerprint": "7fcf63fe49c8e8735c03f3e2a9f2a075d1dd4cf954eec9315d50782f561d15d1",
+      "fingerprint": "5d1b3b1116e01d919ee94249cbc6d46efaf8ea8624c4338607ec92c397a3f572",
       "signature": "b78702c2fdcdd10d0ea0312cc827832dac3d386964ccc8ed2d392e6671cba94f"
     },
     {
@@ -2612,6 +2867,51 @@
       "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
     },
     {
+      "path": "src/active_skill_system/domain/runtime/cancellation.py",
+      "qualname": "IdempotencyKey.__post_init__",
+      "score": 2.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ce4bda555b88f31547e24a237c156120c1ecda90b7206ad1daa6a981bbcd4158",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/cancellation.py",
+      "qualname": "IdempotencyKey.__str__",
+      "score": 0.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e6c30964cffcea0ad19a368bf8218a155dbd28a614c4d6e8a596483e5d488094",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/cancellation.py",
+      "qualname": "RunCancellation.__post_init__",
+      "score": 6.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "90645f596d11fe88a9c36adf1e663439e24f69e75e023c11760b8a743966c5a3",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
       "path": "src/active_skill_system/domain/runtime/claim.py",
       "qualname": "Claim.__post_init__",
       "score": 28.6786,
@@ -2700,6 +3000,21 @@
       },
       "fingerprint": "05bb0d1bbcca1ae7b7d257e2da2aa8c7e6951ee298654401e95db27dc51a78ba",
       "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/runtime/fsm.py",
+      "qualname": "RunFSM.cancel",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "a9d37c21b4e4995a430a1d5e53059cdf4e3d24568b26cfdc9c85f3b4e4981d97",
+      "signature": "f469312ddf32cc3d8a76baedd60429b0e5a907d33985a516e9f92543ac120fd6"
     },
     {
       "path": "src/active_skill_system/domain/runtime/fsm.py",
