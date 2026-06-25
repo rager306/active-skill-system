@@ -122,6 +122,40 @@ def _default_candidates() -> tuple:
     )
 
 
+def _default_selector() -> Any:
+    """Build a TransformationSelector with the 3 default stages registered.
+
+    M021: per-stage selection wired into the CLI. Default stages:
+      - parse:    allowed_kinds={INTERCHANGE} (loop reordering for analysis)
+      - optimize: allowed_kinds={TILE, UNROLL}, min_tile_size=8 (vectorization)
+      - codegen:  allowed_kinds={FUSION} (instruction emission)
+    """
+    from active_skill_system.application.transformation_selector import (
+        StageRequirements,
+        TransformationSelector,
+    )
+    from active_skill_system.domain.compiler_types import CompilerNodeKind
+
+    sel = TransformationSelector()
+    sel.register_stage(StageRequirements(
+        stage_name="parse",
+        allowed_kinds=frozenset({CompilerNodeKind.TRANSFORM_INTERCHANGE}),
+    ))
+    sel.register_stage(StageRequirements(
+        stage_name="optimize",
+        allowed_kinds=frozenset({CompilerNodeKind.TRANSFORM_TILE, CompilerNodeKind.TRANSFORM_UNROLL}),
+        min_tile_size=8,
+    ))
+    sel.register_stage(StageRequirements(
+        stage_name="codegen",
+        allowed_kinds=frozenset({CompilerNodeKind.TRANSFORM_FUSION}),
+    ))
+    return sel
+
+
+_DEFAULT_STAGE_NAMES: tuple[str, ...] = ("parse", "optimize", "codegen")
+
+
 def _build_baseline(cycles: int) -> Any:
     """Build a deterministic pedagogical baseline :class:`CompilerMetrics`."""
     from active_skill_system.domain.compiler_types import CompilerMetrics
@@ -224,12 +258,16 @@ def _baseline_to_dict(baseline: Any) -> dict[str, Any]:
 # ── CLI entrypoint ────────────────────────────────────────────────────────
 
 
-def _format_result(result: Any, baseline_cycles: int, cost_model: str = "pedagogical") -> str:
+def _format_result(result: Any, baseline_cycles: int, cost_model: str = "pedagogical", stage: str | None = None) -> str:
     """Format a PromotionResult as a single-line CLI summary + a detail block."""
     status = "PROMOTED" if result.promoted else "No improvement"
     lines = [
         f"{status} (iterations_used={result.iterations_used})",
         f"  cost model: {cost_model}",
+    ]
+    if stage is not None:
+        lines.append(f"  stage: {stage}")
+    lines.extend([
         f"  baseline_fitness:  quality={result.baseline_fitness.quality:.4f} "
         f"cost={result.baseline_fitness.cost:.2f} "
         f"latency={result.baseline_fitness.latency:.2f}ms "
@@ -241,7 +279,7 @@ def _format_result(result: Any, baseline_cycles: int, cost_model: str = "pedagog
         f"  cycles reduction (baseline={baseline_cycles}): "
         f"{int(baseline_cycles * (1 - result.candidate_fitness.quality))} cycles",
         f"  reason: {result.reason}",
-    ]
+    ])
     return "\n".join(lines)
 
 
@@ -285,6 +323,13 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Use the realistic PolyhedralCostModel (cache + vectorization) instead of the pedagogical CompilerToolStub.",
     )
+    parser.add_argument(
+        "--stage",
+        type=str,
+        default=None,
+        choices=("parse", "optimize", "codegen"),
+        help="Filter candidates through TransformationSelector for the given pipeline stage (M021).",
+    )
     return parser.parse_args(argv)
 
 
@@ -310,6 +355,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         candidates = _load_candidate_spec(args.candidate_spec)
     else:
         candidates = _default_candidates()
+
+    # M021: per-stage filtering via TransformationSelector.
+    stage_name: str | None = None
+    if args.stage is not None:
+        selector = _default_selector()
+        filtered = selector.select_for_stage(args.stage, candidates)
+        if not filtered:
+            print(
+                f"warning: stage '{args.stage}' filters out all {len(candidates)} candidates; "
+                "EvolutionEngine will receive empty genome",
+                flush=True,
+            )
+        candidates = filtered
+        stage_name = args.stage
 
     if args.use_polyhedral_model:
         evolvable = _build_polyhedral_evolvable()
@@ -348,7 +407,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         evolvable=evolvable,
     )
 
-    print(_format_result(result, args.baseline_cycles, cost_model_name), flush=True)
+    print(_format_result(result, args.baseline_cycles, cost_model_name, stage_name), flush=True)
     return 0
 
 

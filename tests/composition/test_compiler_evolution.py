@@ -385,3 +385,101 @@ def test_main_default_uses_pedagogical_summary(capsys: pytest.CaptureFixture[str
     captured = capsys.readouterr()
     assert exit_code == 0
     assert "cost model: pedagogical" in captured.out
+
+
+# ── M021 S01: --stage flag (TransformationSelector integration) ────────────
+
+
+def test_default_selector_has_three_stages() -> None:
+    """The default selector must register parse/optimize/codegen."""
+    sel = compiler_evolution._default_selector()
+    stages = sel.stages()
+    assert set(stages.keys()) == {"parse", "optimize", "codegen"}
+
+
+def test_default_stage_optimize_filters_to_tile_and_unroll() -> None:
+    """--stage optimize: allowed_kinds={TILE, UNROLL}, min_tile_size=8."""
+    sel = compiler_evolution._default_selector()
+    candidates = compiler_evolution._default_candidates()
+    selected = sel.select_for_stage("optimize", candidates)
+    kinds = [c.transform_type for c in selected]
+    assert CompilerNodeKind.TRANSFORM_TILE in kinds
+    assert CompilerNodeKind.TRANSFORM_UNROLL in kinds
+    assert CompilerNodeKind.TRANSFORM_FUSION not in kinds
+
+
+def test_default_stage_codegen_filters_to_fusion_only() -> None:
+    sel = compiler_evolution._default_selector()
+    candidates = compiler_evolution._default_candidates()
+    selected = sel.select_for_stage("codegen", candidates)
+    assert len(selected) == 1
+    assert selected[0].transform_type is CompilerNodeKind.TRANSFORM_FUSION
+
+
+def test_default_stage_parse_filters_to_interchange_only() -> None:
+    sel = compiler_evolution._default_selector()
+    candidates = compiler_evolution._default_candidates()
+    selected = sel.select_for_stage("parse", candidates)
+    # Default candidates have no INTERCHANGE — selection is empty.
+    assert selected == ()
+
+
+def test_main_with_stage_optimize_filters_candidates(capsys: pytest.CaptureFixture[str]) -> None:
+    """--stage optimize must filter candidates to TILE+UNROLL (FUSION removed)."""
+    exit_code = compiler_evolution.main(
+        ["--baseline-cycles", "1000", "--max-iterations", "2", "--stage", "optimize"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    # FUSION is filtered out, so candidates print shows only 2 kinds.
+    assert "kinds=['transform_tile', 'transform_unroll']" in captured.out
+    # Summary includes stage: optimize.
+    assert "stage: optimize" in captured.out
+
+
+def test_main_with_stage_codegen_filters_candidates(capsys: pytest.CaptureFixture[str]) -> None:
+    """--stage codegen filters to FUSION only."""
+    exit_code = compiler_evolution.main(
+        ["--baseline-cycles", "1000", "--max-iterations", "2", "--stage", "codegen"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "kinds=['transform_fusion']" in captured.out
+    assert "stage: codegen" in captured.out
+
+
+def test_main_with_stage_invalid_exits_2(capsys: pytest.CaptureFixture[str]) -> None:
+    """Invalid --stage value must exit 2 (argparse handles this via choices)."""
+    # argparse rejects unknown choices with exit code 2.
+    with pytest.raises(SystemExit):
+        compiler_evolution.main(
+            ["--baseline-cycles", "1000", "--max-iterations", "1", "--stage", "unknown_stage"]
+        )
+
+
+def test_format_result_includes_stage_when_provided() -> None:
+    """_format_result includes stage line when stage argument is not None."""
+    from active_skill_system.application.evolution_engine import PromotionResult
+
+    result = PromotionResult(
+        promoted=True,
+        promoted_genome=(_tile(),),
+        baseline_fitness=FitnessSignal(quality=0.0, cost=3.0, latency=1.0, regression=False),
+        candidate_fitness=FitnessSignal(quality=0.945, cost=1.0, latency=1.0, regression=False),
+        iterations_used=1,
+        reason="test",
+    )
+    summary = compiler_evolution._format_result(result, baseline_cycles=1000, cost_model="pedagogical", stage="optimize")
+    assert "stage: optimize" in summary
+    summary_no_stage = compiler_evolution._format_result(result, baseline_cycles=1000)
+    assert "stage:" not in summary_no_stage
+
+
+def test_main_with_stage_no_stage_line_when_unused(capsys: pytest.CaptureFixture[str]) -> None:
+    """Default behaviour (no --stage) must not include 'stage:' in summary."""
+    exit_code = compiler_evolution.main(
+        ["--baseline-cycles", "1000", "--max-iterations", "2"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "stage:" not in captured.out
