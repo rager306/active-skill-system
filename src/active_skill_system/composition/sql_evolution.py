@@ -74,6 +74,41 @@ def _default_candidates() -> tuple:
     )
 
 
+def _default_sql_selector() -> Any:
+    """Build a SQLTransformationSelector with 3 default stages (M022 S01).
+
+    Stages:
+      - index:     ADD_INDEX only (min_cols=2)
+      - join:      REORDER_JOINS + REWRITE_AS_JOIN (min_order_size=2)
+      - aggregate: REWRITE_AS_JOIN only
+    """
+    from active_skill_system.application.sql_transformation_selector import (
+        SQLStageRequirements,
+        SQLTransformationSelector,
+    )
+    from active_skill_system.domain.sql_types import SQLNodeKind
+
+    sel = SQLTransformationSelector()
+    sel.register_stage(SQLStageRequirements(
+        stage_name="index",
+        allowed_kinds=frozenset({SQLNodeKind.SQL_TRANSFORM_ADD_INDEX}),
+        min_cols=2,
+    ))
+    sel.register_stage(SQLStageRequirements(
+        stage_name="join",
+        allowed_kinds=frozenset({
+            SQLNodeKind.SQL_TRANSFORM_REORDER_JOINS,
+            SQLNodeKind.SQL_TRANSFORM_REWRITE_AS_JOIN,
+        }),
+        min_cols=2,
+    ))
+    sel.register_stage(SQLStageRequirements(
+        stage_name="aggregate",
+        allowed_kinds=frozenset({SQLNodeKind.SQL_TRANSFORM_REWRITE_AS_JOIN}),
+    ))
+    return sel
+
+
 def _build_baseline(rows_examined: int) -> Any:
     """Build a deterministic pedagogical baseline :class:`SQLMetrics`."""
     from active_skill_system.domain.sql_types import SQLMetrics
@@ -154,10 +189,14 @@ def _baseline_to_dict(baseline: Any) -> dict[str, Any]:
 # ── CLI entrypoint ────────────────────────────────────────────────────────
 
 
-def _format_result(result: Any, baseline_rows: int) -> str:
+def _format_result(result: Any, baseline_rows: int, stage: str | None = None) -> str:
     status = "PROMOTED" if result.promoted else "No improvement"
     lines = [
         f"{status} (iterations_used={result.iterations_used})",
+    ]
+    if stage is not None:
+        lines.append(f"  stage: {stage}")
+    lines.extend([
         f"  baseline_fitness:  quality={result.baseline_fitness.quality:.4f} "
         f"cost={result.baseline_fitness.cost:.2f} "
         f"latency={result.baseline_fitness.latency:.2f}ms "
@@ -169,7 +208,7 @@ def _format_result(result: Any, baseline_rows: int) -> str:
         f"  rows_examined reduction (baseline={baseline_rows}): "
         f"{int(baseline_rows * (1 - result.candidate_fitness.quality))} rows",
         f"  reason: {result.reason}",
-    ]
+    ])
     return "\n".join(lines)
 
 
@@ -208,6 +247,13 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Suppress per-candidate trace; only print the final summary.",
     )
+    parser.add_argument(
+        "--stage",
+        type=str,
+        default=None,
+        choices=("index", "join", "aggregate"),
+        help="Filter candidates through SQLTransformationSelector for the given stage (M022).",
+    )
     return parser.parse_args(argv)
 
 
@@ -227,6 +273,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         candidates = _load_candidate_spec(args.candidate_spec)
     else:
         candidates = _default_candidates()
+
+    # M022: per-stage filtering via SQLTransformationSelector.
+    stage_name: str | None = None
+    if args.stage is not None:
+        selector = _default_sql_selector()
+        filtered = selector.select_for_stage(args.stage, candidates)
+        if not filtered:
+            print(
+                f"warning: stage '{args.stage}' filters out all {len(candidates)} candidates; "
+                "EvolutionEngine will receive empty genome",
+                flush=True,
+            )
+        candidates = filtered
+        stage_name = args.stage
 
     evolvable = _build_sql_evolvable()
     from active_skill_system.domain.evolvable import Evolvable
@@ -260,7 +320,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         evolvable=evolvable,
     )
 
-    print(_format_result(result, args.baseline_rows), flush=True)
+    print(_format_result(result, args.baseline_rows, stage_name), flush=True)
     return 0
 
 

@@ -9,6 +9,10 @@ from pathlib import Path
 
 import pytest
 
+from active_skill_system.application.sql_transformation_selector import (
+    SQLStageRequirements,
+    SQLTransformationSelector,
+)
 from active_skill_system.composition import sql_evolution
 from active_skill_system.domain.evolvable import Evolvable
 from active_skill_system.domain.sql_types import (
@@ -142,6 +146,83 @@ def test_main_loads_candidate_spec(tmp_path: Path, capsys: pytest.CaptureFixture
     captured = capsys.readouterr()
     assert exit_code == 0
     assert "candidates: 1" in captured.out
+
+
+# ── M022 S01: --stage flag (SQLTransformationSelector integration) ────────────
+
+
+def test_default_sql_selector_has_three_stages() -> None:
+    sel = sql_evolution._default_sql_selector()
+    stages = sel.stages()
+    assert set(stages.keys()) == {"index", "join", "aggregate"}
+
+
+def test_default_sql_stage_index_filters_to_add_index() -> None:
+    sel = sql_evolution._default_sql_selector()
+    candidates = sql_evolution._default_candidates()
+    selected = sel.select_for_stage("index", candidates)
+    assert len(selected) == 1
+    assert selected[0].transform_type is SQLNodeKind.SQL_TRANSFORM_ADD_INDEX
+
+
+def test_default_sql_stage_join_filters_to_reorder_and_rewrite() -> None:
+    sel = sql_evolution._default_sql_selector()
+    candidates = sql_evolution._default_candidates()
+    selected = sel.select_for_stage("join", candidates)
+    kinds = {c.transform_type for c in selected}
+    assert kinds == {SQLNodeKind.SQL_TRANSFORM_REORDER_JOINS, SQLNodeKind.SQL_TRANSFORM_REWRITE_AS_JOIN}
+
+
+def test_default_sql_stage_aggregate_filters_to_rewrite_only() -> None:
+    sel = sql_evolution._default_sql_selector()
+    candidates = sql_evolution._default_candidates()
+    selected = sel.select_for_stage("aggregate", candidates)
+    assert len(selected) == 1
+    assert selected[0].transform_type is SQLNodeKind.SQL_TRANSFORM_REWRITE_AS_JOIN
+
+
+def test_default_sql_stage_index_enforces_min_cols() -> None:
+    """min_cols=2 filters out ADD_INDEX with cols=1."""
+    sel = SQLTransformationSelector()
+    sel.register_stage(SQLStageRequirements(
+        stage_name="index",
+        allowed_kinds=frozenset({SQLNodeKind.SQL_TRANSFORM_ADD_INDEX}),
+        min_cols=2,
+    ))
+    candidates = (
+        SQLTransformParams(transform_type=SQLNodeKind.SQL_TRANSFORM_ADD_INDEX, params={"cols": 1}, legal=True),
+        SQLTransformParams(transform_type=SQLNodeKind.SQL_TRANSFORM_ADD_INDEX, params={"cols": 4}, legal=True),
+    )
+    selected = sel.select_for_stage("index", candidates)
+    assert len(selected) == 1
+    assert selected[0].params["cols"] == 4
+
+
+def test_main_with_sql_stage_join_filters_candidates(capsys: pytest.CaptureFixture[str]) -> None:
+    exit_code = sql_evolution.main(
+        ["--baseline-rows", "1000", "--max-iterations", "2", "--stage", "join"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "kinds=['sql_transform_reorder_joins', 'sql_transform_rewrite_as_join']" in captured.out
+    assert "stage: join" in captured.out
+
+
+def test_main_with_sql_stage_index_filters_candidates(capsys: pytest.CaptureFixture[str]) -> None:
+    exit_code = sql_evolution.main(
+        ["--baseline-rows", "1000", "--max-iterations", "2", "--stage", "index"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "kinds=['sql_transform_add_index']" in captured.out
+    assert "stage: index" in captured.out
+
+
+def test_main_with_sql_stage_invalid_exits_2(capsys: pytest.CaptureFixture[str]) -> None:
+    with pytest.raises(SystemExit):
+        sql_evolution.main(
+            ["--baseline-rows", "1000", "--max-iterations", "1", "--stage", "unknown"]
+        )
 
 
 # ── R008 / R009 ────────────────────────────────────────────────────────
