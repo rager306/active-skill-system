@@ -26,6 +26,11 @@ from active_skill_system.domain.evolvable import (
 )
 from active_skill_system.domain.model_genome import ModelGenome
 from active_skill_system.domain.prompt_genome import PromptGenome
+from active_skill_system.domain.sql_types import (
+    SQLMetrics,
+    SQLNodeKind,
+    SQLTransformParams,
+)
 
 
 class ModelGenomeEvolvable:
@@ -341,3 +346,191 @@ def _try_mutate_candidate(cand: TransformParams) -> TransformParams:
         return TransformParams(transform_type=kind, params=params, legal=cand.legal)
     # INTERCHANGE (or any non-mutable kind): no deterministic numeric bump.
     return cand
+
+
+# ── SQLEvolvable (M018 S03 T01) ───────────────────────────────────────────
+
+
+# Mutation caps for SQL transforms. Exposed as module constants so tests
+# can reference them rather than hardcoding the same numbers.
+_SQL_ADD_INDEX_COLS_MAX: int = 16
+_SQL_ADD_INDEX_COLS_BUMP: int = 1
+_SQL_REORDER_JOINS_ORDER_SIZE_MAX: int = 8
+_SQL_REWRITE_AS_JOIN_TABLES_MAX: int = 8
+
+
+def _sql_metrics_to_dict(m: SQLMetrics) -> dict:
+    return {
+        "rows_examined": m.rows_examined,
+        "rows_returned": m.rows_returned,
+        "time_ms": m.time_ms,
+        "plan_cost": m.plan_cost,
+        "is_valid": m.is_valid,
+    }
+
+
+def _parse_sql_metrics(payload: str) -> SQLMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return SQLMetrics(
+            rows_examined=int(d["rows_examined"]),
+            rows_returned=int(d["rows_returned"]),
+            time_ms=float(d["time_ms"]),
+            plan_cost=float(d["plan_cost"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _try_mutate_sql_candidate(cand: SQLTransformParams) -> SQLTransformParams:
+    """Apply the first applicable numeric bump to a SQL candidate.
+
+    Returns the same SQLTransformParams unchanged if no numeric parameter applies.
+    """
+    params = dict(cand.params)
+    kind = cand.transform_type
+    if kind is SQLNodeKind.SQL_TRANSFORM_ADD_INDEX:
+        current = int(params.get("cols", 1))
+        new_cols = min(_SQL_ADD_INDEX_COLS_MAX, current + _SQL_ADD_INDEX_COLS_BUMP)
+        if new_cols == current:
+            return cand
+        params["cols"] = new_cols
+        return SQLTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    if kind is SQLNodeKind.SQL_TRANSFORM_REORDER_JOINS:
+        current = int(params.get("order_size", 2))
+        new_k = min(_SQL_REORDER_JOINS_ORDER_SIZE_MAX, current + 1)
+        if new_k == current:
+            return cand
+        params["order_size"] = new_k
+        return SQLTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    if kind is SQLNodeKind.SQL_TRANSFORM_REWRITE_AS_JOIN:
+        current = int(params.get("tables", 2))
+        new_n = min(_SQL_REWRITE_AS_JOIN_TABLES_MAX, current + 1)
+        if new_n == current:
+            return cand
+        params["tables"] = new_n
+        return SQLTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    # REPLAN_QUERY (or any non-mutable kind): no deterministic numeric bump.
+    return cand
+
+
+class SQLEvolvable(Evolvable):
+    """Adapts a tuple of :class:`SQLTransformParams` candidates to the Evolvable Protocol.
+
+    Fourth concrete Evolvable case (after ModelGenome M011, PromptGenome M012,
+    TransformationGenome M016). Mirrors TransformationGenomeEvolvable shape
+    but on SQL primitives. Mutation applies the first applicable deterministic
+    numeric strategy (cols += 1 cap 16, order_size += 1 cap 8, tables += 1 cap 8).
+    REPLAN_QUERY has no deterministic numeric parameter to bump — falls back
+    to bumping ADD_INDEX if present, or returns the tuple unchanged.
+
+    Evaluation runs each candidate through the injected invoker which the L4
+    composition layer wires to the real SQLToolStub. Returns a FitnessSignal
+    whose quality is the best rows_examined-reduction ratio vs the dataset baseline.
+    """
+
+    def __init__(
+        self,
+        invoker: Callable[[dict[str, Any]], tuple[bool, str]],
+    ) -> None:
+        if invoker is None:
+            raise ValueError(
+                "SQLEvolvable requires an invoker; wire it in the composition layer "
+                "(see SQLToolStub)."
+            )
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description=(
+                "bump ADD_INDEX cols by +1 (cap 16); "
+                "increment REORDER_JOINS order_size by +1 (cap 8); "
+                "increment REWRITE_AS_JOIN tables by +1 (cap 8)"
+            ),
+            mutate_fn_name="bump_sql_transform_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        """Produce a variant genome with one bumped parameter."""
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of SQLTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, SQLTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a SQLTransformParams")
+        if not genome:
+            return genome
+
+        new_candidates: list[SQLTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            mutated_cand = _try_mutate_sql_candidate(cand)
+            if mutated_cand is cand:
+                new_candidates.append(cand)
+            else:
+                new_candidates.append(mutated_cand)
+                mutated = True
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        """Evaluate a SQL transformation genome against a dataset."""
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of SQLTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, SQLTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a SQLTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = SQLMetrics(
+                rows_examined=int(baseline_raw.get("rows_examined", 1)),
+                rows_returned=int(baseline_raw.get("rows_returned", 0)),
+                time_ms=float(baseline_raw.get("time_ms", 0.0)),
+                plan_cost=float(baseline_raw.get("plan_cost", 0.0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = SQLMetrics(rows_examined=1, rows_returned=0, time_ms=0.0, plan_cost=0.0)
+
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _sql_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_sql_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.rows_examined > 0:
+                    reduction = (baseline.rows_examined - new_metrics.rows_examined) / baseline.rows_examined
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(
+            quality=quality, cost=cost, latency=latency, regression=regression,
+        )
