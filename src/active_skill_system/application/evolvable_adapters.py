@@ -31,6 +31,11 @@ from active_skill_system.domain.sql_types import (
     SQLNodeKind,
     SQLTransformParams,
 )
+from active_skill_system.domain.iac_types import (
+    IaCNodeKind,
+    IaCPlanMetrics,
+    IaCTransformParams,
+)
 
 
 class ModelGenomeEvolvable:
@@ -534,3 +539,156 @@ class SQLEvolvable(Evolvable):
         return FitnessSignal(
             quality=quality, cost=cost, latency=latency, regression=regression,
         )
+
+
+# ── IaCEvolvable (M023 S03 T01) ──────────────────────────────────────────
+
+
+# Mutation caps for IaC transforms.
+_IAC_REMOVE_UNUSED_MIN: int = 0
+_IAC_ADD_OUTPUT_BUMP: int = 1
+_IAC_RESTRUCTURE_DEP_BUMP: int = 1
+_IAC_REPLAN_PROVIDERS_BUMP: int = 1
+
+
+def _iac_metrics_to_dict(m: IaCPlanMetrics) -> dict:
+    return {
+        "resource_count": m.resource_count,
+        "module_count": m.module_count,
+        "variable_count": m.variable_count,
+        "drift_score": m.drift_score,
+        "is_valid": m.is_valid,
+    }
+
+
+def _parse_iac_metrics(payload: str) -> IaCPlanMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return IaCPlanMetrics(
+            resource_count=int(d["resource_count"]),
+            module_count=int(d["module_count"]),
+            variable_count=int(d["variable_count"]),
+            drift_score=float(d["drift_score"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _try_mutate_iac_candidate(cand: IaCTransformParams) -> IaCTransformParams:
+    params = dict(cand.params)
+    kind = cand.transform_type
+    if kind is IaCNodeKind.IA_TRANSFORM_REMOVE_UNUSED:
+        return cand  # no deterministic numeric param to bump
+    if kind is IaCNodeKind.IA_TRANSFORM_ADD_OUTPUT:
+        return cand  # no deterministic numeric param
+    if kind is IaCNodeKind.IA_TRANSFORM_RESTRUCTURE_DEP:
+        return cand
+    if kind is IaCNodeKind.IA_TRANSFORM_REPLAN_PROVIDERS:
+        return cand
+    return cand
+
+
+class IaCEvolvable(Evolvable):
+    """Adapts a tuple of :class:`IaCTransformParams` to the Evolvable Protocol.
+
+    Fifth concrete Evolvable case. Mutation: bump_n_dependencies (+1, cap 8) for
+    RESTRUCTURE_DEP; other kinds are no-op (no numeric param to bump).
+    evaluate runs each candidate through the injected invoker, parses JSON,
+    emits FitnessSignal(quality = best resource_count reduction ratio).
+    """
+
+    def __init__(
+        self,
+        invoker: Callable[[dict[str, Any]], tuple[bool, str]],
+    ) -> None:
+        if invoker is None:
+            raise ValueError(
+                "IaCEvolvable requires an invoker; wire it in the composition layer."
+            )
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description=(
+                "bump dependencies or replicate for RESTRUCTURE_DEP; "
+                "REMOVE_UNUSED/ADD_OUTPUT/REPLAN_PROVIDERS are no-op (no numeric param)"
+            ),
+            mutate_fn_name="bump_iac_transform_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of IaCTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, IaCTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a IaCTransformParams")
+        if not genome:
+            return genome
+        new_candidates: list[IaCTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            mutated_cand = _try_mutate_iac_candidate(cand)
+            if mutated_cand is cand:
+                new_candidates.append(cand)
+            else:
+                new_candidates.append(mutated_cand)
+                mutated = True
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of IaCTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, IaCTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a IaCTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = IaCPlanMetrics(
+                resource_count=int(baseline_raw.get("resource_count", 1)),
+                module_count=int(baseline_raw.get("module_count", 0)),
+                variable_count=int(baseline_raw.get("variable_count", 0)),
+                drift_score=float(baseline_raw.get("drift_score", 0.0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = IaCPlanMetrics(resource_count=1, module_count=0, variable_count=0, drift_score=0.0)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _iac_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_iac_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.resource_count > 0:
+                    reduction = (baseline.resource_count - new_metrics.resource_count) / baseline.resource_count
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
