@@ -24,17 +24,22 @@ from active_skill_system.domain.evolvable import (
     FitnessSignal,
     MutationSpace,
 )
-from active_skill_system.domain.model_genome import ModelGenome
-from active_skill_system.domain.prompt_genome import PromptGenome
-from active_skill_system.domain.sql_types import (
-    SQLMetrics,
-    SQLNodeKind,
-    SQLTransformParams,
-)
 from active_skill_system.domain.iac_types import (
     IaCNodeKind,
     IaCPlanMetrics,
     IaCTransformParams,
+)
+from active_skill_system.domain.model_genome import ModelGenome
+from active_skill_system.domain.prompt_genome import PromptGenome
+from active_skill_system.domain.security_types import (
+    SecurityMetrics,
+    SecurityNodeKind,
+    SecurityTransformParams,
+)
+from active_skill_system.domain.sql_types import (
+    SQLMetrics,
+    SQLNodeKind,
+    SQLTransformParams,
 )
 
 
@@ -581,7 +586,6 @@ def _parse_iac_metrics(payload: str) -> IaCPlanMetrics | None:
 
 
 def _try_mutate_iac_candidate(cand: IaCTransformParams) -> IaCTransformParams:
-    params = dict(cand.params)
     kind = cand.transform_type
     if kind is IaCNodeKind.IA_TRANSFORM_REMOVE_UNUSED:
         return cand  # no deterministic numeric param to bump
@@ -685,6 +689,146 @@ class IaCEvolvable(Evolvable):
                 any_improvement = True
                 if baseline.resource_count > 0:
                     reduction = (baseline.resource_count - new_metrics.resource_count) / baseline.resource_count
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
+
+
+# ── SecurityEvolvable (M026 S03) ─────────────────────────────────────────
+
+
+def _security_metrics_to_dict(m: SecurityMetrics) -> dict:
+    return {
+        "threat_count": m.threat_count,
+        "risk_score": m.risk_score,
+        "coverage_ratio": m.coverage_ratio,
+        "exposure_time": m.exposure_time,
+        "is_valid": m.is_valid,
+    }
+
+
+def _parse_security_metrics(payload: str) -> SecurityMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return SecurityMetrics(
+            threat_count=int(d["threat_count"]),
+            risk_score=float(d["risk_score"]),
+            coverage_ratio=float(d["coverage_ratio"]),
+            exposure_time=float(d["exposure_time"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _try_mutate_security_candidate(cand: SecurityTransformParams) -> SecurityTransformParams:
+    """Mutation: bump cve_count for PATCH, controls for ADD_CONTROL. Others no-op."""
+    kind = cand.transform_type
+    if kind is SecurityNodeKind.SEC_TRANSFORM_PATCH:
+        params = dict(cand.params)
+        current = int(params.get("cve_count", 1))
+        params["cve_count"] = min(64, current + 1)
+        return SecurityTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    if kind is SecurityNodeKind.SEC_TRANSFORM_ADD_CONTROL:
+        params = dict(cand.params)
+        current = int(params.get("controls", 1))
+        params["controls"] = min(8, current + 1)
+        return SecurityTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    return cand
+
+
+class SecurityEvolvable(Evolvable):
+    """Adapts a tuple of :class:`SecurityTransformParams` to the Evolvable Protocol.
+
+    6th concrete Evolvable case. Mutation bumps numeric params for PATCH and
+    ADD_CONTROL. ISOLATE/QUARANTINE are no-op (no numeric param).
+    evaluate runs each candidate through the injected invoker, emits
+    FitnessSignal(quality = best threat_count reduction ratio).
+    """
+
+    def __init__(self, invoker: Callable[[dict[str, Any]], tuple[bool, str]]) -> None:
+        if invoker is None:
+            raise ValueError("SecurityEvolvable requires an invoker.")
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description="bump PATCH cve_count by +1 (cap 64); bump ADD_CONTROL controls by +1 (cap 8)",
+            mutate_fn_name="bump_security_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of SecurityTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, SecurityTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a SecurityTransformParams")
+        if not genome:
+            return genome
+        new_candidates: list[SecurityTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            mutated_cand = _try_mutate_security_candidate(cand)
+            if mutated_cand is cand:
+                new_candidates.append(cand)
+            else:
+                new_candidates.append(mutated_cand)
+                mutated = True
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of SecurityTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, SecurityTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a SecurityTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = SecurityMetrics(
+                threat_count=int(baseline_raw.get("threat_count", 1)),
+                risk_score=float(baseline_raw.get("risk_score", 0.0)),
+                coverage_ratio=float(baseline_raw.get("coverage_ratio", 0.0)),
+                exposure_time=float(baseline_raw.get("exposure_time", 0.0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = SecurityMetrics(threat_count=1, risk_score=0.0, coverage_ratio=0.0, exposure_time=0.0)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _security_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_security_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.threat_count > 0:
+                    reduction = (baseline.threat_count - new_metrics.threat_count) / baseline.threat_count
                     if reduction > best_reduction:
                         best_reduction = reduction
         quality = max(0.0, min(1.0, best_reduction))
