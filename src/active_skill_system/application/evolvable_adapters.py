@@ -35,6 +35,10 @@ from active_skill_system.domain.ml_types import (
     MLTransformParams,
 )
 from active_skill_system.domain.model_genome import ModelGenome
+from active_skill_system.domain.network_types import (
+    NetworkMetrics,
+    NetworkTransformParams,
+)
 from active_skill_system.domain.prompt_genome import PromptGenome
 from active_skill_system.domain.security_types import (
     SecurityMetrics,
@@ -960,6 +964,103 @@ class MLEvolvable(Evolvable):
                 any_improvement = True
                 if baseline.loss > 0:
                     reduction = (baseline.loss - new_metrics.loss) / baseline.loss
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
+
+
+# ── NetworkEvolvable (M028 S03) ──────────────────────────────────────────
+
+
+def _network_metrics_to_dict(m: NetworkMetrics) -> dict:
+    return {"latency_ms": m.latency_ms, "bandwidth_mbps": m.bandwidth_mbps, "packet_loss_pct": m.packet_loss_pct, "hop_count": m.hop_count, "is_valid": m.is_valid}
+
+
+def _parse_network_metrics(payload: str) -> NetworkMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return NetworkMetrics(
+            latency_ms=float(d["latency_ms"]), bandwidth_mbps=float(d["bandwidth_mbps"]),
+            packet_loss_pct=float(d["packet_loss_pct"]), hop_count=int(d["hop_count"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+class NetworkEvolvable(Evolvable):
+    """8th concrete Evolvable case. Mutation: reroute decreases latency further."""
+
+    def __init__(self, invoker: Callable[[dict[str, Any]], tuple[bool, str]]) -> None:
+        if invoker is None:
+            raise ValueError("NetworkEvolvable requires an invoker.")
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description="no deterministic numeric mutation for network transforms (REROUTE target is symbolic)",
+            mutate_fn_name="noop_network_mutation",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of NetworkTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, NetworkTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a NetworkTransformParams")
+        # Network transforms have no numeric param to bump — return genome unchanged.
+        return genome
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of NetworkTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, NetworkTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a NetworkTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = NetworkMetrics(
+                latency_ms=float(baseline_raw.get("latency_ms", 1.0)),
+                bandwidth_mbps=float(baseline_raw.get("bandwidth_mbps", 0.0)),
+                packet_loss_pct=float(baseline_raw.get("packet_loss_pct", 0.0)),
+                hop_count=int(baseline_raw.get("hop_count", 1)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = NetworkMetrics(latency_ms=1.0, bandwidth_mbps=0.0, packet_loss_pct=0.0, hop_count=1)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _network_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_network_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.latency_ms > 0:
+                    reduction = (baseline.latency_ms - new_metrics.latency_ms) / baseline.latency_ms
                     if reduction > best_reduction:
                         best_reduction = reduction
         quality = max(0.0, min(1.0, best_reduction))
