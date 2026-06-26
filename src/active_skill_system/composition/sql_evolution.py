@@ -32,17 +32,26 @@ from typing import Any
 # ── Helpers (lazy infra imports) ─────────────────────────────────────────
 
 
-def _build_sql_evolvable() -> Any:
+def _build_sql_evolvable(*, real: bool = False) -> Any:
     """Build a fully-wired :class:`SQLEvolvable`.
 
-    Lazy imports: SQLToolStub (L3 adapter) and SQLEvolvable (L2 application)
-    are imported only when this helper is called. Mirrors the L4
-    composition pattern from M017 S01 (MEM019).
+    Lazy imports: the tool adapter (L3) and SQLEvolvable (L2 application) are
+    imported only when this helper is called. By default wires the
+    deterministic ``SQLToolStub`` (M018 S02); pass ``real=True`` to wire the
+    real-instrument ``SQLRealTool`` (M037 S01) so the evolution loop runs
+    against a live SQLite EXPLAIN QUERY PLAN. Mirrors the L4 composition
+    pattern from M017 S01 (MEM019) and respects R008/R009 (lazy imports).
     """
-    from active_skill_system.adapters.sql_tool_stub import SQLToolStub
     from active_skill_system.application.evolvable_adapters import SQLEvolvable
 
-    tool = SQLToolStub()
+    if real:
+        from active_skill_system.adapters.sql_real_tool import SQLRealTool
+
+        tool = SQLRealTool()
+    else:
+        from active_skill_system.adapters.sql_tool_stub import SQLToolStub
+
+        tool = SQLToolStub()
 
     def _invoker(args: dict[str, Any]) -> tuple[bool, str]:
         result = tool.invoke(args)
@@ -254,6 +263,14 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         choices=("index", "join", "aggregate"),
         help="Filter candidates through SQLTransformationSelector for the given stage (M022).",
     )
+    parser.add_argument(
+        "--real",
+        action="store_true",
+        help=(
+            "Wire the real-instrument SQLRealTool (M037) instead of the deterministic "
+            "SQLToolStub. Fitness comes from a live SQLite EXPLAIN QUERY PLAN."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -288,7 +305,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         candidates = filtered
         stage_name = args.stage
 
-    evolvable = _build_sql_evolvable()
+    evolvable = _build_sql_evolvable(real=getattr(args, "real", False))
     from active_skill_system.domain.evolvable import Evolvable
 
     if not isinstance(evolvable, Evolvable):

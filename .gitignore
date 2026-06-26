@@ -23,6 +23,7 @@ Thumbs.db
 
 # ── GSD baseline (auto-generated) ──
 .gsd
+HANDOFF.md
 .gsd-worktrees/
 .gsd-id
 .mcp.json

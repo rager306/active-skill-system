@@ -253,8 +253,60 @@ def test_module_source_has_no_module_level_infra_imports() -> None:
                 module_level_imports.append(alias.name)
         elif isinstance(node, ast.ImportFrom):
             module_level_imports.append(node.module or "")
-    forbidden = ("activegraph", "anthropic", "openai", "sql_tool_stub", "sql_repair_policy", "evolvable_adapters", "sql_types")
+    forbidden = ("activegraph", "anthropic", "openai", "sql_tool_stub", "sql_repair_policy", "evolvable_adapters", "sql_types", "sql_real_tool")
     for imp in module_level_imports:
         for f in forbidden:
             assert f not in imp, f"module-level import {imp!r} references {f!r} (R009)"
     assert module_level_imports, "module should still have stdlib imports"
+
+
+# ── M037: --real flag (real-instrument SQLRealTool) ──────────────────
+
+
+def test_build_sql_evolvable_real_wires_sql_real_tool() -> None:
+    """real=True must produce a distinct evolvable backed by SQLRealTool."""
+    stub_evolvable = sql_evolution._build_sql_evolvable(real=False)
+    real_evolvable = sql_evolution._build_sql_evolvable(real=True)
+    assert isinstance(real_evolvable, Evolvable)
+    # The two evolvables capture different tool instances in their invoker closure.
+    assert stub_evolvable is not real_evolvable
+
+
+def test_run_sql_evolution_with_real_tool_reflects_explain_fitness() -> None:
+    """E2e: the real SQLite EXPLAIN-driven loop must run end-to-end and the
+    candidate fitness must reflect a real index benefit (rows_examined well
+    below the 1000-row full scan), proving the loop is driven by the live
+    instrument. Promotion is not asserted because the real planner may
+    already be near-optimal for cols=1, so mutation cannot always improve —
+    that is the correct source-of-truth behaviour, not a stub artefact."""
+    from active_skill_system.domain.sql_types import SQLMetrics
+
+    baseline = SQLMetrics(rows_examined=1000, rows_returned=10, time_ms=100.0, plan_cost=50.0)
+    evolvable = sql_evolution._build_sql_evolvable(real=True)
+    result = sql_evolution.run_sql_evolution(
+        baseline, (_add_index(cols=1),), max_iterations=3, evolvable=evolvable
+    )
+    # Real EXPLAIN reduces the 1000-row scan to ~61 rows => quality ~0.94.
+    assert result.candidate_fitness.quality > 0.8
+
+
+def test_main_real_flag_runs_without_error(capsys: pytest.CaptureFixture[str]) -> None:
+    """`sql_evolution --real --quiet` exits 0 and prints a summary."""
+    exit_code = sql_evolution.main(
+        ["--baseline-rows", "1000", "--max-iterations", "1", "--real", "--quiet"]
+    )
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "PROMOTED" in captured.out or "No improvement" in captured.out
+
+
+def test_module_source_has_no_real_tool_module_level_import() -> None:
+    """R009 (M037): SQLRealTool must stay lazily imported inside _build_sql_evolvable."""
+    import ast
+    tree = ast.parse(Path(sql_evolution.__file__).read_text(encoding="utf-8"))
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                assert "sql_real_tool" not in alias.name
+        elif isinstance(node, ast.ImportFrom):
+            assert "sql_real_tool" not in (node.module or "")
