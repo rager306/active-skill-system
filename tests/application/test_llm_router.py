@@ -1,0 +1,172 @@
+"""Tests for LLMRouter (M038 S01 T04).
+
+Verifies cost-aware multi-provider selection, fallback on failure, health
+skipping, and the required-constructor contract (layering gotcha from M016).
+Uses fake providers (no real adapter imports) so the application layer stays
+infra-free.
+"""
+
+from __future__ import annotations
+
+import pytest
+
+from active_skill_system.application.llm_router import LLMRouter, RoutingResult
+from active_skill_system.application.model_registry import ModelRegistry
+from active_skill_system.application.model_selector import StageType
+from active_skill_system.domain.model_genome import ModelCapability, ModelGenome
+from active_skill_system.domain.provider_health import ProviderHealth
+
+
+class _FakeProvider:
+    """Minimal LLMProviderPort stand-in for tests."""
+
+    def __init__(self, *, default_model: str = "m1", fail: bool = False):
+        self.default_model = default_model
+        self._fail = fail
+
+    def complete(self, **kwargs):  # noqa: ANN003
+        if self._fail:
+            raise RuntimeError("provider down")
+        return {"ok": True, "model": self.default_model}
+
+
+def _genome(mid, caps, provider, cost_in=1.0, cost_out=1.0):
+    return ModelGenome(
+        id=mid,
+        capabilities=frozenset(caps),
+        context_window=100000,
+        cost_input_per_1m=cost_in,
+        cost_output_per_1m=cost_out,
+        provider_id=provider,
+    )
+
+
+def _registry_with(*genomes):
+    reg = ModelRegistry()
+    for g in genomes:
+        reg.register(g)
+    return reg
+
+
+# ── Constructor contract (layering gotcha) ────────────────────────────
+
+
+def test_init_rejects_missing_registry():
+    with pytest.raises(TypeError):
+        LLMRouter(registry=None, providers={"p": _FakeProvider()})  # type: ignore[arg-type]
+
+
+def test_init_rejects_empty_providers():
+    with pytest.raises(ValueError):
+        LLMRouter(registry=ModelRegistry(), providers={})
+
+
+def test_init_rejects_non_provider_values():
+    with pytest.raises(TypeError):
+        LLMRouter(registry=ModelRegistry(), providers={"p": "not a provider"})  # type: ignore[arg-type]
+
+
+# ── Selection ─────────────────────────────────────────────────────────
+
+
+def test_select_picks_cheapest_matching_model_across_providers():
+    cheap = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    pricy = _genome("m2", {ModelCapability.THINKING}, "router", cost_in=5.0, cost_out=5.0)
+    reg = _registry_with(pricy, cheap)
+    router = LLMRouter(registry=reg, providers={"router": _FakeProvider()})
+    selected = router.select(StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}))
+    assert selected is not None
+    assert selected.id == "m1"
+
+
+def test_select_skips_unhealthy_provider():
+    cheap_unhealthy = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    healthy = _genome("m2", {ModelCapability.THINKING}, "fallback", cost_in=3.0, cost_out=3.0)
+    reg = _registry_with(cheap_unhealthy, healthy)
+    health = {"router": ProviderHealth(provider_id="router", consecutive_failures=3)}
+    router = LLMRouter(registry=reg, providers={"router": _FakeProvider(), "fallback": _FakeProvider()}, health=health)
+    selected = router.select(StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}))
+    assert selected is not None
+    assert selected.id == "m2"
+
+
+def test_select_returns_none_when_no_match():
+    reg = _registry_with(_genome("m1", {ModelCapability.FAST}, "router"))
+    router = LLMRouter(registry=reg, providers={"router": _FakeProvider()})
+    assert router.select(StageType.VISION_EXTRACTION, frozenset({ModelCapability.VISION})) is None
+
+
+def test_select_returns_none_when_all_unhealthy():
+    g = _genome("m1", {ModelCapability.THINKING}, "router")
+    reg = _registry_with(g)
+    health = {"router": ProviderHealth(provider_id="router", consecutive_failures=5)}
+    router = LLMRouter(registry=reg, providers={"router": _FakeProvider()}, health=health)
+    assert router.select(StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING})) is None
+
+
+# ── route_with_fallback ───────────────────────────────────────────────
+
+
+def test_route_serves_via_primary_without_fallback():
+    g = _genome("m1", {ModelCapability.THINKING}, "router")
+    reg = _registry_with(g)
+    provider = _FakeProvider()
+    router = LLMRouter(registry=reg, providers={"router": provider})
+    result = router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}), {"system": "s", "messages": [], "model": "m1", "max_tokens": 10, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 5}
+    )
+    assert result is not None
+    assert result.used_fallback is False
+    assert result.provider_id == "router"
+    assert router.health("router").consecutive_failures == 0
+
+
+def test_route_falls_back_when_primary_fails():
+    primary = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    secondary = _genome("m2", {ModelCapability.THINKING}, "fallback", cost_in=2.0, cost_out=2.0)
+    reg = _registry_with(primary, secondary)
+    providers = {"router": _FakeProvider(fail=True), "fallback": _FakeProvider()}
+    router = LLMRouter(registry=reg, providers=providers)
+    result = router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}), {"system": "s", "messages": [], "model": "m1", "max_tokens": 10, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 5}
+    )
+    assert result is not None
+    assert result.used_fallback is True
+    assert result.provider_id == "fallback"
+    # Primary was marked unhealthy.
+    assert router.health("router").consecutive_failures == 1
+    assert router.health("router").last_error is not None
+    assert ("router", False) in result.attempts
+    assert ("fallback", True) in result.attempts
+
+
+def test_route_returns_none_when_all_providers_fail():
+    g1 = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    g2 = _genome("m2", {ModelCapability.THINKING}, "fallback", cost_in=2.0, cost_out=2.0)
+    reg = _registry_with(g1, g2)
+    providers = {"router": _FakeProvider(fail=True), "fallback": _FakeProvider(fail=True)}
+    router = LLMRouter(registry=reg, providers=providers)
+    result = router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}), {"system": "s", "messages": [], "model": "m1", "max_tokens": 10, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 5}
+    )
+    assert result is None
+    assert router.health("router").consecutive_failures == 1
+    assert router.health("fallback").consecutive_failures == 1
+
+
+def test_route_marks_success_on_serving():
+    g = _genome("m1", {ModelCapability.THINKING}, "router")
+    reg = _registry_with(g)
+    router = LLMRouter(registry=reg, providers={"router": _FakeProvider()})
+    router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}), {"system": "s", "messages": [], "model": "m1", "max_tokens": 10, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 5}
+    )
+    assert router.health("router").last_success_at is not None
+
+
+def test_routing_result_is_frozen():
+    from dataclasses import FrozenInstanceError
+
+    r = RoutingResult(provider_id="router", genome=_genome("m1", {ModelCapability.FAST}, "router"), used_fallback=False)
+    with pytest.raises(FrozenInstanceError):
+        r.provider_id = "x"  # type: ignore[misc]
