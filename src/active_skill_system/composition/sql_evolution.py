@@ -27,6 +27,8 @@ from __future__ import annotations
 import argparse
 import json
 from collections.abc import Sequence
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 # ── Helpers (lazy infra imports) ─────────────────────────────────────────
@@ -221,6 +223,41 @@ def _format_result(result: Any, baseline_rows: int, stage: str | None = None) ->
     return "\n".join(lines)
 
 
+def _write_runlog(result: Any, *, tool: str, baseline_rows: int, runs_dir: Path | None = None) -> Path:
+    """Write a single JSONL run record and return its path (M039 observability).
+
+    The record captures timestamp, domain, tool, baseline/candidate fitness,
+    promoted verdict, iterations used, and reason — enough for a future agent to
+    diagnose a run without re-executing it. Stdlib only; side-effect limited to
+    the runs/ directory.
+    """
+    directory = runs_dir if runs_dir is not None else Path("runs")
+    directory.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now(UTC)
+    record = {
+        "timestamp": ts.isoformat(),
+        "domain": "sql",
+        "tool": tool,
+        "baseline_rows": baseline_rows,
+        "baseline_fitness": {
+            "quality": result.baseline_fitness.quality,
+            "cost": result.baseline_fitness.cost,
+            "latency": result.baseline_fitness.latency,
+        },
+        "candidate_fitness": {
+            "quality": result.candidate_fitness.quality,
+            "cost": result.candidate_fitness.cost,
+            "latency": result.candidate_fitness.latency,
+        },
+        "promoted": bool(result.promoted),
+        "iterations_used": result.iterations_used,
+        "reason": result.reason,
+    }
+    path = directory / f"sql_evolution.{ts.strftime('%Y%m%dT%H%M%S%fZ')}.jsonl"
+    path.write_text(json.dumps(record, sort_keys=True) + "\n", encoding="utf-8")
+    return path
+
+
 def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="active-skill-sql-evolve",
@@ -269,6 +306,15 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help=(
             "Wire the real-instrument SQLRealTool (M037) instead of the deterministic "
             "SQLToolStub. Fitness comes from a live SQLite EXPLAIN QUERY PLAN."
+        ),
+    )
+    parser.add_argument(
+        "--emit-runlog",
+        action="store_true",
+        help=(
+            "Write a structured JSONL run record to runs/sql_evolution.<timestamp>.jsonl "
+            "(M039 observability) capturing baseline/candidate fitness, promoted verdict, "
+            "and reason. The path is printed to stdout."
         ),
     )
     return parser.parse_args(argv)
@@ -338,6 +384,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
 
     print(_format_result(result, args.baseline_rows, stage_name), flush=True)
+
+    if getattr(args, "emit_runlog", False):
+        tool = "real" if getattr(args, "real", False) else "stub"
+        runlog_path = _write_runlog(result, tool=tool, baseline_rows=args.baseline_rows)
+        print(f"runlog: {runlog_path}", flush=True)
+
     return 0
 
 

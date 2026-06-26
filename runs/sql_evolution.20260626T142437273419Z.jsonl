@@ -1,0 +1,1 @@
+{"baseline_fitness": {"cost": 3.0, "latency": 1.0, "quality": 0.8}, "baseline_rows": 1000, "candidate_fitness": {"cost": 3.0, "latency": 1.0, "quality": 0.834}, "domain": "sql", "iterations_used": 1, "promoted": true, "reason": "Candidate promoted at iteration 1: quality 0.80\u21920.83, cost 3.00\u21923.00", "timestamp": "2026-06-26T14:24:37.273419+00:00", "tool": "stub"}
