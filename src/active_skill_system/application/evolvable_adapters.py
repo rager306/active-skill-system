@@ -29,6 +29,11 @@ from active_skill_system.domain.iac_types import (
     IaCPlanMetrics,
     IaCTransformParams,
 )
+from active_skill_system.domain.log_types import (
+    LogMetrics,
+    LogNodeKind,
+    LogTransformParams,
+)
 from active_skill_system.domain.ml_types import (
     MLMetrics,
     MLNodeKind,
@@ -1189,6 +1194,122 @@ class StorageEvolvable(Evolvable):
                     reduction = (baseline.storage_bytes - new_metrics.storage_bytes) / baseline.storage_bytes
                     if reduction > best_reduction:
                         best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
+
+
+# ── LogEvolvable (M030 S03) ──────────────────────────────────────────────
+
+
+def _log_metrics_to_dict(m: LogMetrics) -> dict:
+    return {"error_rate": m.error_rate, "log_volume_mb": m.log_volume_mb, "parse_time_ms": m.parse_time_ms, "is_valid": m.is_valid}
+
+
+def _parse_log_metrics(payload: str) -> LogMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return LogMetrics(
+            error_rate=float(d["error_rate"]), log_volume_mb=float(d["log_volume_mb"]),
+            parse_time_ms=float(d["parse_time_ms"]), is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+class LogEvolvable(Evolvable):
+    """10th concrete Evolvable case. Mutation: increase SAMPLE rate by +0.1 (cap 0.9)."""
+
+    def __init__(self, invoker: Callable[[dict[str, Any]], tuple[bool, str]]) -> None:
+        if invoker is None:
+            raise ValueError("LogEvolvable requires an invoker.")
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description="increase SAMPLE rate by +0.1 (cap 0.9); other transforms no-op",
+            mutate_fn_name="bump_log_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of LogTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, LogTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a LogTransformParams")
+        if not genome:
+            return genome
+        new_candidates: list[LogTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            if cand.transform_type is LogNodeKind.LOG_TRANSFORM_SAMPLE:
+                params = dict(cand.params)
+                current = float(params.get("rate", 0.1))
+                params["rate"] = max(0.01, current - 0.05)  # smaller rate = smaller volume = better
+                new_candidates.append(LogTransformParams(transform_type=cand.transform_type, params=params, legal=cand.legal))
+                mutated = True
+            else:
+                new_candidates.append(cand)
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of LogTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, LogTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a LogTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = LogMetrics(
+                error_rate=float(baseline_raw.get("error_rate", 0.1)),
+                log_volume_mb=float(baseline_raw.get("log_volume_mb", 100.0)),
+                parse_time_ms=float(baseline_raw.get("parse_time_ms", 1000.0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = LogMetrics(error_rate=0.1, log_volume_mb=100.0, parse_time_ms=1000.0)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _log_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_log_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                # Quality = combined reduction: error_rate (weighted 0.7) + volume (weighted 0.3).
+                error_rate_reduction = 0.0
+                if baseline.error_rate > 0:
+                    error_rate_reduction = (baseline.error_rate - new_metrics.error_rate) / baseline.error_rate
+                volume_reduction = 0.0
+                if baseline.log_volume_mb > 0:
+                    volume_reduction = (baseline.log_volume_mb - new_metrics.log_volume_mb) / baseline.log_volume_mb
+                reduction = error_rate_reduction * 0.7 + volume_reduction * 0.3
+                if reduction > best_reduction:
+                    best_reduction = reduction
         quality = max(0.0, min(1.0, best_reduction))
         cost = float(tried)
         latency = 1.0
