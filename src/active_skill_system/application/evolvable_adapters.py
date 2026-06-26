@@ -50,6 +50,11 @@ from active_skill_system.domain.sql_types import (
     SQLNodeKind,
     SQLTransformParams,
 )
+from active_skill_system.domain.storage_types import (
+    StorageMetrics,
+    StorageNodeKind,
+    StorageTransformParams,
+)
 
 
 class ModelGenomeEvolvable:
@@ -1061,6 +1066,127 @@ class NetworkEvolvable(Evolvable):
                 any_improvement = True
                 if baseline.latency_ms > 0:
                     reduction = (baseline.latency_ms - new_metrics.latency_ms) / baseline.latency_ms
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
+
+
+# ── StorageEvolvable (M029 S03) ──────────────────────────────────────────
+
+
+def _storage_metrics_to_dict(m: StorageMetrics) -> dict:
+    return {"storage_bytes": m.storage_bytes, "query_latency_ms": m.query_latency_ms, "index_count": m.index_count, "is_valid": m.is_valid}
+
+
+def _parse_storage_metrics(payload: str) -> StorageMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return StorageMetrics(
+            storage_bytes=int(d["storage_bytes"]),
+            query_latency_ms=float(d["query_latency_ms"]),
+            index_count=int(d["index_count"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _try_mutate_storage_candidate(cand: StorageTransformParams) -> StorageTransformParams:
+    """Mutation: increase compression ratio for COMPRESS (cap 0.9)."""
+    kind = cand.transform_type
+    if kind is StorageNodeKind.STOR_TRANSFORM_COMPRESS:
+        params = dict(cand.params)
+        current = float(params.get("ratio", 0.5))
+        params["ratio"] = min(0.9, current + 0.1)
+        return StorageTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    return cand
+
+
+class StorageEvolvable(Evolvable):
+    """9th concrete Evolvable case. Mutation: increase compression ratio by +0.1 (cap 0.9)."""
+
+    def __init__(self, invoker: Callable[[dict[str, Any]], tuple[bool, str]]) -> None:
+        if invoker is None:
+            raise ValueError("StorageEvolvable requires an invoker.")
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description="increase COMPRESS ratio by +0.1 (cap 0.9); other transforms no-op",
+            mutate_fn_name="bump_storage_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of StorageTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, StorageTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a StorageTransformParams")
+        if not genome:
+            return genome
+        new_candidates: list[StorageTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            mutated_cand = _try_mutate_storage_candidate(cand)
+            if mutated_cand is cand:
+                new_candidates.append(cand)
+            else:
+                new_candidates.append(mutated_cand)
+                mutated = True
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of StorageTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, StorageTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a StorageTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = StorageMetrics(
+                storage_bytes=int(baseline_raw.get("storage_bytes", 1)),
+                query_latency_ms=float(baseline_raw.get("query_latency_ms", 0.0)),
+                index_count=int(baseline_raw.get("index_count", 0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = StorageMetrics(storage_bytes=1, query_latency_ms=0.0, index_count=0)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _storage_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_storage_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.storage_bytes > 0:
+                    reduction = (baseline.storage_bytes - new_metrics.storage_bytes) / baseline.storage_bytes
                     if reduction > best_reduction:
                         best_reduction = reduction
         quality = max(0.0, min(1.0, best_reduction))
