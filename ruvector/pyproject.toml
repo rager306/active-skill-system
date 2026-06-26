@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ruvector"
+version = "0.1.0"
+description = "Container format for AI agent knowledge graphs (PyO3 bindings placeholder, pure-Python fallback)"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [{name = "active-skill-system team"}]
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+pyo3 = ["maturin>=1.5"]
+
+[tool.setuptools.packages.find]
+include = ["ruvector*"]
