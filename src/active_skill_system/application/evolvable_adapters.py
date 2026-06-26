@@ -29,6 +29,11 @@ from active_skill_system.domain.iac_types import (
     IaCPlanMetrics,
     IaCTransformParams,
 )
+from active_skill_system.domain.ml_types import (
+    MLMetrics,
+    MLNodeKind,
+    MLTransformParams,
+)
 from active_skill_system.domain.model_genome import ModelGenome
 from active_skill_system.domain.prompt_genome import PromptGenome
 from active_skill_system.domain.security_types import (
@@ -829,6 +834,132 @@ class SecurityEvolvable(Evolvable):
                 any_improvement = True
                 if baseline.threat_count > 0:
                     reduction = (baseline.threat_count - new_metrics.threat_count) / baseline.threat_count
+                    if reduction > best_reduction:
+                        best_reduction = reduction
+        quality = max(0.0, min(1.0, best_reduction))
+        cost = float(tried)
+        latency = 1.0
+        regression = not any_improvement
+        return FitnessSignal(quality=quality, cost=cost, latency=latency, regression=regression)
+
+
+# ── MLEvolvable (M027 S03) ───────────────────────────────────────────────
+
+
+def _ml_metrics_to_dict(m: MLMetrics) -> dict:
+    return {"loss": m.loss, "accuracy": m.accuracy, "epochs": m.epochs, "convergence_time": m.convergence_time, "is_valid": m.is_valid}
+
+
+def _parse_ml_metrics(payload: str) -> MLMetrics | None:
+    try:
+        d = json.loads(payload)
+    except (TypeError, ValueError):
+        return None
+    if not isinstance(d, dict):
+        return None
+    try:
+        return MLMetrics(
+            loss=float(d["loss"]), accuracy=float(d["accuracy"]),
+            epochs=int(d["epochs"]), convergence_time=float(d["convergence_time"]),
+            is_valid=bool(d.get("is_valid", True)),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _try_mutate_ml_candidate(cand: MLTransformParams) -> MLTransformParams:
+    """Mutation: halve lr_factor for ADJUST_LR, add +1 n_layers for PRUNE_LAYER."""
+    kind = cand.transform_type
+    if kind is MLNodeKind.ML_TRANSFORM_ADJUST_LR:
+        params = dict(cand.params)
+        current = float(params.get("lr_factor", 0.5))
+        params["lr_factor"] = max(0.01, current * 0.5)
+        return MLTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    if kind is MLNodeKind.ML_TRANSFORM_PRUNE_LAYER:
+        params = dict(cand.params)
+        current = int(params.get("n_layers", 1))
+        params["n_layers"] = min(32, current + 1)
+        return MLTransformParams(transform_type=kind, params=params, legal=cand.legal)
+    return cand
+
+
+class MLEvolvable(Evolvable):
+    """7th concrete Evolvable case. Mutates lr_factor (halve, floor 0.01) for ADJUST_LR."""
+
+    def __init__(self, invoker: Callable[[dict[str, Any]], tuple[bool, str]]) -> None:
+        if invoker is None:
+            raise ValueError("MLEvolvable requires an invoker.")
+        self._invoker = invoker
+
+    @property
+    def mutation_space(self) -> MutationSpace:
+        return MutationSpace(
+            description="halve lr_factor for ADJUST_LR (floor 0.01); bump n_layers for PRUNE_LAYER (cap 32)",
+            mutate_fn_name="bump_ml_params",
+        )
+
+    def mutate(self, genome: Any) -> Any:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of MLTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, MLTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a MLTransformParams")
+        if not genome:
+            return genome
+        new_candidates: list[MLTransformParams] = []
+        mutated = False
+        for cand in genome:
+            if mutated:
+                new_candidates.append(cand)
+                continue
+            mutated_cand = _try_mutate_ml_candidate(cand)
+            if mutated_cand is cand:
+                new_candidates.append(cand)
+            else:
+                new_candidates.append(mutated_cand)
+                mutated = True
+        return tuple(new_candidates)
+
+    def evaluate(self, genome: Any, dataset: Any) -> FitnessSignal:
+        if not isinstance(genome, tuple):
+            raise TypeError(f"Expected tuple of MLTransformParams, got {type(genome).__name__}")
+        if not all(isinstance(c, MLTransformParams) for c in genome):
+            raise TypeError("Every genome element must be a MLTransformParams")
+        ds = dataset if isinstance(dataset, dict) else {}
+        baseline_raw = ds.get("baseline_metrics", {})
+        if not isinstance(baseline_raw, dict):
+            baseline_raw = {}
+        try:
+            baseline = MLMetrics(
+                loss=float(baseline_raw.get("loss", 1.0)),
+                accuracy=float(baseline_raw.get("accuracy", 0.0)),
+                epochs=int(baseline_raw.get("epochs", 1)),
+                convergence_time=float(baseline_raw.get("convergence_time", 0.0)),
+                is_valid=bool(baseline_raw.get("is_valid", True)),
+            )
+        except (TypeError, ValueError):
+            baseline = MLMetrics(loss=1.0, accuracy=0.0, epochs=1, convergence_time=0.0)
+        max_candidates = int(ds.get("max_candidates", len(genome)))
+        candidates_to_try = genome[:max_candidates]
+        best_reduction = 0.0
+        any_improvement = False
+        tried = 0
+        for cand in candidates_to_try:
+            tried += 1
+            args = {
+                "transform_type": cand.transform_type.value,
+                "params": {**cand.params, "legal": cand.legal},
+                "baseline": _ml_metrics_to_dict(baseline),
+            }
+            success, text = self._invoker(args)
+            if not success:
+                continue
+            new_metrics = _parse_ml_metrics(text)
+            if new_metrics is None:
+                continue
+            if new_metrics.better_than(baseline):
+                any_improvement = True
+                if baseline.loss > 0:
+                    reduction = (baseline.loss - new_metrics.loss) / baseline.loss
                     if reduction > best_reduction:
                         best_reduction = reduction
         quality = max(0.0, min(1.0, best_reduction))
