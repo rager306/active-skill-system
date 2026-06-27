@@ -50,6 +50,18 @@ class MiniMaxProvider(AnthropicProvider):
         self._enable_thinking = enable_thinking and "MiniMax-M3" in self.default_model
         self._cache = ThinkingTurnCache()
 
+    def recognizes_model(self, name: str) -> bool:
+        """Recognise the MiniMax model family (bare + minimax/ prefixed).
+
+        The base AnthropicProvider recognises only ``claude-*``; without this
+        override the activegraph runtime falls back to a recorded ``claude-*``
+        default (recorded.py) because it believes this provider cannot serve
+        ``minimax/MiniMax-M3``. That fallback routes requests to the wrong
+        provider on the gateway proxy (404 model_not_found). Override so the
+        runtime keeps our default_model.
+        """
+        return name.startswith("minimax/") or name.startswith("MiniMax")
+
     @property
     def _turn_blocks(self) -> dict[str, list[dict[str, Any]]]:
         """Legacy accessor — exposes the cache's backing store for tests."""

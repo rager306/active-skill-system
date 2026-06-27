@@ -126,3 +126,29 @@ def test_retry_uses_exponential_backoff(monkeypatch):
     assert len(delays) == 3
     assert delays == sorted(delays)
     assert delays[0] < delays[-1]
+
+
+# ── recognizes_model override (cross-provider mismatch fix) ───────────
+
+
+def test_recognizes_model_accepts_minimax_family():
+    p = MiniMaxProvider(client=_FlakyClient(), enable_thinking=False)
+    assert p.recognizes_model("minimax/MiniMax-M3")
+    assert p.recognizes_model("minimax/MiniMax-M2.7-highspeed")
+    assert p.recognizes_model("MiniMax-M3")
+    assert p.recognizes_model("MiniMax-M2.7")
+
+
+def test_recognizes_model_rejects_claude_family():
+    """Without the override, the base class recognises only claude-* and the
+    runtime silently fell back to claude-sonnet-4-5 (proxy 404). The override
+    must flip this so the runtime keeps our default_model."""
+    p = MiniMaxProvider(client=_FlakyClient(), enable_thinking=False)
+    assert not p.recognizes_model("claude-sonnet-4-5")
+    assert not p.recognizes_model("claude-haiku-4-5")
+
+
+def test_default_model_self_recognized():
+    """The provider must recognise its own default_model (else runtime fallback)."""
+    p = MiniMaxProvider(client=_FlakyClient(), enable_thinking=False)
+    assert p.recognizes_model(p.default_model)

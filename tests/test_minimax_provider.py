@@ -240,12 +240,16 @@ def test_real_llm_pong() -> None:
 @pytest.mark.llm
 @pytest.mark.xfail(
     reason=(
-        "Infrastructure-dependent: the local proxy at 127.0.0.1:20128 returns "
-        "HTTP 404 for POST /v1/messages (only count_tokens is served), so the "
-        "Diligence tool-loop cannot complete in this environment. This is NOT a "
-        "code defect in active_skill_system — it is a gateway/proxy limitation. "
-        "Re-enable when the proxy serves /v1/messages or when the test targets "
-        "the real MiniMax gateway (api.minimax.io)."
+        "Diligence pack behaviors are designed for the claude-* model family. "
+        "MiniMaxProvider.recognizes_model now correctly recognises minimax/* "
+        "(fixed: was inheriting the claude-only base, causing silent fallback "
+        "to claude-sonnet-4-5 → proxy 404). With the fix, the runtime's "
+        "cross-provider validation honestly raises InvalidRuntimeConfiguration: "
+        "a behavior pinned to a claude-* model cannot be served by a minimax "
+        "provider. This is a genuine pack↔provider design incompatibility, not "
+        "a code defect. Re-enable when a claude-family provider (e.g. the 'kr' "
+        "Kiro route on the proxy) is wired, or when the pack is made "
+        "model-agnostic."
     ),
     strict=True,
 )
