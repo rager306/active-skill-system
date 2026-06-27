@@ -33,6 +33,7 @@ from active_skill_system.domain.sandbox_cache_task import REQUIRED_FIELDS
 _log = logging.getLogger("active_skill_system.application.sandbox_agent_runner")
 
 _CODE_FENCE_RE = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
+_TRUNCATED_FENCE_RE = re.compile(r"```(?:python)?\s*\n(.*)$", re.DOTALL)
 
 
 def _build_prompt() -> str:
@@ -54,16 +55,32 @@ def _build_prompt() -> str:
            CacheMetrics: returns True if self.hit_count > other.hit_count, or
            if equal hit_count and self.miss_count < other.miss_count.
 
+        The module MUST start with `from __future__ import annotations` (so
+        forward references like `other: CacheMetrics` in method signatures
+        resolve without NameError). Keep it minimal — no __post_init__, no
+        extra validation; the frozen dataclass + field types are enough.
+
         Return ONLY the Python code in a single ```python fenced block. No
         explanation, no imports beyond stdlib (dataclasses, enum).
         """)
 
 
 def _extract_code(raw_text: str) -> str:
-    """Extract Python source from a model response (strip markdown fences)."""
+    """Extract Python source from a model response (strip markdown fences).
+
+    Handles three cases found in real-LLM runs:
+      1. Complete fenced block (```python ... ```).
+      2. Truncated fenced block (```python ... <no closing fence> — model hit
+         max_tokens mid-generation). Strip the opening fence and return the rest.
+      3. No fence at all — assume the whole response is code (best effort).
+    """
     match = _CODE_FENCE_RE.search(raw_text)
     if match:
         return match.group(1).strip()
+    # Truncated fence: opening ```python with no closing fence.
+    trunc = _TRUNCATED_FENCE_RE.search(raw_text)
+    if trunc:
+        return trunc.group(1).strip()
     # No fence — assume the whole response is code (best effort).
     return raw_text.strip()
 
@@ -105,7 +122,7 @@ class SandboxAgentRunner:
         self,
         *,
         model: str | None = None,
-        max_tokens: int = 1024,
+        max_tokens: int = 524_288,
         temperature: float = 0.0,
         timeout_seconds: float = 60.0,
     ) -> SandboxRunResult:

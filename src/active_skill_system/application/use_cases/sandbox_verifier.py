@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import ast
 import importlib.util
+import logging
 import subprocess
 import sys
 from dataclasses import is_dataclass
@@ -28,6 +29,7 @@ from active_skill_system.domain.sandbox_cache_task import (
 )
 
 _R06_MAX_LOC = 200
+_log = logging.getLogger("active_skill_system.application.sandbox_verifier")
 
 
 class SandboxFitness:
@@ -61,6 +63,7 @@ class SandboxFitness:
         symbols_ok: bool = False,
         docstring_ok: bool = False,
         loc: int = 0,
+        error_detail: str | None = None,
     ) -> None:
         self.structure_ok = structure_ok
         self.invariants_ok = invariants_ok
@@ -72,6 +75,8 @@ class SandboxFitness:
         self.symbols_ok = symbols_ok
         self.docstring_ok = docstring_ok
         self.loc = loc
+        self.loc_ok = loc <= _R06_MAX_LOC
+        self.error_detail = error_detail
         self.loc_ok = loc <= _R06_MAX_LOC
         bools = [
             structure_ok, invariants_ok, ranking_ok, ruff_clean,
@@ -93,6 +98,7 @@ class SandboxFitness:
             "docstring_ok": self.docstring_ok,
             "loc": self.loc,
             "loc_ok": self.loc_ok,
+            "error_detail": self.error_detail,
             "score": self.score,
         }
 
@@ -300,11 +306,14 @@ def verify_candidate(path: str | Path) -> SandboxFitness:
 
     try:
         module = _load_candidate_module(p)
-    except Exception:  # noqa: BLE001
+    except Exception as exc:  # noqa: BLE001
+        detail = f"{type(exc).__name__}: {exc}"
+        _log.warning("candidate import failed: %s", detail)
         return SandboxFitness(
             structure_ok=False, invariants_ok=False, ranking_ok=False,
             ruff_clean=ruff_clean, ty_clean=ty_clean, pyrefly_clean=pyrefly_clean,
             risk_ok=risk_ok, symbols_ok=symbols_ok, docstring_ok=docstring_ok, loc=loc,
+            error_detail=detail,
         )
 
     structure_ok, _ = _check_structure(module)
