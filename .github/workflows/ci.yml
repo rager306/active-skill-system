@@ -24,7 +24,7 @@ jobs:
           enable-cache: true
 
       - name: Set up Python
-        run: uv python install 3.12
+        run: uv python install 3.13
 
       - name: Install project
         run: uv sync --frozen || uv sync
@@ -37,3 +37,30 @@ jobs:
 
       - name: Layering gate (import-linter)
         run: uv run lint-imports
+
+  # Real-LLM gated suite (opt-in: triggers only on 'run-llm' label or manual).
+  # Runs the --runllm tests that make real LLM calls. Requires secrets.
+  real-llm:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'run-llm') || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.13
+
+      - name: Install project
+        run: uv sync --frozen || uv sync
+
+      - name: Real-LLM tests (--runllm)
+        env:
+          ANTHROPIC_AUTH_TOKEN: ${{ secrets.ANTHROPIC_AUTH_TOKEN }}
+          ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          ANTHROPIC_MODEL: ${{ secrets.ANTHROPIC_MODEL }}
+        run: uv run pytest -q --runllm -p no:cacheprovider
