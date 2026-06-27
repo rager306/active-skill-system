@@ -33,6 +33,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--check", type=str, default=None, help="Score a candidate module (no LLM).")
     parser.add_argument("--model", type=str, default=None, help="Run ONE model on the benchmark.")
     parser.add_argument("--models", type=str, default=None, help="(S03) Comma-separated model list.")
+    parser.add_argument("--executor", type=str, default="inprocess", choices=("inprocess", "bwrap"),
+                        help="Code executor for LLM-generated code: inprocess (tests) or bwrap (isolated).")
     return parser.parse_args(argv)
 
 
@@ -46,7 +48,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
-        return _run_single_model(args.model)
+        return _run_single_model(args.model, args.executor)
     if args.models is not None:
         return _run_multi_model(args.models)
     print("nothing to do: pass --check / --model / --models", flush=True)
@@ -66,7 +68,16 @@ def _run_check(candidate_path: str) -> int:
     return 0 if axes["score"] == 1.0 else 1
 
 
-def _run_single_model(model: str) -> int:
+def _build_executor(executor_type: str):
+    """Build a CodeExecutorPort adapter by type string (lazy import, R008)."""
+    if executor_type == "bwrap":
+        from active_skill_system.adapters.bwrap_executor import BwrapExecutor
+        return BwrapExecutor()
+    from active_skill_system.adapters.inprocess_executor import InProcessExecutor
+    return InProcessExecutor()
+
+
+def _run_single_model(model: str, executor_type: str = "inprocess") -> int:
     """Run one model on the benchmark; record Loop + LoopGraph provenance."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
@@ -75,7 +86,8 @@ def _run_single_model(model: str) -> int:
     from active_skill_system.domain.loop_graph import LoopEdgeKind, project
 
     engine = PlainLLMStrategy(provider=MiniMaxProvider())
-    runner = SandboxAgentRunner(engine=engine)
+    code_executor = _build_executor(executor_type)
+    runner = SandboxAgentRunner(engine=engine, code_executor=code_executor)
     result = runner.run(model=model)
 
     # Project the Loop to LoopGraph and store provenance.

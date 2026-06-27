@@ -112,7 +112,13 @@ class SandboxAgentRunner:
         result = runner.run(model="minimax/MiniMax-M3")
     """
 
-    def __init__(self, *, engine: ReasoningEnginePort, sandbox_dir: str | Path = "runs/sandbox") -> None:
+    def __init__(
+        self,
+        *,
+        engine: ReasoningEnginePort,
+        sandbox_dir: str | Path = "runs/sandbox",
+        code_executor: Any = None,
+    ) -> None:
         if engine is None:
             raise TypeError("engine must be a non-None ReasoningEnginePort")
         if not hasattr(engine, "forward"):
@@ -120,6 +126,10 @@ class SandboxAgentRunner:
         self._engine = engine
         self._sandbox_dir = Path(sandbox_dir)
         self._counter = 0
+        # Optional code executor for security gate (D018). None = skip gate
+        # (offline tests); a CodeExecutorPort = run candidate in isolation
+        # before verification.
+        self._code_executor = code_executor
 
     def run(
         self,
@@ -174,6 +184,20 @@ class SandboxAgentRunner:
         candidate_path = self._sandbox_dir / f"{run_id}_cache_types.py"
         candidate_path.write_text(code, encoding="utf-8")
         _autofix(candidate_path)
+
+        # ── Security gate (D018): run candidate in isolated executor ────
+        if self._code_executor is not None:
+            exec_result = self._code_executor.execute(str(candidate_path))
+            if not exec_result.ok:
+                error = f"code_executor rejected: {exec_result.error}"
+                _log.warning("sandbox run %s executor gate failed: %s", run_id, error)
+                failed_loop = loop.advance(
+                    LoopEvent.now(LoopEventKind.FAILED, LoopState.FAILED, {"error": error})
+                )
+                return SandboxRunResult(
+                    loop=failed_loop, fitness=_zero_fitness(),
+                    model=resolved_model, error=error,
+                )
 
         # ── Verify ──────────────────────────────────────────────────────
         fitness = verify_candidate(candidate_path)
