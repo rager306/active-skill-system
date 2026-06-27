@@ -22,7 +22,8 @@ from activegraph.llm.anthropic import (
     _retry_after_seconds,
 )
 from activegraph.llm.errors import LLMBehaviorError
-from activegraph.llm.types import LLMMessage as _AgLLMMessage, LLMResponse, ToolCall
+from activegraph.llm.types import LLMMessage as _AgLLMMessage
+from activegraph.llm.types import LLMResponse, ToolCall
 
 from active_skill_system.adapters.llm.minimax._thinking import ThinkingTurnCache, _block_to_dict
 from active_skill_system.adapters.llm.minimax._tokens import count_tokens_fallback
@@ -92,14 +93,14 @@ class MiniMaxProvider(AnthropicProvider):
         for m in messages:
             tool_calls = tuple(
                 ToolCall(id=tc.id, name=tc.name, args=dict(tc.args))
-                for tc in m.tool_calls
+                for tc in (m.tool_calls or ())
             )
             converted.append(
                 _AgLLMMessage(
                     role=m.role,
                     content=m.content,
-                    tool_use_id=m.tool_call_id,
-                    tool_name=m.tool_name,
+                    tool_use_id=getattr(m, "tool_call_id", None) or getattr(m, "tool_use_id", None),
+                    tool_name=getattr(m, "tool_name", None),
                     tool_calls=tool_calls or None,
                 )
             )

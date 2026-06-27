@@ -9,6 +9,9 @@ dependencies = [
     "pyyaml>=6.0.3",
 ]
 
+[project.optional-dependencies]
+graph = ["ladybug>=0.17.1"]
+
 [tool.uv.sources]
 activegraph = { path = "../vendor-source/activegraph" }
 
@@ -26,6 +29,7 @@ active-skill-diligence = "active_skill_system.composition.diligence:main"
 dev = [
     "hypothesis>=6.155.7",
     "import-linter>=2",
+    "ladybug>=0.17.1",
     "pyrefly>=1.1.1",
     "pytest>=8",
     "pytest-cov>=7.1.0",

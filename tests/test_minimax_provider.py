@@ -225,13 +225,16 @@ def test_real_llm_pong() -> None:
         system="terse assistant",
         messages=[LLMMessage(role="user", content="Reply: PONG")],
         model=p.default_model,
-        max_tokens=32,
-        temperature=0.7,
+        max_tokens=256,
+        temperature=0.0,
         top_p=1.0,
         output_schema=None,
         timeout_seconds=60,
     )
-    assert "PONG" in (getattr(r, "raw_text", "") or "")
+    assert "PONG" in (getattr(r, "raw_text", "") or ""), (
+        f"expected PONG in raw_text, got finish_reason={r.finish_reason!r} "
+        f"raw_text={r.raw_text!r}"
+    )
 
 
 @pytest.mark.llm

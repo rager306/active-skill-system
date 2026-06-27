@@ -8,6 +8,8 @@ Adapters (e.g. LadybugGraphStore) are tested against the same contract via
 
 from __future__ import annotations
 
+from tests._graph_store_conformance import run_graph_store_conformance
+
 from active_skill_system.application.ports.graph_store import GraphStore
 from active_skill_system.domain.loop_graph import (
     LoopEdge,
@@ -61,40 +63,6 @@ class InMemoryGraphStore:
     def count_edges(self) -> int:
         return len(self._edges)
 
-
-def _sample_graph() -> LoopGraph:
-    loop_v = LoopVertex(id="loop:1", kind=LoopVertexKind.LOOP, label="L1")
-    skill_v = LoopVertex(id="skill:s1", kind=LoopVertexKind.SKILL, label="S1")
-    edge = LoopEdge(LoopEdgeKind.USES, "loop:1", "skill:s1")
-    return LoopGraph(vertices=(loop_v, skill_v), edges=(edge,))
-
-
-def run_graph_store_conformance(store: GraphStore) -> None:
-    """Assert ``store`` satisfies the GraphStore contract.
-
-    Shared by InMemoryGraphStore here and adapter tests elsewhere.
-    """
-    graph = _sample_graph()
-
-    # store_loop_graph is idempotent.
-    store.store_loop_graph(graph)
-    store.store_loop_graph(graph)
-    assert store.count_vertices() == 2
-    assert store.count_edges() == 1
-
-    # get_vertex.
-    assert store.get_vertex("loop:1") is not None
-    assert store.get_vertex("nope") is None
-
-    # has_edge.
-    assert store.has_edge(LoopEdgeKind.USES, "loop:1", "skill:s1")
-    assert not store.has_edge(LoopEdgeKind.FIXES, "loop:1", "skill:s1")
-
-    # query_neighbours.
-    out = store.query_neighbours("loop:1", direction="out")
-    assert any(v.id == "skill:s1" for v in out)
-    inn = store.query_neighbours("skill:s1", direction="in")
-    assert any(v.id == "loop:1" for v in inn)
 
 
 # ── Tests against the reference implementation ────────────────────────
