@@ -146,7 +146,7 @@ for a future `ContextAssembler` port; the rendering strategy is deferred.
 | Deferred item | Revisit criterion |
 |---------------|-------------------|
 | Self-modifying loop (Critic→Optimizer chain) | A working Loop domain exists AND a benchmark shows skill-level evolution alone misses system-level regressions. |
-| RLM-over-graph (recursive graph queries) | A concrete decomposition need that file-RLM cannot serve; plus recursion-depth safeguards designed. |
+| RLM-over-graph (recursive graph queries) | A concrete decomposition need that file-RLM cannot serve AND where the decomposition is **model-picked** (hardcoded map-reduce is NOT sufficient — it fails the RLM rubric); plus recursion-depth safeguards (REQUIRED Budget on each recursive Loop) designed. |
 | Dual/multi-store (PostgreSQL + a second store) | The LadybugDB adapter is proven insufficient at measured scale; cross-store consistency cost justified (§7.4). |
 | Rust/PyO3 Loop runtime | Profiler shows the Python Loop/event path is a hot spot. |
 | Loop Marketplace / Transfer | Two real projects share an identical Loop schema and manual transfer is painful. |
@@ -243,9 +243,121 @@ store.
 2. Who writes provenance edges — the loop itself on completion, or a separate
    observer (cleaner separation, harder to keep consistent)?
 3. Does the Context Graph require a new port, or can it reuse `RuntimePort` +
-   a `ContextAssembler`?
+   a `ContextAssembler`? RLM research (§10) indicates a dedicated externalized-context
+   port is warranted: the model operates on the context symbolically rather than
+   reading it into the window.
 4. What is the minimal termination policy set (budget calls, budget cost,
    max iterations, deadline) that is REQUIRED vs. configurable?
 
 These are design questions, not blockers — they should be answered in the first
 build milestone's CONTEXT, not before it.
+
+## 10. Relationship to Recursive Language Models (RLM)
+
+RLM (Recursive Language Models, arXiv:2512.24601; OpenProse / "Recursive Coding
+Agents", Weitekamp 2026) is not a competing paradigm — it is the **reasoning
+mechanism that makes a Loop genuinely recursive**. Without RLM, a Loop is an
+event-sourced workflow (which this project already has via `RuntimePort`). With
+RLM, a Loop can decompose its own Intent into sub-Loops.
+
+### 10.1 What RLM adds to RGLA
+
+The RLM rubric (executable env / prompt externalized / code calls model /
+**model picks decomposition** / state stays symbolic) maps directly onto RGLA:
+
+| RLM rubric | RGLA realisation |
+|------------|------------------|
+| Executable env | Loop runs in the harness runtime (M033) |
+| Prompt externalized | Loop's Intent + Context Graph are graph nodes, not inline text (§4.3) |
+| Code calls model | `LLMProviderPort` / `LLMRouter` (M011/M038) |
+| Model picks decomposition | **GAP** — EvolutionEngine is currently deterministic, not LLM-driven |
+| State stays symbolic | Loop state is event-sourced; LoopGraph is a projection (§4.2) |
+
+The single gap is *model-picked decomposition*. Closing it is the RLM step for
+RGLA — but it remains deferred behind the §5 revisit criterion (now narrowed:
+map-reduce is NOT enough; the decomposition must be model-chosen).
+
+### 10.2 Golden Sessions → Programs (new capability, not yet built)
+
+RLM's most transferable pattern for this project is **Golden Sessions →
+Programs**: take a successful run and have an agent compile it into a reusable
+workflow. This is the missing bridge between pieces the project already has:
+
+```
+run-log (M039) + evidence ledger + ratchet  →  Golden Session  →  fat-skill (.prose/.md)
+```
+
+Today these are disconnected: run-logs record history, fat-skills are hand-
+authored. A Golden Session compiler would turn a promoted evolution run into a
+reproducible skill — composing RLM with the existing evolution engine.
+
+### 10.3 RLM rubric as an evaluation framework
+
+The 7-gate RLM rubric is a ready-made checklist for auditing this project's
+harness: which gates pass, which sag. Running the current harness/evolution
+workflow through it is a low-cost way to prioritise the next milestone (and is
+explicitly out of scope for this document — it is a follow-up action).
+
+### 10.4 Discipline RLM does NOT relax
+
+RLM's "trust = reliability" thesis is orchestration-level, not proof-level. It
+ does not remove any RGLA safeguard:
+  - **REQUIRED Budget** on every recursive Loop (recursion without a budget is a
+    contract violation — D009). RLM recursion-depth guards reinforce this.
+  - **Verification** (`VerifiedToolResult`, `EvidenceLedger`) stays mandatory;
+    OpenProse's "logical English" is trust-through-orchestration, not
+    trust-through-proof.
+  - **Provenance** (LoopGraph) is unchanged; it is what makes a Golden Session
+    compilable in the first place.
+  - **Typed sub-Loop contracts** (new, from §10.6 case study): every sub-Loop
+    return must be typed (schema-validated), not free-text. The free-text
+    fan-out failure mode shows *why* — untyped boundaries confound the
+    aggregator. The typed payload **is** the LoopGraph provenance edge payload.
+
+### 10.5 Decision recorded
+
+D011 captures the RLM integration stance: RLM is the reasoning mechanism for the
+Loop; Golden Sessions→Programs is a future capability; the 7-gate rubric is the
+evaluation framework; no RLM-over-graph build until its (narrowed) revisit
+criterion fires and Budget safeguards exist on every recursive Loop. The fast-rlm
+structured-output case study (§10.6 / `doc/rgla-fast-rlm-research.md` §5) adds:
+typed evidence at sub-Loop boundaries is the **durable layer** that outlives any
+RLM engine — engines are swappable L3 adapters, typed provenance is the asset.
+
+### 10.6 Reference implementation: fast-rlm
+
+[avbiswas/fast-rlm](https://github.com/avbiswas/fast-rlm) (PyPI `fast-rlm`) is a
+concrete, installable RLM implementation studied as a reference (not adopted as
+a dependency). It validates several RGLA decisions and offers transferable
+patterns. Full notes: `doc/rgla-fast-rlm-research.md`.
+
+**How it realises the RLM rubric:** an LLM writes code into an external REPL
+(sandboxed via **Deno + Pyodide**) that operates on the prompt symbolically —
+the prompt is never loaded whole into the context window. Sub-agent responses
+are returned as **symbols/variables in the parent REPL**, not auto-streamed
+into the parent context (the crux of RLM's infinite-context property).
+
+**Transferable patterns confirmed against this project:**
+
+| fast-rlm mechanism | RGLA / project analogue |
+|-------------------|-------------------------|
+| `--max-depth`, `--max-calls`, `--max-global-calls` budget flags | **Validates D009's REQUIRED Budget** — recursion is budget-bounded, not unbounded. fast-rlm ships exactly the guardrails D009 demands. |
+| `output_schema` validation on every `FINAL(...)` with retry-on-failure | Mirrors our `VerifiedToolResult` / anti-fancy; schema validation is the RLM analogue of our verification layer. **Case study (research §5):** free-text sub-agent fan-out *fails* on distributed/implicit facts; typed JSON-schema routing *succeeds* — acting as external sparsification. This makes typed sub-Loop contracts a REQUIRED RGLA discipline, not optional. |
+| `primary_agent` is REQUIRED (no default model) | Matches our injected-provider discipline (R002 / M038 `LLMRouter` — providers injected, no ambient default). |
+| Backend-agnostic (OpenAI-compatible / Vertex / Anthropic / **ACP** `acp:codex`) | Matches our `LLMProviderPort` abstraction; the ACP mode (driving local coding agents read-only) is a future adapter candidate. |
+| Tools as ordinary Python callables in the REPL namespace | Aligns with our `ToolRegistry` + `ToolCapability`; tools are functions, not a separate calling API. |
+| Structured input: `dict` query → flat schema probe at step 0 | Informs the Context Graph port (§9 Q3): externalised context is presented structurally, not stringified. |
+
+**Engineering caveats (recorded honestly):**
+  - The Deno + Pyodide runtime is a **heavy native dependency** (Deno 2+); it
+    would live behind an L3 adapter, never in domain/application (R002).
+  - fast-rlm's sandbox executes model-written code — a **code-execution trust
+    boundary** that our `VerifiedToolResult`/`EvidenceLedger` must still gate;
+    RLM does not waive verification (§10.4).
+  - It is a single-author, fast-moving reference; adopting it as a runtime
+    dependency is **out of scope**. It is studied for patterns, not vendored.
+
+**Net effect on decisions:** fast-rlm *strengthens* D009 (Budget guardrails
+exist in practice) and D011 (verification is not relaxed) without changing
+them. It sharpens the Context Graph port shape (§9 Q3) and adds ACP-mode as a
+future adapter candidate — both are follow-ups, not blockers.
