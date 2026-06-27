@@ -9,14 +9,12 @@ from pathlib import Path
 
 import pytest
 
-
 # Ensure the harness/ and ratchet/ packages are importable from the project root.
 _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from harness import HarnessRules, RatchetEntry, RatchetLedger, load_harness  # noqa: E402
-
 
 # ── AGENTS.md sections ──────────────────────────────────────────────────
 

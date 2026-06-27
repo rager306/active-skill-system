@@ -41,7 +41,7 @@ class SecurityRepairPolicy:
         return gap in self.mapping
 
     @staticmethod
-    def default_policy() -> "SecurityRepairPolicy":
+    def default_policy() -> SecurityRepairPolicy:
         return SecurityRepairPolicy(
             mapping={
                 SecurityGapClass.UNPATCHED_VULN: SecurityActionType.PATCH,

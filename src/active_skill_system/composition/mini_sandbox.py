@@ -70,11 +70,12 @@ def _run_single_model(model: str) -> int:
     """Run one model on the benchmark; record Loop + LoopGraph provenance."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
+    from active_skill_system.adapters.plain_llm_strategy import PlainLLMStrategy
     from active_skill_system.application.use_cases.sandbox_agent_runner import SandboxAgentRunner
     from active_skill_system.domain.loop_graph import LoopEdgeKind, project
 
-    provider = MiniMaxProvider()
-    runner = SandboxAgentRunner(provider=provider)
+    engine = PlainLLMStrategy(provider=MiniMaxProvider())
+    runner = SandboxAgentRunner(engine=engine)
     result = runner.run(model=model)
 
     # Project the Loop to LoopGraph and store provenance.
@@ -108,12 +109,13 @@ def _run_multi_model(models_csv: str) -> int:
     """Run the benchmark across N models; print comparative report + reader query."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
+    from active_skill_system.adapters.plain_llm_strategy import PlainLLMStrategy
     from active_skill_system.application.use_cases.sandbox_harness import SandboxHarness
     from active_skill_system.domain.loop_graph import project
 
     models = [m.strip() for m in models_csv.split(",") if m.strip()]
-    provider = MiniMaxProvider()
-    harness = SandboxHarness(provider=provider, models=models)
+    engine = PlainLLMStrategy(provider=MiniMaxProvider())
+    harness = SandboxHarness(engine=engine, models=models)
     report = harness.run_all()
 
     # Store all Loops' LoopGraph provenance in one store.

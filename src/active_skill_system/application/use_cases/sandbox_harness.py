@@ -15,8 +15,8 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from typing import Any
 
-from active_skill_system.application.ports.llm import LLMProviderPort
 from active_skill_system.application.use_cases.sandbox_agent_runner import (
     SandboxAgentRunner,
     SandboxRunResult,
@@ -72,21 +72,21 @@ class SandboxHarness:
     def __init__(
         self,
         *,
-        provider: LLMProviderPort,
+        engine: Any,
         models: list[str],
         sandbox_dir: str = "runs/sandbox",
     ) -> None:
-        if provider is None:
-            raise TypeError("provider must be a non-None LLMProviderPort")
+        if engine is None:
+            raise TypeError("engine must be a non-None ReasoningEnginePort")
         if not isinstance(models, list) or not models:
             raise ValueError("models must be a non-empty list")
-        self._provider = provider
+        self._engine = engine
         self._models = list(models)
         self._sandbox_dir = sandbox_dir
 
     def run_all(self) -> ComparativeReport:
         """Run every model; collect results; determine winner + reader answer."""
-        runner = SandboxAgentRunner(provider=self._provider, sandbox_dir=self._sandbox_dir)
+        runner = SandboxAgentRunner(engine=self._engine, sandbox_dir=self._sandbox_dir)
         results: list[SandboxRunResult] = []
         for model in self._models:
             try:

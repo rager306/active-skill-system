@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -18,26 +19,23 @@ _GOOD = "good"
 _BROKEN = "broken"
 
 
-class _FakeProvider:
+class _FakeReasoningEngine:
     """Returns different source quality based on the model name requested."""
 
     def __init__(self) -> None:
-        self.default_model = "fake/default"
         self.calls: list[str] = []
 
-    def complete(self, *, model, **kwargs):  # noqa: ANN001, ANN003
-        self.calls.append(model)
-        if "good" in model:
-            text = '```python\n' + _good_source() + '\n```'
-        elif "fail" in model:
-            raise ConnectionError("provider down")
+    def forward(self, request) -> Any:  # noqa: ANN001
+        from active_skill_system.application.ports.reasoning_engine import ReasoningResult
+
+        self.calls.append(request.model)
+        if "good" in request.model:
+            text = "```python\n" + _good_source() + "\n```"
+        elif "fail" in request.model:
+            return ReasoningResult(text="", model=request.model, error="ConnectionError: down")
         else:
-            text = '```python\n' + _broken_source() + '\n```'
-
-        class _R:
-            raw_text = text
-
-        return _R()
+            text = "```python\n" + _broken_source() + "\n```"
+        return ReasoningResult(text=text, model=request.model, finish_reason="end_turn")
 
 
 def _good_source() -> str:
@@ -68,7 +66,6 @@ def _broken_source() -> str:
 
 
 def _make_loop(state: str = "done") -> Loop:
-    from active_skill_system.domain.loop import LoopState
 
     # Use Loop.start to get a valid lifecycle (STARTED → RUNNING), then the
     # test doesn't depend on the state invariant for empty lifecycle.
@@ -79,14 +76,14 @@ def _make_loop(state: str = "done") -> Loop:
 # ── Constructor ───────────────────────────────────────────────────────
 
 
-def test_init_rejects_missing_provider():
+def test_init_rejects_missing_engine():
     with pytest.raises(TypeError):
-        SandboxHarness(provider=None, models=["a"])  # type: ignore[arg-type]
+        SandboxHarness(engine=None, models=["a"])  # type: ignore[arg-type]
 
 
 def test_init_rejects_empty_models():
     with pytest.raises(ValueError):
-        SandboxHarness(provider=_FakeProvider(), models=[])
+        SandboxHarness(engine=_FakeReasoningEngine(), models=[])
 
 
 # ── Multi-model run ───────────────────────────────────────────────────
@@ -94,7 +91,7 @@ def test_init_rejects_empty_models():
 
 def test_two_models_comparative_report(tmp_path: Path):
     harness = SandboxHarness(
-        provider=_FakeProvider(),
+        engine=_FakeReasoningEngine(),
         models=["minimax/good", "glm/broken"],
         sandbox_dir=tmp_path,
     )
@@ -109,7 +106,7 @@ def test_two_models_comparative_report(tmp_path: Path):
 def test_model_failure_does_not_abort(tmp_path: Path):
     """A provider error is caught by the runner (→ FAILED Loop entry), not aborting."""
     harness = SandboxHarness(
-        provider=_FakeProvider(),
+        engine=_FakeReasoningEngine(),
         models=["minimax/good", "fake/fail", "glm/broken"],
         sandbox_dir=tmp_path,
     )
@@ -124,7 +121,7 @@ def test_model_failure_does_not_abort(tmp_path: Path):
 def test_winner_tie_break_by_loc(tmp_path: Path):
     """When two models score equally, the one with lower loc wins."""
     harness = SandboxHarness(
-        provider=_FakeProvider(),
+        engine=_FakeReasoningEngine(),
         models=["aaa/good", "zzz/good"],
         sandbox_dir=tmp_path,
     )
@@ -135,7 +132,7 @@ def test_winner_tie_break_by_loc(tmp_path: Path):
 
 def test_no_perfect_score_reader_answer(tmp_path: Path):
     harness = SandboxHarness(
-        provider=_FakeProvider(),
+        engine=_FakeReasoningEngine(),
         models=["glm/broken"],
         sandbox_dir=tmp_path,
     )

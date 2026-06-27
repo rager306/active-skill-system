@@ -6,16 +6,12 @@ NO real LLM calls — all paths covered with mocks and pure-function tests.
 
 from __future__ import annotations
 
-import pytest
-
 from active_skill_system.adapters.llm.minimax._thinking import (
     ThinkingTurnCache,
     _block_to_dict,
 )
 from active_skill_system.adapters.simple_calc_tool import SimpleCalcTool
 from active_skill_system.application.ports.llm import LLMMessage, LLMToolCall
-from active_skill_system.application.ports.tool import ToolResult
-
 
 # ── _to_activegraph_messages conversion ──────────────────────────────────
 

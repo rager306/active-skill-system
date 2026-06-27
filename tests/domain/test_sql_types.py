@@ -15,7 +15,6 @@ from active_skill_system.domain.sql_types import (
     SQLTransformParams,
 )
 
-
 # ── SQLNodeKind ────────────────────────────────────────────────────────────
 
 

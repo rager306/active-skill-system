@@ -21,9 +21,7 @@ from active_skill_system.application.use_cases.run_reasoning_vertical import (
     RunReasoningVerticalUseCase,
     TaskSpec,
 )
-from active_skill_system.domain.runtime import NodeKind
 from active_skill_system.domain.runtime.media_ref import MediaRef
-
 
 # ── fake LLM ──────────────────────────────────────────────────────────────
 

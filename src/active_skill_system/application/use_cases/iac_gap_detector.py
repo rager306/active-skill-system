@@ -31,7 +31,7 @@ def classify_iac_gap(previous: IaCPlanMetrics | None, current: IaCPlanMetrics) -
     drift_better = float(current.drift_score) < float(previous.drift_score)
 
     # NO_GAP: resource_count strictly better AND (variable_count not worse AND drift not worse).
-    if res_better and not var_worse and not drift_better is False:  # drift not worse: !drift_worse i.e. current.drift <= previous.drift
+    if res_better and not var_worse and drift_better is not False:  # drift not worse: !drift_worse i.e. current.drift <= previous.drift
         # Equivalent: not (current.drift > previous.drift)
         if float(current.drift_score) <= float(previous.drift_score):
             return NO_GAP

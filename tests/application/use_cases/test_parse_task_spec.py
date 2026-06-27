@@ -22,7 +22,6 @@ from active_skill_system.application.use_cases.run_reasoning_vertical import (
     ClaimSpec,
     TaskSpec,
 )
-from active_skill_system.application.ports.llm import LLMMessage
 
 
 @dataclass

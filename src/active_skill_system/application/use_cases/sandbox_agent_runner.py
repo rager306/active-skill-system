@@ -22,7 +22,10 @@ import textwrap
 from dataclasses import dataclass
 from pathlib import Path
 
-from active_skill_system.application.ports.llm import LLMMessage, LLMProviderPort
+from active_skill_system.application.ports.reasoning_engine import (
+    ReasoningEnginePort,
+    ReasoningRequest,
+)
 from active_skill_system.application.use_cases.sandbox_verifier import (
     SandboxFitness,
     verify_candidate,
@@ -105,16 +108,16 @@ class SandboxAgentRunner:
 
     Usage::
 
-        runner = SandboxAgentRunner(provider=my_provider, sandbox_dir=tmp)
+        runner = SandboxAgentRunner(engine=my_strategy, sandbox_dir=tmp)
         result = runner.run(model="minimax/MiniMax-M3")
     """
 
-    def __init__(self, *, provider: LLMProviderPort, sandbox_dir: str | Path = "runs/sandbox") -> None:
-        if provider is None:
-            raise TypeError("provider must be a non-None LLMProviderPort")
-        if not hasattr(provider, "complete") or not hasattr(provider, "default_model"):
-            raise TypeError("provider must satisfy LLMProviderPort (complete + default_model)")
-        self._provider = provider
+    def __init__(self, *, engine: ReasoningEnginePort, sandbox_dir: str | Path = "runs/sandbox") -> None:
+        if engine is None:
+            raise TypeError("engine must be a non-None ReasoningEnginePort")
+        if not hasattr(engine, "forward"):
+            raise TypeError("engine must satisfy ReasoningEnginePort (forward)")
+        self._engine = engine
         self._sandbox_dir = Path(sandbox_dir)
         self._counter = 0
 
@@ -124,10 +127,10 @@ class SandboxAgentRunner:
         model: str | None = None,
         max_tokens: int = 524_288,
         temperature: float = 0.0,
-        timeout_seconds: float = 60.0,
+        timeout_seconds: float = 120.0,
     ) -> SandboxRunResult:
         """Generate + verify a cache_types candidate. Returns a SandboxRunResult."""
-        resolved_model = model or self._provider.default_model
+        resolved_model = model or "minimax/MiniMax-M3"
         self._counter += 1
         run_id = f"sandbox-run-{self._counter}"
 
@@ -138,22 +141,21 @@ class SandboxAgentRunner:
             skills=("sandbox-cache-task",),
         )
 
-        # ── Generate ────────────────────────────────────────────────────
+        # ── Generate via reasoning engine (strategy-agnostic) ───────────
         prompt = _build_prompt()
-        try:
-            response = self._provider.complete(
-                system="You are a Python code generator. Output only code.",
-                messages=[LLMMessage(role="user", content=prompt)],
-                model=resolved_model,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                top_p=1.0,
-                output_schema=None,
-                timeout_seconds=timeout_seconds,
-            )
-        except Exception as e:  # noqa: BLE001
-            error = f"{type(e).__name__}: {e}"
-            _log.warning("sandbox run %s LLM failed: %s", run_id, error)
+        request = ReasoningRequest(
+            system="You are a Python code generator. Output only code.",
+            prompt=prompt,
+            model=resolved_model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            timeout_seconds=timeout_seconds,
+        )
+        response = self._engine.forward(request)
+
+        if response.error:
+            error = response.error
+            _log.warning("sandbox run %s reasoning failed: %s", run_id, error)
             failed_loop = loop.advance(
                 LoopEvent.now(LoopEventKind.FAILED, LoopState.FAILED, {"error": error})
             )
@@ -164,7 +166,7 @@ class SandboxAgentRunner:
                 error=error,
             )
 
-        raw_text = getattr(response, "raw_text", "") or str(response)
+        raw_text = response.text
         code = _extract_code(raw_text)
 
         # ── Write candidate ─────────────────────────────────────────────

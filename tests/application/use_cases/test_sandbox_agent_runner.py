@@ -1,6 +1,6 @@
-"""Tests for SandboxAgentRunner (M042 S02 T02).
+"""Tests for SandboxAgentRunner (M042 S02 T02, refactored M043 S01 T03).
 
-Offline tests use a FakeProvider returning known source — no real LLM.
+Offline tests use a FakeReasoningEngine returning known source — no real LLM.
 """
 
 from __future__ import annotations
@@ -9,13 +9,16 @@ from pathlib import Path
 
 import pytest
 
+from active_skill_system.application.ports.reasoning_engine import (
+    ReasoningRequest,
+    ReasoningResult,
+)
 from active_skill_system.application.use_cases.sandbox_agent_runner import (
     SandboxAgentRunner,
     SandboxRunResult,
 )
 from active_skill_system.domain.loop import LoopState
 
-# The full-mark candidate source (matches tests/fixtures/sandbox/cache_full.py).
 _GOOD_SOURCE = '''"""Generated cache types."""
 from __future__ import annotations
 from dataclasses import dataclass
@@ -55,47 +58,45 @@ from dataclasses import dataclass
 @dataclass
 class CacheMetrics:
     hit_count: int
-    size_bytes: int  # wrong field name
+    size_bytes: int
     def better_than(self, other):
-        return self.hit_count < other.hit_count  # wrong direction
+        return self.hit_count < other.hit_count
 '''
 
 
-class _FakeResponse:
-    def __init__(self, text: str) -> None:
-        self.raw_text = text
+class _FakeReasoningEngine:
+    """Fake reasoning engine returning known source or simulating failure."""
 
-
-class _FakeProvider:
     def __init__(self, *, text: str = _GOOD_SOURCE, fail: bool = False) -> None:
-        self.default_model = "fake/model"
         self._text = text
         self._fail = fail
 
-    def complete(self, **kwargs):  # noqa: ANN003
+    def forward(self, request: ReasoningRequest) -> ReasoningResult:
         if self._fail:
-            raise ConnectionError("simulated provider down")
-        return _FakeResponse(f"```python\n{self._text}\n```")
+            return ReasoningResult(text="", model=request.model, error="ConnectionError: simulated")
+        return ReasoningResult(
+            text=f"```python\n{self._text}\n```", model="fake/model", finish_reason="end_turn"
+        )
 
 
 # ── Constructor contract ──────────────────────────────────────────────
 
 
-def test_init_rejects_missing_provider():
+def test_init_rejects_missing_engine():
     with pytest.raises(TypeError):
-        SandboxAgentRunner(provider=None)  # type: ignore[arg-type]
+        SandboxAgentRunner(engine=None)  # type: ignore[arg-type]
 
 
-def test_init_rejects_non_provider():
+def test_init_rejects_non_engine():
     with pytest.raises(TypeError):
-        SandboxAgentRunner(provider="not a provider")  # type: ignore[arg-type]
+        SandboxAgentRunner(engine="not an engine")  # type: ignore[arg-type]
 
 
 # ── Happy path ────────────────────────────────────────────────────────
 
 
 def test_good_source_scores_full(tmp_path: Path):
-    runner = SandboxAgentRunner(provider=_FakeProvider(text=_GOOD_SOURCE), sandbox_dir=tmp_path)
+    runner = SandboxAgentRunner(engine=_FakeReasoningEngine(text=_GOOD_SOURCE), sandbox_dir=tmp_path)
     result = runner.run()
     assert isinstance(result, SandboxRunResult)
     assert result.fitness.score == 1.0
@@ -105,14 +106,14 @@ def test_good_source_scores_full(tmp_path: Path):
 
 
 def test_broken_source_scores_below_one(tmp_path: Path):
-    runner = SandboxAgentRunner(provider=_FakeProvider(text=_BROKEN_SOURCE), sandbox_dir=tmp_path)
+    runner = SandboxAgentRunner(engine=_FakeReasoningEngine(text=_BROKEN_SOURCE), sandbox_dir=tmp_path)
     result = runner.run()
     assert result.fitness.score < 1.0
     assert result.loop.state is LoopState.FAILED
 
 
-def test_provider_error_records_failed_loop(tmp_path: Path):
-    runner = SandboxAgentRunner(provider=_FakeProvider(fail=True), sandbox_dir=tmp_path)
+def test_engine_error_records_failed_loop(tmp_path: Path):
+    runner = SandboxAgentRunner(engine=_FakeReasoningEngine(fail=True), sandbox_dir=tmp_path)
     result = runner.run()
     assert result.loop.state is LoopState.FAILED
     assert result.error is not None
@@ -120,10 +121,10 @@ def test_provider_error_records_failed_loop(tmp_path: Path):
 
 
 def test_loop_has_budget_and_lifecycle(tmp_path: Path):
-    runner = SandboxAgentRunner(provider=_FakeProvider(), sandbox_dir=tmp_path)
+    runner = SandboxAgentRunner(engine=_FakeReasoningEngine(), sandbox_dir=tmp_path)
     result = runner.run()
     assert result.loop.budget.max_llm_calls == 1
-    assert len(result.loop.lifecycle) >= 2  # STARTED + FINISHED/FAILED
+    assert len(result.loop.lifecycle) >= 2
 
 
 def test_prompt_contains_required_fields():
@@ -137,14 +138,12 @@ def test_prompt_contains_required_fields():
 
 def test_extract_code_strips_fences():
     from active_skill_system.application.use_cases.sandbox_agent_runner import _extract_code
-    fenced = "```python\nx = 1\n```"
-    assert _extract_code(fenced) == "x = 1"
-    # No fence → best-effort raw.
+    assert _extract_code("```python\nx = 1\n```") == "x = 1"
     assert _extract_code("y = 2") == "y = 2"
 
 
 def test_counter_increments_across_runs(tmp_path: Path):
-    runner = SandboxAgentRunner(provider=_FakeProvider(), sandbox_dir=tmp_path)
+    runner = SandboxAgentRunner(engine=_FakeReasoningEngine(), sandbox_dir=tmp_path)
     r1 = runner.run()
     r2 = runner.run()
     assert r1.loop.id != r2.loop.id

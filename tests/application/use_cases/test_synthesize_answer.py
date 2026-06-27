@@ -21,7 +21,6 @@ from active_skill_system.application.use_cases.synthesize_answer import (
     SynthesizeAnswerRequest,
     SynthesizeAnswerUseCase,
 )
-from active_skill_system.application.ports.llm import LLMMessage
 
 
 @dataclass
