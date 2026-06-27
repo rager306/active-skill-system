@@ -126,3 +126,30 @@ needs variety.
 4. **Deprecation**: if DSPy ProgramOfThought replaces SandboxAgentRunner, is
    that acceptable? Or keep both (SandboxAgentRunner for determinism, DSPy PoT
    for optimised runs)?
+
+## 7. Reasoning strategy map (D016/D017, final — do not revisit)
+
+`ReasoningEnginePort` (generic, Strategy pattern) supports pluggable strategies.
+RLM has **two** adapter candidates — keep both, different strengths:
+
+```
+ReasoningEnginePort (generic Protocol, application/ports)
+  ├── PlainLLMStrategy     (current default — LLMProviderPort.complete)
+  ├── DSPyStrategy adapter  (one adapter, multiple dspy modules)
+  │     ├── dspy.ChainOfThought
+  │     ├── dspy.ReAct
+  │     ├── dspy.ProgramOfThought   (candidate to replace SandboxAgentRunner)
+  │     └── dspy.RLM                 (DSPyRLMStrategy)
+  ├── FastRLMStrategy               (fast-rlm: Deno+Pyodide, ACP-mode,
+  │                                  structured-output routing — D011 §5)
+  └── (future engines)
+```
+
+| RLM adapter | Sandbox | Sub-LLM | Strength |
+|-------------|---------|---------|----------|
+| DSPyRLMStrategy (`dspy.RLM`) | PythonInterpreter | `llm_query` builtin | Integrated with DSPy ecosystem (GEPA/Assertions/Evaluate) |
+| FastRLMStrategy (`fast-rlm`) | Deno + Pyodide | `llm_query` + **ACP** (`acp:codex`/`claude-code`/`opencode` read-only) | **Delegation to coding agents** + structured-output routing (D011 §5 case study) |
+
+Do NOT drop fast-rlm — its ACP delegation + structured-output routing are
+differentiators `dspy.RLM` lacks. Choice = composition-time, per-task. RGLA
+provenance/evolution is engine-agnostic on top.
