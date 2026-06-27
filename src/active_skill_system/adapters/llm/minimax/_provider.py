@@ -34,10 +34,15 @@ class MiniMaxProvider(AnthropicProvider):
     """MiniMax via the Anthropic-compatible gateway, thinking-preserving."""
 
     def __init__(
-        self, *, model: str | None = None, client=None, pricing=None, enable_thinking: bool = True
+        self, *, model: str | None = None, client=None, pricing=None,
+        enable_thinking: bool = True,
+        max_retries: int = 3,
+        base_backoff: float = 0.5,
     ) -> None:
         super().__init__(client=client, pricing=pricing)
         self.default_model = model or os.environ.get("ANTHROPIC_MODEL", "MiniMax-M3")
+        self._max_retries = max_retries
+        self._base_backoff = base_backoff
         # MiniMax-M3 ships thinking OFF by default; adaptive turns it on so M3
         # actually reasons (and the thinking-preservation shim has blocks to keep).
         # Handle both bare ("MiniMax-M3") and prefixed ("minimax/MiniMax-M3") forms —
@@ -106,6 +111,62 @@ class MiniMaxProvider(AnthropicProvider):
             )
         return converted
 
+    _TRANSIENT_REASONS = frozenset({"llm.network_error", "llm.rate_limited"})
+    # Exception types that are genuinely transient (connection/timeout/rate).
+    # The vendor classifier labels everything llm.network_error, so we gate
+    # retry on the actual exception type to avoid retrying permanent errors
+    # (ValueError, AttributeError, 4xx status errors).
+    _TRANSIENT_EXC_FRAGMENTS = ("timeout", "connect", "ratelimit", "connection", "timed")
+
+    @classmethod
+    def _is_transient(cls, e: Exception) -> bool:
+        name = type(e).__name__.lower()
+        if any(frag in name for frag in cls._TRANSIENT_EXC_FRAGMENTS):
+            return True
+        msg = str(e).lower()
+        return any(frag in msg for frag in ("429", "timeout", "timed out", "connection"))
+
+    def _call_with_retry(self, client, kwargs: dict[str, Any], timeout_seconds: float, model: str):
+        """Call messages.create with retry+backoff for transient errors.
+
+        Retries genuinely transient exceptions (connection/timeout/rate-limit —
+        gated on exception TYPE, not the vendor classifier which over-labels)
+        up to max_retries with exponential backoff (respecting Retry-After when
+        present). Permanent errors raise LLMBehaviorError immediately. This
+        closes the gap where a transient blip became a behavior.failed (finding
+        surfaced by real-LLM tests). M038 LLMRouter applies provider-level
+        fallback on top; this is the per-call retry floor every consumer
+        (incl. packs using the provider directly) inherits.
+        """
+        last_exc: Exception | None = None
+        for attempt in range(self._max_retries + 1):
+            try:
+                return client.messages.create(timeout=timeout_seconds, **kwargs)
+            except Exception as e:
+                last_exc = e
+                if not self._is_transient(e):
+                    reason = _classify_provider_exception(e)
+                    raise self._to_llm_behavior_error(e, reason, model) from e
+                if attempt >= self._max_retries:
+                    reason = _classify_provider_exception(e)
+                    raise self._to_llm_behavior_error(e, reason, model) from e
+                delay = max(_retry_after_seconds(e) or 0.0, self._base_backoff * (2**attempt))
+                time.sleep(delay)
+        # Unreachable; loop returns or raises.
+        raise self._to_llm_behavior_error(last_exc, _classify_provider_exception(last_exc), model) from last_exc  # type: ignore[arg-type]
+
+    @staticmethod
+    def _to_llm_behavior_error(e: Exception, reason: str, model: str) -> LLMBehaviorError:
+        extras: dict[str, Any] = {
+            "model": model,
+            "exception_type": type(e).__name__,
+            "message": str(e),
+        }
+        ra = _retry_after_seconds(e)
+        if ra is not None:
+            extras["retry_after_seconds"] = ra
+        return LLMBehaviorError(reason, str(e), payload_extras=extras)
+
     def complete(  # noqa: D401 - signature mirrors the Protocol
         self,
         *,
@@ -138,19 +199,7 @@ class MiniMaxProvider(AnthropicProvider):
             kwargs["thinking"] = {"type": "adaptive"}
 
         t0 = time.monotonic()
-        try:
-            raw = client.messages.create(timeout=timeout_seconds, **kwargs)
-        except Exception as e:
-            reason = _classify_provider_exception(e)
-            extras: dict[str, Any] = {
-                "model": model,
-                "exception_type": type(e).__name__,
-                "message": str(e),
-            }
-            ra = _retry_after_seconds(e)
-            if ra is not None:
-                extras["retry_after_seconds"] = ra
-            raise LLMBehaviorError(reason, str(e), payload_extras=extras) from e
+        raw = self._call_with_retry(client, kwargs, timeout_seconds, model)
         latency = time.monotonic() - t0
 
         text = _extract_text(raw)
