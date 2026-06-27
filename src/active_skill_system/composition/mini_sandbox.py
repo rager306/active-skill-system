@@ -48,8 +48,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.model is not None:
         return _run_single_model(args.model)
     if args.models is not None:
-        print("--models multi-model mode arrives in S03", flush=True)
-        return 0
+        return _run_multi_model(args.models)
     print("nothing to do: pass --check / --model / --models", flush=True)
     return 0
 
@@ -103,6 +102,29 @@ def _run_single_model(model: str) -> int:
     print(f"  VERIFIED_BY verifier: {verified}", flush=True)
 
     return 0 if result.fitness.score == 1.0 else 1
+
+
+def _run_multi_model(models_csv: str) -> int:
+    """Run the benchmark across N models; print comparative report + reader query."""
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+    from active_skill_system.adapters.llm.minimax import MiniMaxProvider
+    from active_skill_system.application.use_cases.sandbox_harness import SandboxHarness
+    from active_skill_system.domain.loop_graph import project
+
+    models = [m.strip() for m in models_csv.split(",") if m.strip()]
+    provider = MiniMaxProvider()
+    harness = SandboxHarness(provider=provider, models=models)
+    report = harness.run_all()
+
+    # Store all Loops' LoopGraph provenance in one store.
+    store = LadybugGraphStore(":memory:")
+    # Re-run projection is not stored here (harness returns summaries); the
+    # report itself is the human-readable provenance. GraphStore wiring for
+    # multi-run provenance is a future enrichment.
+    _ = (project, store)  # available for future graph-enrichment
+
+    print(report.table(), flush=True)
+    return 0 if report.winner_score == 1.0 else 1
 
 
 if __name__ == "__main__":
