@@ -60,4 +60,4 @@ class PlainLLMStrategy:
 
 
 # PlainLLMStrategy structurally satisfies ReasoningEnginePort.
-_check: ReasoningEnginePort = PlainLLMStrategy(provider=None)  # type: ignore[assignment,arg-type]
+# (Runtime check omitted — constructing with None provider raises by design.)

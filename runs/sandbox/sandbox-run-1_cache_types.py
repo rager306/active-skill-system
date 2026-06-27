@@ -5,7 +5,7 @@ from enum import StrEnum
 
 
 class CacheNodeKind(StrEnum):
-    """Kinds of nodes represented in cache metrics."""
+    """Kinds of nodes tracked in the cache metrics domain."""
 
     ENTRY = "entry"
     EVICTION = "eviction"
@@ -14,13 +14,14 @@ class CacheNodeKind(StrEnum):
 
 @dataclass(frozen=True)
 class CacheMetrics:
-    """Immutable snapshot of cache performance counters.
+    """Immutable cache metrics snapshot.
 
-    ``hit_count`` is the primary comparison axis: higher is better
-    (the inverse axis). ``miss_count`` is the inverse axis: lower is
-    better. ``eviction_count`` and ``memory_bytes`` are recorded but
-    not used by the default comparison. All fields are non-negative
-    integers.
+    Attributes:
+        hit_count: Number of cache hits. This is the primary axis of
+            comparison: a higher hit_count is better (inverse metric).
+        miss_count: Number of cache misses.
+        eviction_count: Number of evicted entries.
+        memory_bytes: Memory usage in bytes.
     """
 
     hit_count: int
@@ -29,10 +30,11 @@ class CacheMetrics:
     memory_bytes: int
 
     def better_than(self, other: CacheMetrics) -> bool:
-        """Return True when this cache strictly outperforms ``other``.
+        """Return True if this snapshot outperforms ``other``.
 
-        Ordering is: higher ``hit_count`` wins; if ``hit_count`` ties,
-        the lower ``miss_count`` wins.
+        Comparison is driven by ``hit_count`` (the primary axis, where
+        higher is better / inverse). On a tie, the snapshot with the
+        fewer misses wins.
         """
         if self.hit_count != other.hit_count:
             return self.hit_count > other.hit_count
