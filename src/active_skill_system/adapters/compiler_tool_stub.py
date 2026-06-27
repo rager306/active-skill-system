@@ -42,6 +42,7 @@ from active_skill_system.domain.compiler_types import (
     CompilerMetrics,
     CompilerNodeKind,
 )
+from active_skill_system.domain.errors import ToolError
 
 
 def _metrics_from_dict(d: dict[str, Any]) -> CompilerMetrics:
@@ -100,7 +101,7 @@ def _apply_transform(
     else:
         # Defensive: only TRANSFORM_* kinds reach here; TransformParams.__post_init__
         # already enforces this, so reaching here indicates a programming error.
-        raise ValueError(f"unsupported transform kind: {kind!r}")
+        raise ToolError(f"unsupported transform kind: {kind!r}")
 
     return CompilerMetrics(
         cycles=cycles,

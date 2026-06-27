@@ -170,3 +170,108 @@ def test_routing_result_is_frozen():
     r = RoutingResult(provider_id="router", genome=_genome("m1", {ModelCapability.FAST}, "router"), used_fallback=False)
     with pytest.raises(FrozenInstanceError):
         r.provider_id = "x"  # type: ignore[misc]
+
+
+# ── M040 S03: retry + backoff + fallback + LLMUnavailable ─────────────
+
+
+class _FlakyProvider:
+    """Provider that fails N times then succeeds (or always fails)."""
+
+    def __init__(self, *, default_model: str = "m1", fail_n: int = 0):
+        self.default_model = default_model
+        self._fail_n = fail_n
+        self._calls = 0
+
+    def complete(self, **kwargs):  # noqa: ANN003
+        self._calls += 1
+        if self._calls <= self._fail_n:
+            raise RuntimeError(f"transient fail #{self._calls}")
+        return {"ok": True, "model": self.default_model}
+
+    @property
+    def calls(self) -> int:
+        return self._calls
+
+
+def test_retry_then_success_no_fallback(monkeypatch):
+    """Provider fails twice then succeeds on 3rd attempt: no fallback, served."""
+    delays: list[float] = []
+    g = _genome("m1", {ModelCapability.THINKING}, "router")
+    reg = _registry_with(g)
+    provider = _FlakyProvider(fail_n=2)
+    router = LLMRouter(
+        registry=reg, providers={"router": provider},
+        max_retries=3, base_backoff=0.01, sleep_fn=delays.append,
+    )
+    result = router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}),
+        {"system": "s", "messages": [], "model": "m1", "max_tokens": 1, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 1},
+    )
+    assert result is not None
+    assert result.used_fallback is False
+    assert provider.calls == 3
+    # Backoff applied between the 2 failed attempts before success.
+    assert len(delays) == 2
+
+
+def test_retry_exhaustion_then_fallback(monkeypatch):
+    """Primary exhausts all retries → falls back to secondary provider."""
+    delays: list[float] = []
+    primary = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    secondary = _genome("m2", {ModelCapability.THINKING}, "fallback", cost_in=2.0, cost_out=2.0)
+    reg = _registry_with(primary, secondary)
+    primary_provider = _FlakyProvider(fail_n=99)  # always fails
+    fallback_provider = _FlakyProvider(fail_n=0)
+    router = LLMRouter(
+        registry=reg,
+        providers={"router": primary_provider, "fallback": fallback_provider},
+        max_retries=2, base_backoff=0.001, sleep_fn=delays.append,
+    )
+    result = router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}),
+        {"system": "s", "messages": [], "model": "m1", "max_tokens": 1, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 1},
+    )
+    assert result is not None
+    assert result.used_fallback is True
+    assert result.provider_id == "fallback"
+    # Primary was retried max_retries+1 times total.
+    assert primary_provider.calls == 3
+    # Primary marked unhealthy after exhaustion.
+    assert router.health("router").consecutive_failures == 1
+
+
+def test_all_providers_exhausted_raises_llm_unavailable():
+    from active_skill_system.domain.errors import LLMUnavailable
+
+    g1 = _genome("m1", {ModelCapability.THINKING}, "router", cost_in=1.0, cost_out=1.0)
+    g2 = _genome("m2", {ModelCapability.THINKING}, "fallback", cost_in=2.0, cost_out=2.0)
+    reg = _registry_with(g1, g2)
+    providers = {"router": _FlakyProvider(fail_n=99), "fallback": _FlakyProvider(fail_n=99)}
+    router = LLMRouter(
+        registry=reg, providers=providers, max_retries=1, base_backoff=0.001, sleep_fn=lambda _d: None,
+    )
+    with pytest.raises(LLMUnavailable):
+        router.route_with_fallback_or_raise(
+            StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}),
+            {"system": "s", "messages": [], "model": "m1", "max_tokens": 1, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 1},
+        )
+
+
+def test_backoff_is_exponential():
+    """Backoff delays grow exponentially across attempts."""
+    delays: list[float] = []
+    g = _genome("m1", {ModelCapability.THINKING}, "router")
+    reg = _registry_with(g)
+    router = LLMRouter(
+        registry=reg, providers={"router": _FlakyProvider(fail_n=99)},
+        max_retries=3, base_backoff=0.1, sleep_fn=delays.append,
+    )
+    router.route_with_fallback(
+        StageType.SYNTHESIZE, frozenset({ModelCapability.THINKING}),
+        {"system": "s", "messages": [], "model": "m1", "max_tokens": 1, "temperature": 0, "top_p": 1, "output_schema": None, "timeout_seconds": 1},
+    )
+    # 3 retries → 3 delays: 0.1, 0.2, 0.4.
+    assert len(delays) == 3
+    assert delays[0] < delays[1] < delays[2]
+    assert delays == [0.1, 0.2, 0.4]

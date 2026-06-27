@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
@@ -323,6 +324,11 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parse_args(argv)
 
+    # M040: unified logging backbone (loguru intercept + file sink, LOG_DIR from env).
+    from active_skill_system.composition.logging_config import configure_logging
+
+    configure_logging()
+
     if args.baseline_rows < 1:
         print(f"error: --baseline-rows must be >= 1 (got {args.baseline_rows})", flush=True)
         return 2
@@ -376,12 +382,24 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"max_iterations: {args.max_iterations}", flush=True)
         print("---", flush=True)
 
-    result = run_sql_evolution(
-        baseline,
-        candidates,
-        max_iterations=args.max_iterations,
-        evolvable=evolvable,
-    )
+    _log = logging.getLogger("active_skill_system.composition.sql_evolution")
+    from active_skill_system.domain.errors import BudgetExhausted, ToolError
+
+    try:
+        result = run_sql_evolution(
+            baseline,
+            candidates,
+            max_iterations=args.max_iterations,
+            evolvable=evolvable,
+        )
+    except BudgetExhausted as e:
+        _log.error("budget exhausted", extra=e.context())
+        print(f"error: budget exhausted: {e.message}", flush=True)
+        return 3
+    except ToolError as e:
+        _log.error("tool failure", extra=e.context())
+        print(f"error: tool failure: {e.message}", flush=True)
+        return 4
 
     print(_format_result(result, args.baseline_rows, stage_name), flush=True)
 

@@ -14,9 +14,8 @@ def _invoke_main_with_flag(tmp_path: Path, argv: list[str]) -> tuple[int, str]:
     import io
 
     out = io.StringIO()
-    with contextlib.chdir(tmp_path):
-        with contextlib.redirect_stdout(out):
-            exit_code = sql_evolution.main(argv)
+    with contextlib.chdir(tmp_path), contextlib.redirect_stdout(out):
+        exit_code = sql_evolution.main(argv)
     return exit_code, out.getvalue()
 
 

@@ -14,6 +14,7 @@ Pure application. NO infrastructure imports (R002).
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
@@ -88,6 +89,8 @@ class SQLOptimizationLoopUseCase:
     better than current. Terminal on first accept.
     """
 
+    _log = logging.getLogger("active_skill_system.application.sql_optimization_loop")
+
     def __init__(
         self,
         tool_registry: ToolRegistry | None = None,
@@ -131,6 +134,7 @@ class SQLOptimizationLoopUseCase:
         accepted_count = 0
         iterations_used = 0
         trace: list[SQLOopTraceStep] = []
+        self._log.info("sql optimization loop start: candidates=%d max_cycles=%d", len(candidates), self._max_cycles)
 
         for i in range(self._max_cycles):
             if i >= len(candidates):
@@ -144,6 +148,7 @@ class SQLOptimizationLoopUseCase:
                 trace.append(SQLOopTraceStep(
                     iteration=iterations_used, gap=gap, action=SQLActionType.REPLAN_QUERY, accepted=True,
                 ))
+                self._log.info("sql optimization loop completed: no-gap at iteration %d", iterations_used)
                 return SQLOopResult(
                     final_metrics=current,
                     iterations_used=iterations_used,
