@@ -69,6 +69,11 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
     parser.add_argument("--ratchet-stats", action="store_true",
                         help="Print accumulated ratchet entries.")
+    parser.add_argument("--strategy", type=str, default="plain",
+                        choices=("plain", "dspy"),
+                        help="Reasoning strategy (M051 S01): plain (LLMProviderPort direct) or dspy (DSPy.ChainOfThought via LiteLLM).")
+    parser.add_argument("--bench", type=str, default=None, choices=("cache-types", "program-bench"),
+                        help="Benchmark to run (M042 cache_types or M053 program-bench smallest-CLI).")
     return parser.parse_args(argv)
 
 
@@ -109,7 +114,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
-        return _run_single_model(args.model, args.executor, args.graph, args.ratchet)
+        return _run_single_model(args.model, args.executor, args.graph, args.ratchet, args.strategy)
     if args.models is not None:
         return _run_multi_model(args.models, args.graph)
     print("nothing to do: pass --check / --model / --models", flush=True)
@@ -475,7 +480,12 @@ def _build_executor(executor_type: str):
     return InProcessExecutor()
 
 
-def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: str = "runs/sandbox_graph.lbdb", ratchet_path: str | None = None) -> int:
+def _run_single_model(
+    model: str, executor_type: str = "inprocess",
+    graph_path: str = "runs/sandbox_graph.lbdb",
+    ratchet_path: str | None = None,
+    strategy: str = "plain",
+) -> int:
     """Run one model on the benchmark; record Loop + LoopGraph provenance."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
@@ -483,7 +493,17 @@ def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: 
     from active_skill_system.application.use_cases.sandbox_agent_runner import SandboxAgentRunner
     from active_skill_system.domain.loop_graph import LoopEdgeKind, project
 
-    engine = PlainLLMStrategy(provider=MiniMaxProvider())
+    if strategy == "dspy":
+        from active_skill_system.adapters.dspy_strategy import DSPyStrategy
+
+        engine = DSPyStrategy()
+        if engine.is_stub:
+            print(f"dspy_strategy: stub mode ({engine.stub_reason}); falling back to plain", flush=True)
+            engine = PlainLLMStrategy(provider=MiniMaxProvider())
+        else:
+            print(f"dspy_strategy: configured (model={engine._dspy_lm.model})", flush=True)
+    else:
+        engine = PlainLLMStrategy(provider=MiniMaxProvider())
     code_executor = _build_executor(executor_type)
     runner = SandboxAgentRunner(engine=engine, code_executor=code_executor)
     result = runner.run(model=model)
