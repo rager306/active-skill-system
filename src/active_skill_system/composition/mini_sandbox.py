@@ -56,6 +56,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="With --report or --compare-runs, output JSON instead of human-readable.")
     parser.add_argument("--compare-runs", nargs=2, metavar=("ID_A", "ID_B"), default=None,
                         help="Compare two runs side-by-side (score, length, model, trajectory kind diff).")
+    parser.add_argument("--recommend", action="store_true",
+                        help="Print actionable recommendations derived from the accumulated graph + ratchet + logs (M049 S03).")
     parser.add_argument("--graph-trajectory", action="store_true",
                         help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
     parser.add_argument("--ratchet-stats", action="store_true",
@@ -95,6 +97,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_report(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.compare_runs is not None:
         return _run_compare_runs(args.graph, args.compare_runs[0], args.compare_runs[1], args.json, os.environ.get("SANDBOX_LOG_DIR"))
+    if args.recommend:
+        return _run_recommend(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
@@ -211,6 +215,35 @@ def _run_graph_trajectory(graph_path: str) -> int:
         print(f"\n  {loop_id}:", flush=True)
         for step_id, label in steps:
             print(f"    {step_id}  {label or '?'}", flush=True)
+    return 0
+
+
+def _run_recommend(
+    graph_path: str, ratchet_path: str | None, as_json: bool, log_dir: str | None,
+) -> int:
+    """Actionable recommendations from accumulated state (M049 S03)."""
+    import json as json_mod
+    from pathlib import Path
+
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+    from active_skill_system.application.use_cases.sandbox_recommender import SandboxRecommender
+    from harness import RatchetLedger
+
+    graph = LadybugGraphStore(graph_path)
+    ratchet = None
+    if ratchet_path:
+        rp = Path(ratchet_path)
+        if rp.exists():
+            ratchet = RatchetLedger.load(rp)
+    rec = SandboxRecommender(graph=graph, ratchet=ratchet, log_dir=log_dir).recommend()
+    if as_json:
+        print(json_mod.dumps([r.to_dict() for r in rec], indent=2), flush=True)
+    else:
+        print(f"=== recommendations ({len(rec)}) ===", flush=True)
+        for r in rec:
+            print(f"  [{r.confidence.upper()}] {r.kind}: {r.message}", flush=True)
+            for ref in r.evidence_refs[:5]:
+                print(f"    evidence: {ref}", flush=True)
     return 0
 
 
