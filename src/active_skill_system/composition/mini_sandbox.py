@@ -78,6 +78,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Event audit-trail backend (M051 S03). 'sqlite:<path>' for disk, 'inmemory' for ephemeral, or unset to disable.")
     parser.add_argument("--event-stats", action="store_true",
                         help="Print accumulated event counts from the event audit trail.")
+    parser.add_argument("--governance-check", action="store_true",
+                        help="Run self-governance: apply our own verification tools to our own codebase (recursive dogfooding).")
     return parser.parse_args(argv)
 
 
@@ -117,6 +119,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_recommend(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.event_stats:
         return _run_event_stats(args.event_log or os.environ.get("SANDBOX_EVENT_LOG", ""))
+    if args.governance_check:
+        return _run_governance_check()
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
@@ -245,6 +249,28 @@ def _run_program_bench(
         run_id, model,
     )
     return EX_OK
+
+
+def _run_governance_check() -> int:
+    """Self-governance check: apply our own tools to our own codebase."""
+    from active_skill_system.application.use_cases.self_governance_check import (
+        run_governance_check,
+    )
+
+    result = run_governance_check()
+    print(f"=== governance check (score {result.score:.2%}) ===", flush=True)
+    for name, ok in result.axes.items():
+        status = "OK" if ok else "FAIL"
+        detail = result.details.get(name, "")[:120]
+        print(f"  {name}: {status}  {detail}", flush=True)
+    if result.all_passed:
+        return EX_OK
+    failed = result.failed_axes()
+    _get_sandbox_logger().warning(
+        "governance_check_failed score=%.2f axes_failed=%s",
+        result.score, failed,
+    )
+    return EX_PARTIAL
 
 
 def _build_event_store(spec: str | None):
