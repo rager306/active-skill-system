@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PreVerify": [
+      {
+        "command": "bash scripts/hooks/pre-verify.sh",
+        "timeout": 30000,
+        "blocking": true
+      }
+    ]
+  }
+}
