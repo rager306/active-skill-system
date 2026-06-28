@@ -114,11 +114,130 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
+        if args.bench == "program-bench":
+            return _run_program_bench(args.model, args.executor, args.graph, args.ratchet, args.strategy)
         return _run_single_model(args.model, args.executor, args.graph, args.ratchet, args.strategy)
     if args.models is not None:
         return _run_multi_model(args.models, args.graph)
     print("nothing to do: pass --check / --model / --models", flush=True)
     return EX_USAGE
+
+
+def _run_program_bench(
+    model: str, executor_type: str, graph_path: str, ratchet_path: str | None, strategy: str,
+) -> int:
+    """ProgramBench smallest-CLI validator (M053 S01, D014).
+
+    Reads the fixture spec from tests/fixtures/program_bench/smallest_cli/,
+    asks the LLM to regenerate json_pretty.py from a brief spec, then runs
+    the parity tests against the LLM-generated candidate.
+    """
+    import subprocess
+
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+    from active_skill_system.adapters.llm.minimax import MiniMaxProvider
+    from active_skill_system.adapters.plain_llm_strategy import PlainLLMStrategy
+    from active_skill_system.application.ports.reasoning_engine import ReasoningRequest
+    from active_skill_system.domain.loop_graph import project
+
+    fixture_root = Path("tests/fixtures/program_bench/smallest_cli")
+    target = fixture_root / "json_pretty.py"
+    parity_tests = fixture_root / "tests" / "test_json_pretty_parity.py"
+    if not target.exists() or not parity_tests.exists():
+        print(f"program_bench: fixture missing at {fixture_root}", flush=True)
+        return EX_NOT_FOUND
+
+    # Read the reference impl as hidden spec; build the user-facing spec.
+    spec = (
+        "Write a Python CLI named 'json_pretty' that pretty-prints JSON. "
+        "Requirements: (1) read JSON from a file path argument or stdin if no path "
+        "is given, (2) --indent N sets indent width (default 2), (3) --sort-keys sorts "
+        "object keys alphabetically (off by default), (4) --indent 0 produces compact "
+        "output (no whitespace), (5) exit 0 on success, exit 1 with a stderr message "
+        "on invalid JSON. Use only the Python standard library. Output only the code."
+    )
+
+    # Use the requested strategy.
+    if strategy == "dspy":
+        from active_skill_system.adapters.dspy_strategy import DSPyStrategy
+
+        engine = DSPyStrategy()
+    elif strategy == "fast-rlm":
+        from active_skill_system.adapters.fast_rlm_strategy import FastRLMStrategy
+
+        engine = FastRLMStrategy()
+    else:
+        engine = PlainLLMStrategy(provider=MiniMaxProvider())
+
+    request = ReasoningRequest(
+        system="You are a Python code generator. Output only code.",
+        prompt=spec,
+        model=model,
+        max_tokens=16384,
+        temperature=0.0,
+    )
+    response = engine.forward(request)
+    if response.error:
+        print(f"program_bench: reasoning failed: {response.error}", flush=True)
+        return EX_PARTIAL
+    raw = response.text or ""
+    # Reuse the existing _extract_code from sandbox_agent_runner.
+    from active_skill_system.application.use_cases.sandbox_agent_runner import _extract_code
+
+    code = _extract_code(raw)
+    if not code.strip():
+        print("program_bench: empty candidate", flush=True)
+        return EX_PARTIAL
+
+    # Write the candidate into runs/program_bench/<run_id>/json_pretty.py.
+    import sys
+    import uuid
+
+    run_id = f"program-bench-{uuid.uuid4().hex[:8]}"
+    out_dir = Path("runs/program_bench") / run_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+    candidate = out_dir / "json_pretty.py"
+    candidate.write_text(code, encoding="utf-8")
+    print(f"program_bench: candidate written to {candidate}", flush=True)
+
+    # Run the parity tests against the candidate. We copy the tests to out_dir
+    # and patch the _CLI reference so it points at the LLM-generated candidate.
+    parity_runner = out_dir / "test_parity.py"
+    runner_src = parity_tests.read_text(encoding="utf-8")
+    runner_src = runner_src.replace(
+        "_FIXTURE_DIR = Path(__file__).resolve().parents[1]",
+        f"_FIXTURE_DIR = Path({str(candidate)!r}).parent",
+    )
+    parity_runner.write_text(runner_src, encoding="utf-8")
+
+    proc = subprocess.run(
+        [sys.executable, "-m", "pytest", str(parity_runner), "-q", "-p", "no:cacheprovider"],
+        capture_output=True, text=True, timeout=60,
+    )
+    print(proc.stdout, flush=True)
+    if proc.returncode != 0:
+        print(proc.stderr, flush=True)
+        return EX_PARTIAL
+
+    # Persist a synthetic Loop into the graph so --report/--recommend pick it up.
+    from active_skill_system.domain.loop import Budget, Loop, LoopEvent, LoopEventKind, LoopState
+
+    loop = Loop.start(
+        id=run_id,
+        intent=f"program-bench:{model}",
+        budget=Budget(max_llm_calls=1, max_cost=0.05),
+        skills=("program-bench",),
+    )
+    loop = loop.advance(LoopEvent.now(LoopEventKind.VERIFIED, LoopState.VERIFYING, {"verifier": "program-bench-parity"}))
+    loop = loop.advance(LoopEvent.now(LoopEventKind.FINISHED, LoopState.DONE, {"score": 1.0}))
+    store = LadybugGraphStore(graph_path)
+    store.store_loop_graph(project(loop))
+
+    _get_sandbox_logger().info(
+        "program_bench_passed run_id=%s model=%s score=1.0",
+        run_id, model,
+    )
+    return EX_OK
 
 
 def _run_check(candidate_path: str) -> int:
