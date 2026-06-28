@@ -100,7 +100,7 @@ class LadybugGraphStore:
 
         if self._db is not None:
             with contextlib.suppress(Exception):
-                self._db.__del__()  # type: ignore[no-untyped-call]
+                self._db.__del__()  # type: ignore[no-untyped-call]  # ty:ignore[unresolved-attribute]
             self._db = None
             self._conn = None
             self._initialised = False
@@ -144,8 +144,10 @@ class LadybugGraphStore:
             res = self._connection().execute(
                 f"MATCH (v:{_NODE_TABLE} {{id: $id}}) RETURN v.kind, v.label", {"id": vertex_id}
             )
+            # pyrefly: ignore [missing-attribute]
             if not res.has_next():
                 return None
+            # pyrefly: ignore [missing-attribute]
             row = res.get_next()
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"get_vertex failed: {e}", phase="graph_store") from None
@@ -169,7 +171,9 @@ class LadybugGraphStore:
         try:
             res = self._connection().execute(pattern, {"id": vertex_id})
             out: list[LoopVertex] = []
+            # pyrefly: ignore [missing-attribute]
             while res.has_next():
+                # pyrefly: ignore [missing-attribute]
                 vid, kind, label = res.get_next()
                 out.append(LoopVertex(id=vid, kind=LoopVertexKind(kind), label=label))
         except Exception as e:  # noqa: BLE001
@@ -185,6 +189,7 @@ class LadybugGraphStore:
                 f"(b:{_NODE_TABLE} {{id: $dst}}) RETURN count(r)",
                 {"src": src, "dst": dst, "ekind": ekind},
             )
+            # pyrefly: ignore [missing-attribute]
             return res.get_next()[0] > 0
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"has_edge failed: {e}", phase="graph_store") from None
@@ -193,6 +198,7 @@ class LadybugGraphStore:
         self._ensure_schema()
         try:
             res = self._connection().execute(f"MATCH (v:{_NODE_TABLE}) RETURN count(v)")
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0])
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_vertices failed: {e}", phase="graph_store") from None
@@ -201,6 +207,7 @@ class LadybugGraphStore:
         self._ensure_schema()
         try:
             res = self._connection().execute(f"MATCH ()-[r:{_REL_TABLE}]->() RETURN count(r)")
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0])
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_edges failed: {e}", phase="graph_store") from None
@@ -211,7 +218,9 @@ class LadybugGraphStore:
         try:
             res = self._connection().execute(f"MATCH (v:{_NODE_TABLE}) RETURN v.id")
             ids: list[str] = []
+            # pyrefly: ignore [missing-attribute]
             while res.has_next():
+                # pyrefly: ignore [missing-attribute]
                 ids.append(str(res.get_next()[0]))
             return tuple(ids)
         except Exception as e:  # noqa: BLE001
@@ -225,6 +234,7 @@ class LadybugGraphStore:
                 f"MATCH ()-[r:{_REL_TABLE}]->() WHERE r.ekind = $k RETURN count(r)",
                 {"k": kind_value},
             )
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0]) if res.has_next() else 0
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_edges_by_kind failed: {e}", phase="graph_store") from None

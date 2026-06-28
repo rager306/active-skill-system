@@ -45,6 +45,7 @@ def _build_baseline(threats: int) -> Any:
 def run_security_evolution(
     baseline: Any, candidates: tuple, *, dataset: dict | None = None, max_iterations: int = 5, evolvable: Any = None,
 ) -> Any:
+    """run_security_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_security_evolvable()
@@ -83,6 +84,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if args.baseline_threats < 1:
         print(f"error: --baseline-threats must be >= 1 (got {args.baseline_threats})", flush=True)

@@ -1,0 +1,11 @@
+# ty configuration (Astral type checker).
+# Suppresses known false-positives from vendor type mismatches
+# (activegraph LLMMessage vs application LLMMessage — MEM007 design choice).
+
+[[evaluations]]
+name = "minimax-provider-overrides"
+# MiniMaxProvider intentionally overrides AnthropicProvider with our local
+# LLMMessage type (MEM007: application type stays local, converted at boundary).
+# ty flags this as invalid-method-override / invalid-argument-type.
+# These are design decisions, not bugs.
+path = "src/active_skill_system/adapters/llm/minimax/_provider.py"

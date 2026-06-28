@@ -24,6 +24,7 @@ from active_skill_system.domain.iac_types import (
 
 
 class IaCLoopStatus(StrEnum):
+    """IaCLoopStatus class."""
     COMPLETED = "completed"
     NO_IMPROVEMENT = "no_improvement"
     PARTIAL = "partial"
@@ -33,6 +34,7 @@ class IaCLoopStatus(StrEnum):
 
 @dataclass(frozen=True)
 class IaCLoopTraceStep:
+    """IaCLoopTraceStep class."""
     iteration: int
     gap: IaCGapClass | str
     action: IaCActionType
@@ -41,6 +43,7 @@ class IaCLoopTraceStep:
 
 @dataclass(frozen=True)
 class IaCLoopResult:
+    """IaCLoopResult class."""
     final_metrics: IaCPlanMetrics
     iterations_used: int
     candidates_tried: int
@@ -93,7 +96,8 @@ class IaCOptimizationLoopUseCase:
                 final_metrics=baseline, iterations_used=0, candidates_tried=0,
                 accepted_count=0, status=IaCLoopStatus.NO_IMPROVEMENT, trace=(),
             )
-        tool = self._registry.get_by_capability("compute")
+        # pyrefly: ignore [bad-argument-type]
+        tool = self._registry.get_by_capability("compute")  # ty:ignore[invalid-argument-type]
         if tool is None:
             return IaCLoopResult(
                 final_metrics=baseline, iterations_used=0, candidates_tried=0,

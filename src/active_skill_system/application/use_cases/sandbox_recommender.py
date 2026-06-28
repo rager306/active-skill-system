@@ -35,6 +35,7 @@ class GraphReaderPort(Protocol):
 
 
 class RatchetLedgerPort(Protocol):
+    """RatchetLedgerPort class."""
     @property
     def entries(self) -> tuple[Any, ...]: ...
 
@@ -147,11 +148,11 @@ class SandboxRecommender:
                 kind="failed_run_present",
                 message=f"{failure_count} failed run(s) — review ratchet ({ratchet_n} entries) for permanent fixes",
                 confidence="high" if failure_count > 1 else "medium",
-                evidence_refs=tuple(lid for lid, s in zip(loop_ids, scores) if s < 1.0),
+                evidence_refs=tuple(lid for lid, s in zip(loop_ids, scores, strict=False) if s < 1.0),
             ))
 
         # Rule 5: trajectory_uniform / trajectory_drift.
-        unique_trajs = {t for t in traj_kinds_per_loop}
+        unique_trajs = set(traj_kinds_per_loop)
         if len(unique_trajs) == 1:
             out.append(Recommendation(
                 kind="trajectory_uniform",

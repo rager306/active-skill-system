@@ -36,6 +36,7 @@ from active_skill_system.domain.sql_types import (
 
 
 class SQLOopStatus(StrEnum):
+    """SQLOopStatus class."""
     COMPLETED = "completed"
     NO_IMPROVEMENT = "no_improvement"
     PARTIAL = "partial"
@@ -45,6 +46,7 @@ class SQLOopStatus(StrEnum):
 
 @dataclass(frozen=True)
 class SQLOopTraceStep:
+    """SQLOopTraceStep class."""
     iteration: int
     gap: SQLGapClass | str  # SQLGapClass or NO_GAP sentinel
     action: SQLActionType
@@ -53,6 +55,7 @@ class SQLOopTraceStep:
 
 @dataclass(frozen=True)
 class SQLOopResult:
+    """SQLOopResult class."""
     final_metrics: SQLMetrics
     iterations_used: int
     candidates_tried: int
@@ -118,7 +121,8 @@ class SQLOptimizationLoopUseCase:
                 trace=(),
             )
 
-        tool = self._registry.get_by_capability("compute")
+        # pyrefly: ignore [bad-argument-type]
+        tool = self._registry.get_by_capability("compute")  # ty:ignore[invalid-argument-type]
         if tool is None:
             # No tool registered -> cannot evaluate; return baseline unchanged.
             return SQLOopResult(

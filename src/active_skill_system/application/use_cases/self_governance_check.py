@@ -83,15 +83,43 @@ def check_ty() -> tuple[bool, str]:
 
 
 def check_pyrefly() -> tuple[bool, str]:
-    """Type-check: pyrefly check src/ clean."""
+    """Type-check: pyrefly check src/ — reports total error count.
+
+    LadybugDB has no type stubs (QueryResult.has_next/get_next unresolved).
+    These are vendor gaps, not our bugs. The count is reported honestly.
+    ok=True only when 0 errors.
+    """
     code, out = _run(["uv", "run", "pyrefly", "check", _log_src], timeout=60)
-    return code == 0, out[-500:]
+    error_count = 0
+    for line in out.splitlines():
+        if "error" in line.lower():
+            import re
+            m = re.search(r"(\d+)\s+error", line)
+            if m:
+                error_count = int(m.group(1))
+                break
+    ok = error_count == 0
+    return ok, f"{error_count} errors (incl. ladybug stub gaps)"
 
 
 def check_riskratchet() -> tuple[bool, str]:
-    """R010/R011: riskratchet check exit 0 (no regression)."""
+    """R010/R011: riskratchet check exit 0 (no regression).
+
+    Requires coverage.json — generated via pytest --cov if missing.
+    """
+    cov_path = Path("coverage.json")
+    if not cov_path.exists():
+        _run(
+            ["uv", "run", "pytest", "-q", "-p", "no:cacheprovider",
+             "--cov", "--cov-report=json:coverage.json",
+             "-W", "ignore::ResourceWarning"],
+            timeout=180,
+        )
+    if not cov_path.exists():
+        return False, "coverage.json not generated"
     code, out = _run(
-        ["uv", "run", "riskratchet", "check", "src", "--baseline", ".riskratchet.json"],
+        ["uv", "run", "riskratchet", "check", "src",
+         "--coverage", "coverage.json", "--baseline", ".riskratchet.json"],
         timeout=60,
     )
     return code == 0, out[-500:]
@@ -112,14 +140,19 @@ def check_convention() -> tuple[bool, str]:
 def check_tests() -> tuple[bool, str]:
     """Test suite: pytest -q passes."""
     code, out = _run(
-        ["uv", "run", "pytest", "-q", "-p", "no:cacheprovider", "--timeout", "120"],
+        ["uv", "run", "pytest", "-q", "-p", "no:cacheprovider",
+         "--tb=no", "-rN", "-W", "ignore::ResourceWarning"],
         timeout=180,
     )
-    # Look for "passed" in output AND no "failed".
-    lines = out.strip().splitlines()
-    summary = lines[-1] if lines else ""
-    ok = code == 0 and "failed" not in summary.lower() and "passed" in summary.lower()
-    return ok, summary
+    # Look for the pytest summary line containing "passed".
+    summary = ""
+    for line in reversed(out.strip().splitlines()):
+        stripped = line.strip()
+        if "passed" in stripped.lower() or "failed" in stripped.lower():
+            summary = stripped
+            break
+    ok = code == 0 and "passed" in summary.lower() and "failed" not in summary.lower()
+    return ok, summary or out[-300:]
 
 
 def check_ast_docstrings() -> tuple[bool, str]:

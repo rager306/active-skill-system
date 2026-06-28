@@ -309,6 +309,7 @@ class TransformationGenomeEvolvable(Evolvable):
         except (TypeError, ValueError):
             baseline = CompilerMetrics(cycles=1, reg_pressure=0, spills=0, energy_proxy=0.0)
 
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
 
@@ -530,6 +531,7 @@ class SQLEvolvable(Evolvable):
         except (TypeError, ValueError):
             baseline = SQLMetrics(rows_examined=1, rows_returned=0, time_ms=0.0, plan_cost=0.0)
 
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
 
@@ -686,6 +688,7 @@ class IaCEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = IaCPlanMetrics(resource_count=1, module_count=0, variable_count=0, drift_score=0.0)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0
@@ -826,6 +829,7 @@ class SecurityEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = SecurityMetrics(threat_count=1, risk_score=0.0, coverage_ratio=0.0, exposure_time=0.0)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0
@@ -952,6 +956,7 @@ class MLEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = MLMetrics(loss=1.0, accuracy=0.0, epochs=1, convergence_time=0.0)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0
@@ -1049,6 +1054,7 @@ class NetworkEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = NetworkMetrics(latency_ms=1.0, bandwidth_mbps=0.0, packet_loss_pct=0.0, hop_count=1)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0
@@ -1170,6 +1176,7 @@ class StorageEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = StorageMetrics(storage_bytes=1, query_latency_ms=0.0, index_count=0)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0
@@ -1280,6 +1287,7 @@ class LogEvolvable(Evolvable):
             )
         except (TypeError, ValueError):
             baseline = LogMetrics(error_rate=0.1, log_volume_mb=100.0, parse_time_ms=1000.0)
+        # pyrefly: ignore [bad-argument-type]
         max_candidates = int(ds.get("max_candidates", len(genome)))
         candidates_to_try = genome[:max_candidates]
         best_reduction = 0.0

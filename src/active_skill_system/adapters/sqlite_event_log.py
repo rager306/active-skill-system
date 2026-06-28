@@ -17,6 +17,7 @@ port over psycopg3 — swap is a one-constructor change in composition.
 
 from __future__ import annotations
 
+import contextlib
 import sqlite3
 from collections.abc import Iterator
 from urllib.parse import urlparse
@@ -101,10 +102,8 @@ class SQLiteEventLog:
         return int(cur.fetchone()[0])
 
     def close(self) -> None:
-        try:
+        with contextlib.suppress(sqlite3.Error):
             self._conn.close()
-        except sqlite3.Error:
-            pass
 
 
 def _resolve_sqlite_path(path_or_url: str) -> str:

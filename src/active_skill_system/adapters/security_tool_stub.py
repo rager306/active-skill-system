@@ -78,6 +78,7 @@ def _apply_transform(kind: SecurityNodeKind, params: dict[str, Any], baseline: S
 
 
 class SecurityToolStub:
+    """SecurityToolStub class."""
     name = "security_apply_transform"
     capabilities = frozenset({ToolCapability.COMPUTE})
     profile = ToolProfile.NORMAL

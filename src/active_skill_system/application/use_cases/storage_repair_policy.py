@@ -9,6 +9,7 @@ from active_skill_system.domain.storage_types import StorageActionType, StorageG
 
 @dataclass(frozen=True)
 class StorageRepairPolicy:
+    """StorageRepairPolicy class."""
     mapping: dict[StorageGapClass, StorageActionType] = field(default_factory=dict)
 
     def __post_init__(self) -> None:

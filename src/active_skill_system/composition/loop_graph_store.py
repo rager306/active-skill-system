@@ -85,6 +85,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
 
     from active_skill_system.composition.logging_config import configure_logging

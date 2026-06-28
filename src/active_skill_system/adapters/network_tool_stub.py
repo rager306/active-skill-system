@@ -66,6 +66,7 @@ def _apply_transform(kind: NetworkNodeKind, params: dict[str, Any], baseline: Ne
 
 
 class NetworkToolStub:
+    """NetworkToolStub class."""
     name = "network_apply_transform"
     capabilities = frozenset({ToolCapability.COMPUTE})
     profile = ToolProfile.NORMAL

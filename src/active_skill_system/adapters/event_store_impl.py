@@ -81,4 +81,4 @@ def _row_to_event(row: EventRow) -> GraphEvent:
 
 
 # EventStoreImpl structurally satisfies EventStore.
-_: EventStore = EventStoreImpl(backend=None) if False else None  # type: ignore[assignment]
+_: EventStore = EventStoreImpl(backend=None) if False else None  # type: ignore[assignment]  # ty:ignore[invalid-assignment]

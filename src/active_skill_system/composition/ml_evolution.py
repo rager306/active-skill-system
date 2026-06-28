@@ -32,6 +32,7 @@ def _build_baseline(loss: float) -> Any:
 
 
 def run_ml_evolution(baseline: Any, candidates: tuple, *, dataset: dict | None = None, max_iterations: int = 5, evolvable: Any = None) -> Any:
+    """run_ml_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_ml_evolvable()
@@ -65,6 +66,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if args.baseline_loss < 0:
         print(f"error: --baseline-loss must be >= 0 (got {args.baseline_loss})", flush=True)

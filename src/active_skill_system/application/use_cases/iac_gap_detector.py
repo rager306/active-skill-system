@@ -13,10 +13,12 @@ NO_GAP: str = "__no_gap__"
 
 
 def is_iac_improved(previous: IaCPlanMetrics, current: IaCPlanMetrics) -> bool:
+    """is_iac_improved implementation."""
     return current.better_than(previous)
 
 
 def classify_iac_gap(previous: IaCPlanMetrics | None, current: IaCPlanMetrics) -> IaCGapClass | str:
+    """classify_iac_gap implementation."""
     if previous is None:
         return IaCGapClass.UNUSED_VARIABLE
     if not current.is_valid:
@@ -28,13 +30,13 @@ def classify_iac_gap(previous: IaCPlanMetrics | None, current: IaCPlanMetrics) -
     var_better = current.variable_count < previous.variable_count
     var_worse = current.variable_count > previous.variable_count
     var_equal = current.variable_count == previous.variable_count
-    drift_better = float(current.drift_score) < float(previous.drift_score)
 
     # NO_GAP: resource_count strictly better AND (variable_count not worse AND drift not worse).
-    if res_better and not var_worse and drift_better is not False:  # drift not worse: !drift_worse i.e. current.drift <= previous.drift
-        # Equivalent: not (current.drift > previous.drift)
-        if float(current.drift_score) <= float(previous.drift_score):
-            return NO_GAP
+    if (
+        res_better and not var_worse
+        and float(current.drift_score) <= float(previous.drift_score)
+    ):
+        return NO_GAP
 
     if res_worse and var_worse:
         return IaCGapClass.COST_REGRESSION

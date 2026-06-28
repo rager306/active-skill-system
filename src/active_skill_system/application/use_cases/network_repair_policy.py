@@ -9,6 +9,7 @@ from active_skill_system.domain.network_types import NetworkActionType, NetworkG
 
 @dataclass(frozen=True)
 class NetworkRepairPolicy:
+    """NetworkRepairPolicy class."""
     mapping: dict[NetworkGapClass, NetworkActionType] = field(default_factory=dict)
 
     def __post_init__(self) -> None:

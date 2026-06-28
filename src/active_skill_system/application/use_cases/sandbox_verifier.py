@@ -244,6 +244,7 @@ def _run_riskratchet(path: Path) -> bool:
             if f.get("severity", "") in ("high", "critical"):
                 return False
         return True
+    # pyrefly: ignore [unbound-name]
     except (subprocess.SubprocessError, OSError, ValueError, json.JSONDecodeError):
         return False
 

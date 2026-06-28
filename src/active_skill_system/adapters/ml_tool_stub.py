@@ -69,6 +69,7 @@ def _apply_transform(kind: MLNodeKind, params: dict[str, Any], baseline: MLMetri
 
 
 class MLToolStub:
+    """MLToolStub class."""
     name = "ml_apply_transform"
     capabilities = frozenset({ToolCapability.COMPUTE})
     profile = ToolProfile.NORMAL

@@ -92,6 +92,7 @@ def _default_wiring(model: str):
 
 
 def main(argv: list[str] | None = None, *, _wiring=None) -> int:
+    """main implementation."""
     from activegraph import configure_logging
 
     configure_logging(level="ERROR", json_output=False)
@@ -125,10 +126,12 @@ def main(argv: list[str] | None = None, *, _wiring=None) -> int:
     # Observability via the holder (adapter concern, not use-case concern).
     rt = holder.get("runtime")
     if rt is not None:
+        # pyrefly: ignore [missing-attribute]
         rt.save_state()
     print(f"RUN {result.status.upper()} (run_id={result.run_id}, events={result.events_processed})", flush=True)
     print("--- trace (last 20 lines) ---")
     if rt is not None:
+        # pyrefly: ignore [missing-attribute]
         for line in rt.trace.lines()[-20:]:
             print(line)
     return 0

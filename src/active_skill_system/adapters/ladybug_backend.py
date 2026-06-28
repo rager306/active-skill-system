@@ -122,7 +122,7 @@ class LadybugBackend:
 
         if self._db is not None:
             with contextlib.suppress(Exception):
-                self._db.__del__()  # type: ignore[no-untyped-call]
+                self._db.__del__()  # type: ignore[no-untyped-call]  # ty:ignore[unresolved-attribute]
             self._db = None
             self._conn = None
             self._initialised = False
@@ -160,7 +160,7 @@ class LadybugBackend:
                 },
             )
         except Exception as e:  # noqa: BLE001
-            raise ToolError(f"upsert_edge failed: {e}", phase="graph_backend") from None
+            raise ToolError(f"upsert_edge failed: {e}", phase="graph_backend") from None  # ty:ignore[invalid-assignment]
 
     def get_vertex(self, vid: str) -> Vertex | None:
         self._ensure_schema()
@@ -169,8 +169,10 @@ class LadybugBackend:
                 f"MATCH (v:{_NODE_TABLE} {{id: $id}}) RETURN v.type, v.data_b64",
                 {"id": vid},
             )
+            # pyrefly: ignore [missing-attribute]
             if not res.has_next():
                 return None
+            # pyrefly: ignore [missing-attribute]
             row = res.get_next()
             vtype, data_b64 = row[0], row[1]
             try:
@@ -195,7 +197,9 @@ class LadybugBackend:
                     f"RETURN b.id, b.type, b.data_b64"
                 )
             res = self._connection().execute(pattern, {"id": vid})
+            # pyrefly: ignore [missing-attribute]
             while res.has_next():
+                # pyrefly: ignore [missing-attribute]
                 row = res.get_next()
                 nid, ntype, data_b64 = row[0], row[1], row[2]
                 try:
@@ -215,6 +219,7 @@ class LadybugBackend:
                 f"(b:{_NODE_TABLE} {{id: $dst}}) RETURN count(r)",
                 {"src": src, "dst": dst, "ekind": kind},
             )
+            # pyrefly: ignore [missing-attribute]
             return bool(res.has_next() and int(res.get_next()[0]) > 0)
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"has_edge failed: {e}", phase="graph_backend") from None
@@ -223,6 +228,7 @@ class LadybugBackend:
         self._ensure_schema()
         try:
             res = self._connection().execute(f"MATCH (v:{_NODE_TABLE}) RETURN count(v)")
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0]) if res.has_next() else 0
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_vertices failed: {e}", phase="graph_backend") from None
@@ -231,6 +237,7 @@ class LadybugBackend:
         self._ensure_schema()
         try:
             res = self._connection().execute(f"MATCH ()-[r:{_REL_TABLE}]->() RETURN count(r)")
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0]) if res.has_next() else 0
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_edges failed: {e}", phase="graph_backend") from None
@@ -240,7 +247,9 @@ class LadybugBackend:
         try:
             res = self._connection().execute(f"MATCH (v:{_NODE_TABLE}) RETURN v.id")
             ids: list[str] = []
+            # pyrefly: ignore [missing-attribute]
             while res.has_next():
+                # pyrefly: ignore [missing-attribute]
                 ids.append(str(res.get_next()[0]))
             return tuple(ids)
         except Exception as e:  # noqa: BLE001
@@ -253,6 +262,7 @@ class LadybugBackend:
                 f"MATCH ()-[r:{_REL_TABLE}]->() WHERE r.ekind = $k RETURN count(r)",
                 {"k": kind},
             )
+            # pyrefly: ignore [missing-attribute]
             return int(res.get_next()[0]) if res.has_next() else 0
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_edges_of_kind failed: {e}", phase="graph_backend") from None

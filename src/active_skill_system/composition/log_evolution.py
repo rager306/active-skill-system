@@ -32,6 +32,7 @@ def _build_baseline(error_rate: float) -> Any:
 
 
 def run_log_evolution(baseline: Any, candidates: tuple, *, dataset: dict | None = None, max_iterations: int = 5, evolvable: Any = None) -> Any:
+    """run_log_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_log_evolvable()
@@ -65,6 +66,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if not (0.0 <= args.baseline_error_rate <= 1.0):
         print(f"error: --baseline-error-rate must be in [0, 1] (got {args.baseline_error_rate})", flush=True)

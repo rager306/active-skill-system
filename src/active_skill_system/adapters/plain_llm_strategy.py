@@ -14,7 +14,6 @@ from __future__ import annotations
 
 from active_skill_system.application.ports.llm import LLMMessage, LLMProviderPort
 from active_skill_system.application.ports.reasoning_engine import (
-    ReasoningEnginePort,
     ReasoningRequest,
     ReasoningResult,
 )

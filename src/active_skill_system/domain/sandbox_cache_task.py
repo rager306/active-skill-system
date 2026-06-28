@@ -91,7 +91,7 @@ def is_valid_candidate_metrics(obj: object) -> bool:
 def candidate_field_names(obj: object) -> tuple[str, ...]:
     """Return the candidate dataclass's field names (for structural check)."""
     try:
-        return tuple(f.name for f in fields(obj))  # type: ignore[arg-type]
+        return tuple(f.name for f in fields(obj))  # type: ignore[arg-type]  # ty:ignore[invalid-argument-type]
     except TypeError:
         return ()
 

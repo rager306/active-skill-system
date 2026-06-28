@@ -14,6 +14,7 @@ from typing import Any
 
 
 class LogNodeKind(StrEnum):
+    """LogNodeKind class."""
     LOG_ENTRY = "log_entry"
     ERROR = "error"
     WARNING = "warning"
@@ -25,6 +26,7 @@ class LogNodeKind(StrEnum):
 
 
 class LogGapClass(StrEnum):
+    """LogGapClass class."""
     HIGH_ERROR_RATE = "high_error_rate"
     LOG_BLOAT = "log_bloat"
     SLOW_PARSE = "slow_parse"
@@ -33,6 +35,7 @@ class LogGapClass(StrEnum):
 
 
 class LogActionType(StrEnum):
+    """LogActionType class."""
     FILTER = "filter"
     AGGREGATE = "aggregate"
     SAMPLE = "sample"
@@ -41,6 +44,7 @@ class LogActionType(StrEnum):
 
 @dataclass(frozen=True)
 class LogTransformParams:
+    """LogTransformParams class."""
     transform_type: LogNodeKind
     params: dict[str, Any]
     legal: bool = True

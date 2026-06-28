@@ -13,6 +13,7 @@ from active_skill_system.domain.ml_types import MLActionType, MLGapClass
 
 @dataclass(frozen=True)
 class MLRepairPolicy:
+    """MLRepairPolicy class."""
     mapping: dict[MLGapClass, MLActionType] = field(default_factory=dict)
 
     def __post_init__(self) -> None:

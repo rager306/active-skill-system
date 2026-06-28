@@ -75,7 +75,7 @@ def _count_better_than_patterns() -> int:
         if line.isdigit():
             return int(line)
     # Try to find a number in the last row.
-    lines = [l.strip() for l in output.strip().splitlines() if l.strip()]
+    lines = [ln.strip() for ln in output.strip().splitlines() if ln.strip()]
     for line in reversed(lines):
         if line.isdigit():
             return int(line)

@@ -16,6 +16,7 @@ from typing import Any
 
 
 class MLNodeKind(StrEnum):
+    """MLNodeKind class."""
     LAYER = "layer"
     OPTIMIZER = "optimizer"
     LOSS_FN = "loss_fn"
@@ -27,6 +28,7 @@ class MLNodeKind(StrEnum):
 
 
 class MLGapClass(StrEnum):
+    """MLGapClass class."""
     HIGH_LOSS = "high_loss"
     LOW_ACCURACY = "low_accuracy"
     SLOW_CONVERGENCE = "slow_convergence"
@@ -35,6 +37,7 @@ class MLGapClass(StrEnum):
 
 
 class MLActionType(StrEnum):
+    """MLActionType class."""
     ADJUST_LR = "adjust_lr"
     PRUNE_LAYER = "prune_layer"
     ADD_REGULARIZATION = "add_regularization"
@@ -43,6 +46,7 @@ class MLActionType(StrEnum):
 
 @dataclass(frozen=True)
 class MLTransformParams:
+    """MLTransformParams class."""
     transform_type: MLNodeKind
     params: dict[str, Any]
     legal: bool = True

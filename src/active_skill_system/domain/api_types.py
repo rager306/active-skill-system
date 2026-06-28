@@ -15,6 +15,7 @@ from typing import Any
 
 
 class APINodeKind(StrEnum):
+    """APINodeKind class."""
     ENDPOINT = "endpoint"
     RATE_LIMITER = "rate_limiter"
     QUOTA = "quota"
@@ -26,6 +27,7 @@ class APINodeKind(StrEnum):
 
 
 class APIGapClass(StrEnum):
+    """APIGapClass class."""
     HIGH_UTILIZATION = "high_utilization"
     FREQUENT_THROTTLING = "frequent_throttling"
     SLOW_RESPONSE = "slow_response"
@@ -34,6 +36,7 @@ class APIGapClass(StrEnum):
 
 
 class APIActionType(StrEnum):
+    """APIActionType class."""
     INCREASE_QUOTA = "increase_quota"
     CACHE = "cache"
     BATCH = "batch"
@@ -42,6 +45,7 @@ class APIActionType(StrEnum):
 
 @dataclass(frozen=True)
 class APITransformParams:
+    """APITransformParams class."""
     transform_type: APINodeKind
     params: dict[str, Any]
     legal: bool = True

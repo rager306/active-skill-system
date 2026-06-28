@@ -23,7 +23,7 @@ _log = logging.getLogger("active_skill_system.application.memory_guard")
 
 def _rss_bytes_psutil() -> int | None:
     try:
-        import psutil  # type: ignore[import-not-found]
+        import psutil  # type: ignore[import-not-found]  # ty:ignore[unresolved-import]
     except ImportError:
         return None
     try:
@@ -55,7 +55,7 @@ def process_rss_bytes() -> int | None:
 def system_memory_pressure_pct() -> float | None:
     """Return system memory usage percent (0-100), or None if unavailable."""
     try:
-        import psutil  # type: ignore[import-not-found]
+        import psutil  # type: ignore[import-not-found]  # ty:ignore[unresolved-import]
     except ImportError:
         return None
     try:

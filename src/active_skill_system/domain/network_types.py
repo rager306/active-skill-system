@@ -16,6 +16,7 @@ from typing import Any
 
 
 class NetworkNodeKind(StrEnum):
+    """NetworkNodeKind class."""
     ROUTE = "route"
     GATEWAY = "gateway"
     LOAD_BALANCER = "load_balancer"
@@ -27,6 +28,7 @@ class NetworkNodeKind(StrEnum):
 
 
 class NetworkGapClass(StrEnum):
+    """NetworkGapClass class."""
     HIGH_LATENCY = "high_latency"
     LOW_BANDWIDTH = "low_bandwidth"
     PACKET_LOSS = "packet_loss"
@@ -35,6 +37,7 @@ class NetworkGapClass(StrEnum):
 
 
 class NetworkActionType(StrEnum):
+    """NetworkActionType class."""
     REROUTE = "reroute"
     COMPRESS = "compress"
     ADD_CACHE = "add_cache"
@@ -43,6 +46,7 @@ class NetworkActionType(StrEnum):
 
 @dataclass(frozen=True)
 class NetworkTransformParams:
+    """NetworkTransformParams class."""
     transform_type: NetworkNodeKind
     params: dict[str, Any]
     legal: bool = True

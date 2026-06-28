@@ -32,6 +32,7 @@ def _build_baseline(latency: float) -> Any:
 
 
 def run_network_evolution(baseline: Any, candidates: tuple, *, dataset: dict | None = None, max_iterations: int = 5, evolvable: Any = None) -> Any:
+    """run_network_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_network_evolvable()
@@ -65,6 +66,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if args.baseline_latency < 0:
         print(f"error: --baseline-latency must be >= 0 (got {args.baseline_latency})", flush=True)

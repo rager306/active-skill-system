@@ -84,6 +84,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
 
     # Load .env so SANDBOX_GRAPH_PATH / SANDBOX_RATCHET_PATH / SANDBOX_LOG_DIR
@@ -338,6 +339,7 @@ def _write_ratchet_entry(ratchet_path: str, result: Any) -> None:
     """Write a permanent ratchet entry for a failed sandbox run (D012 dogfood)."""
     from pathlib import Path
 
+    # pyrefly: ignore [missing-import]
     from harness import RatchetEntry, RatchetLedger
 
     error_detail = result.error or f"fitness={result.fitness.score:.2f}"
@@ -363,6 +365,7 @@ def _run_ratchet_stats(ratchet_path: str) -> int:
     """
     from pathlib import Path
 
+    # pyrefly: ignore [missing-import]
     from harness import RatchetLedger
 
     p = Path(ratchet_path)
@@ -434,7 +437,9 @@ def _run_graph_trajectory(graph_path: str) -> int:
     try:
         r = store._connection().execute(query)
         rows: list[tuple] = []
+        # pyrefly: ignore [missing-attribute]
         while r.has_next():
+            # pyrefly: ignore [missing-attribute]
             rows.append(r.get_next())
     except Exception as e:  # noqa: BLE001
         print(f"query error: {e}", flush=True)
@@ -463,6 +468,8 @@ def _run_recommend(
 
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.application.use_cases.sandbox_recommender import SandboxRecommender
+
+    # pyrefly: ignore [missing-import]
     from harness import RatchetLedger
 
     graph = LadybugGraphStore(graph_path)
@@ -505,11 +512,11 @@ def _run_compare_runs(
         # Build JSON-safe dict.
         def _s(sum_: object) -> dict:
             return {
-                "loop_id": sum_.loop_id,  # type: ignore[attr-defined]
-                "score": sum_.score,  # type: ignore[attr-defined]
-                "trajectory_kinds": sum_.trajectory_kinds,  # type: ignore[attr-defined]
-                "trajectory_length": sum_.trajectory_length,  # type: ignore[attr-defined]
-                "model": sum_.model,  # type: ignore[attr-defined]
+                "loop_id": sum_.loop_id,  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+                "score": sum_.score,  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+                "trajectory_kinds": sum_.trajectory_kinds,  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+                "trajectory_length": sum_.trajectory_length,  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+                "model": sum_.model,  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
             }
         print(json_mod.dumps({
             "loop_a": _s(cmp.loop_a),
@@ -533,6 +540,8 @@ def _run_report(graph_path: str, ratchet_path: str | None, as_json: bool, log_di
 
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.application.use_cases.sandbox_insight_report import ReportReader
+
+    # pyrefly: ignore [missing-import]
     from harness import RatchetLedger
 
     graph = LadybugGraphStore(graph_path)
@@ -612,7 +621,9 @@ def _run_graph_query(graph_path: str, cypher: str) -> int:
     try:
         result = store._connection().execute(cypher)
         rows = []
+        # pyrefly: ignore [missing-attribute]
         while result.has_next():
+            # pyrefly: ignore [missing-attribute]
             rows.append(result.get_next())
         print(f"query: {cypher}", flush=True)
         print(f"rows: {len(rows)}", flush=True)
@@ -658,6 +669,7 @@ def _run_graph_stats(graph_path: str) -> int:
     for label, query in stats:
         try:
             r = store._connection().execute(query)
+            # pyrefly: ignore [missing-attribute]
             count = r.get_next()[0] if r.has_next() else 0
             print(f"  {label}: {count}", flush=True)
         except Exception:  # noqa: BLE001

@@ -15,6 +15,7 @@ from typing import Any
 
 
 class StorageNodeKind(StrEnum):
+    """StorageNodeKind class."""
     TABLE = "table"
     INDEX = "index"
     PARTITION = "partition"
@@ -26,6 +27,7 @@ class StorageNodeKind(StrEnum):
 
 
 class StorageGapClass(StrEnum):
+    """StorageGapClass class."""
     BLOAT = "bloat"
     MISSING_INDEX = "missing_index"
     SLOW_QUERY = "slow_query"
@@ -34,6 +36,7 @@ class StorageGapClass(StrEnum):
 
 
 class StorageActionType(StrEnum):
+    """StorageActionType class."""
     COMPRESS = "compress"
     PARTITION = "partition"
     SHARD = "shard"
@@ -42,6 +45,7 @@ class StorageActionType(StrEnum):
 
 @dataclass(frozen=True)
 class StorageTransformParams:
+    """StorageTransformParams class."""
     transform_type: StorageNodeKind
     params: dict[str, Any]
     legal: bool = True

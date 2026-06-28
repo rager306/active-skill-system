@@ -193,7 +193,7 @@ def _load_candidate_spec(path: str) -> tuple:
         if not isinstance(entry, dict):
             raise ValueError(f"candidate-spec[{i}] must be a dict (got {type(entry).__name__})")
         try:
-            kind = CompilerNodeKind(entry["transform_type"])
+            kind = CompilerNodeKind(entry["transform_type"])  # ty:ignore[invalid-argument-type]
         except (KeyError, ValueError) as e:
             raise ValueError(f"candidate-spec[{i}].transform_type invalid: {e}") from None
         params = entry.get("params", {})
@@ -201,7 +201,7 @@ def _load_candidate_spec(path: str) -> tuple:
             raise ValueError(f"candidate-spec[{i}].params must be a dict")
         legal = bool(entry.get("legal", True))
         candidates.append(
-            TransformParams(transform_type=kind, params=params, legal=legal)
+            TransformParams(transform_type=kind, params=params, legal=legal)  # ty:ignore[invalid-argument-type]
         )
     return tuple(candidates)
 

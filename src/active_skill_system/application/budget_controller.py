@@ -63,9 +63,7 @@ class BudgetController:
             return True
         if self.max_tool_calls is not None and self._tool_calls >= self.max_tool_calls:
             return True
-        if self.max_cost_usd is not None and self._cost_usd >= self.max_cost_usd:
-            return True
-        return False
+        return bool(self.max_cost_usd is not None and self._cost_usd >= self.max_cost_usd)
 
     def remaining(self) -> dict[str, int | float | None]:
         """Return remaining budget for each resource (None = unlimited)."""

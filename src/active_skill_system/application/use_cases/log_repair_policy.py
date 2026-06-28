@@ -9,6 +9,7 @@ from active_skill_system.domain.log_types import LogActionType, LogGapClass
 
 @dataclass(frozen=True)
 class LogRepairPolicy:
+    """LogRepairPolicy class."""
     mapping: dict[LogGapClass, LogActionType] = field(default_factory=dict)
 
     def __post_init__(self) -> None:

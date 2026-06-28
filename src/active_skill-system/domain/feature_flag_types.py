@@ -107,7 +107,7 @@ class FeatureFlagMetrics:
         if errors:
             raise ValueError("FeatureFlagMetrics invariant violation: " + "; ".join(errors))
 
-    def better_than(self, other: "FeatureFlagMetrics") -> bool:
+    def better_than(self, other: FeatureFlagMetrics) -> bool:
         """True if strictly better.
 
         active_flags is INVERSE (higher = better). Primary axis.

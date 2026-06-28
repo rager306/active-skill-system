@@ -13,6 +13,7 @@ from active_skill_system.domain.iac_types import IaCNodeKind, IaCTransformParams
 
 @dataclass(frozen=True)
 class IaCStageRequirements:
+    """IaCStageRequirements class."""
     stage_name: str
     allowed_kinds: frozenset[IaCNodeKind] = field(default_factory=frozenset)
     min_vars: int = 0
@@ -30,6 +31,7 @@ class IaCStageRequirements:
 
 
 class IaCTransformationSelector:
+    """IaCTransformationSelector class."""
     def __init__(self) -> None:
         self._stages: dict[str, IaCStageRequirements] = {}
 

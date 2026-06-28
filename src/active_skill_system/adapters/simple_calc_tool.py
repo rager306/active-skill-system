@@ -40,12 +40,14 @@ def _eval_node(node: ast.AST) -> int | float:
     if isinstance(node, ast.BinOp):
         left = _eval_node(node.left)
         right = _eval_node(node.right)
+        # pyrefly: ignore [bad-argument-type]
         op_fn = _BIN_OPS.get(type(node.op))
         if op_fn is None:
             raise ValueError(f"unsupported operator: {type(node.op).__name__}")
         return op_fn(left, right)
     if isinstance(node, ast.UnaryOp):
         operand = _eval_node(node.operand)
+        # pyrefly: ignore [bad-argument-type]
         op_fn = _UNARY_OPS.get(type(node.op))
         if op_fn is None:
             raise ValueError(f"unsupported unary op: {type(node.op).__name__}")

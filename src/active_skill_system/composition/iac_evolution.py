@@ -57,14 +57,14 @@ def _load_candidate_spec(path: str) -> tuple:
         if not isinstance(entry, dict):
             raise ValueError(f"candidate-spec[{i}] must be a dict")
         try:
-            kind = IaCNodeKind(entry["transform_type"])
+            kind = IaCNodeKind(entry["transform_type"])  # ty:ignore[invalid-argument-type]
         except (KeyError, ValueError) as e:
             raise ValueError(f"candidate-spec[{i}].transform_type invalid: {e}") from None
         params = entry.get("params", {})
         if not isinstance(params, dict):
             raise ValueError(f"candidate-spec[{i}].params must be a dict")
         legal = bool(entry.get("legal", True))
-        out.append(IaCTransformParams(transform_type=kind, params=params, legal=legal))
+        out.append(IaCTransformParams(transform_type=kind, params=params, legal=legal))  # ty:ignore[invalid-argument-type]
     return tuple(out)
 
 
@@ -76,6 +76,7 @@ def run_iac_evolution(
     max_iterations: int = 5,
     evolvable: Any = None,
 ) -> Any:
+    """run_iac_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_iac_evolvable()
@@ -122,6 +123,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if args.baseline_resources < 1:
         print(f"error: --baseline-resources must be >= 1 (got {args.baseline_resources})", flush=True)

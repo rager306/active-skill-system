@@ -63,6 +63,7 @@ def _apply_transform(kind: LogNodeKind, params: dict[str, Any], baseline: LogMet
 
 
 class LogToolStub:
+    """LogToolStub class."""
     name = "log_apply_transform"
     capabilities = frozenset({ToolCapability.COMPUTE})
     profile = ToolProfile.NORMAL

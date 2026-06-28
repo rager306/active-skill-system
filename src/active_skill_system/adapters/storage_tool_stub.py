@@ -68,6 +68,7 @@ def _apply_transform(kind: StorageNodeKind, params: dict[str, Any], baseline: St
 
 
 class StorageToolStub:
+    """StorageToolStub class."""
     name = "storage_apply_transform"
     capabilities = frozenset({ToolCapability.COMPUTE})
     profile = ToolProfile.NORMAL

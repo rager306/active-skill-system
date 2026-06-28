@@ -23,6 +23,7 @@ from typing import Any
 
 
 class FeatureNodeKind(StrEnum):
+    """FeatureNodeKind class."""
     FLAG = "flag"
     ROLLOUT = "rollout"
     SEGMENT = "segment"
@@ -34,6 +35,7 @@ class FeatureNodeKind(StrEnum):
 
 
 class FeatureGapClass(StrEnum):
+    """FeatureGapClass class."""
     STALE_FLAG = "stale_flag"
     LOW_ROLLOUT = "low_rollout"
     HIGH_BLAST_RADIUS = "high_blast_radius"
@@ -42,6 +44,7 @@ class FeatureGapClass(StrEnum):
 
 
 class FeatureFlagActionType(StrEnum):
+    """FeatureFlagActionType class."""
     REMOVE_STALE = "remove_stale"
     EXPAND_ROLLOUT = "expand_rollout"
     REDUCE_BLAST = "reduce_blast"
@@ -50,6 +53,7 @@ class FeatureFlagActionType(StrEnum):
 
 @dataclass(frozen=True)
 class FeatureFlagTransformParams:
+    """FeatureFlagTransformParams class."""
     transform_type: FeatureNodeKind
     params: dict[str, Any]
     legal: bool = True

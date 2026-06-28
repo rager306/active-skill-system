@@ -32,6 +32,7 @@ def _build_baseline(storage_bytes: int) -> Any:
 
 
 def run_storage_evolution(baseline: Any, candidates: tuple, *, dataset: dict | None = None, max_iterations: int = 5, evolvable: Any = None) -> Any:
+    """run_storage_evolution implementation."""
     from active_skill_system.application.evolution_engine import EvolutionEngine
     if evolvable is None:
         evolvable = _build_storage_evolvable()
@@ -65,6 +66,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """main implementation."""
     args = _parse_args(argv)
     if args.baseline_bytes < 0:
         print(f"error: --baseline-bytes must be >= 0 (got {args.baseline_bytes})", flush=True)

@@ -74,14 +74,16 @@ class MiniMaxProvider(AnthropicProvider):
 
         return Anthropic()  # SDK reads ANTHROPIC_AUTH_TOKEN (Bearer) + ANTHROPIC_BASE_URL
 
-    def count_tokens(self, *, system: str, messages: list[LLMMessage], model: str) -> int:
+    # pyrefly: ignore [bad-override]
+    def count_tokens(self, *, system: str, messages: list[LLMMessage], model: str) -> int:  # ty:ignore[invalid-method-override]
         """Real gateway count_tokens with a chars/4 fallback (see ``_tokens.py``).
 
         The gateway can reject some tool-loop shapes; fall back so the
         runtime's pre-call cost gate always works.
         """
         try:
-            return int(super().count_tokens(system=system, messages=messages, model=model))
+            # pyrefly: ignore [bad-argument-type]
+            return int(super().count_tokens(system=system, messages=messages, model=model))  # ty:ignore[invalid-argument-type]
         except Exception:  # noqa: BLE001 - fallback must always work
             return count_tokens_fallback(system=system, messages=messages, model=model)
 
@@ -114,7 +116,8 @@ class MiniMaxProvider(AnthropicProvider):
             )
             converted.append(
                 _AgLLMMessage(
-                    role=m.role,
+                    # pyrefly: ignore [bad-argument-type]
+                    role=m.role,  # ty:ignore[invalid-argument-type]
                     content=m.content,
                     tool_use_id=getattr(m, "tool_call_id", None) or getattr(m, "tool_use_id", None),
                     tool_name=getattr(m, "tool_name", None),
@@ -165,7 +168,7 @@ class MiniMaxProvider(AnthropicProvider):
                 delay = max(_retry_after_seconds(e) or 0.0, self._base_backoff * (2**attempt))
                 time.sleep(delay)
         # Unreachable; loop returns or raises.
-        raise self._to_llm_behavior_error(last_exc, _classify_provider_exception(last_exc), model) from last_exc  # type: ignore[arg-type]
+        raise self._to_llm_behavior_error(last_exc, _classify_provider_exception(last_exc), model) from last_exc  # type: ignore[arg-type]  # ty:ignore[invalid-argument-type]
 
     @staticmethod
     def _to_llm_behavior_error(e: Exception, reason: str, model: str) -> LLMBehaviorError:
@@ -179,6 +182,7 @@ class MiniMaxProvider(AnthropicProvider):
             extras["retry_after_seconds"] = ra
         return LLMBehaviorError(reason, str(e), payload_extras=extras)
 
+    # pyrefly: ignore [bad-override]
     def complete(  # noqa: D401 - signature mirrors the Protocol
         self,
         *,
@@ -191,7 +195,7 @@ class MiniMaxProvider(AnthropicProvider):
         output_schema: type | None,
         timeout_seconds: float,
         tools: list[dict[str, Any]] | None = None,
-    ) -> LLMResponse:
+    ) -> LLMResponse:  # ty:ignore[invalid-method-override]
         client = self._client()
         ag_messages = self._to_activegraph_messages(messages)
         wire_messages = self._restore_thinking([_message_to_anthropic(m) for m in ag_messages])

@@ -90,6 +90,11 @@ python-version = "3.13"
 [tool.pyrefly]
 python-version = "3.13"
 search-path = ["src"]
+# LadybugDB has no type stubs; pyrefly cannot resolve QueryResult.has_next/get_next.
+# We run pyrefly for OUR code quality, not vendor stub coverage. The errors are
+# real but unfixable without ladybug publishing stubs. The governance check
+# reports the count; we track it and fix what we can.
+# See: doc/architecture-proposal-absorb-activegraph.md §3.1 (GraphBackend port).
 
 # ── pytest ────────────────────────────────────────────────────────────────
 [tool.pytest.ini_options]

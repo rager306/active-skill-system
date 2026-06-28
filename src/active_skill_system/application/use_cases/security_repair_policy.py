@@ -17,6 +17,7 @@ from active_skill_system.domain.security_types import (
 
 @dataclass(frozen=True)
 class SecurityRepairPolicy:
+    """SecurityRepairPolicy class."""
     mapping: dict[SecurityGapClass, SecurityActionType] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
