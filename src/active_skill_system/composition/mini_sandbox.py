@@ -26,6 +26,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from active_skill_system.composition.cli_exit import (
+    EX_NOT_FOUND,
+    EX_OK,
+    EX_PARTIAL,
+    EX_USAGE,
+)
+
 
 def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -106,7 +113,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.models is not None:
         return _run_multi_model(args.models, args.graph)
     print("nothing to do: pass --check / --model / --models", flush=True)
-    return 0
+    return EX_USAGE
 
 
 def _run_check(candidate_path: str) -> int:
@@ -119,7 +126,7 @@ def _run_check(candidate_path: str) -> int:
     for name, val in axes.items():
         if name != "score":
             print(f"  {name}: {val}", flush=True)
-    return 0 if axes["score"] == 1.0 else 1
+    return EX_OK if axes["score"] == 1.0 else EX_PARTIAL
 
 
 def _write_ratchet_entry(ratchet_path: str, result: Any) -> None:
@@ -143,17 +150,29 @@ def _write_ratchet_entry(ratchet_path: str, result: Any) -> None:
 
 
 def _run_ratchet_stats(ratchet_path: str) -> int:
-    """Print accumulated ratchet entries."""
+    """Print accumulated ratchet entries.
+
+    Exit codes:
+      EX_OK        — file exists (even if empty)
+      EX_NOT_FOUND — file does not exist (distinct from empty)
+    """
     from pathlib import Path
 
     from harness import RatchetLedger
 
-    ledger = RatchetLedger.load(Path(ratchet_path))
+    p = Path(ratchet_path)
+    if not p.exists():
+        print(f"ratchet: {ratchet_path} (NOT FOUND)", flush=True)
+        _get_sandbox_logger().warning(
+            "ratchet_not_found path=%s", ratchet_path,
+        )
+        return EX_NOT_FOUND
+    ledger = RatchetLedger.load(p)
     entries = ledger.entries
     print(f"ratchet: {ratchet_path} ({len(entries)} entries)", flush=True)
     for e in entries[-20:]:
         print(f"  {e.id} | {e.area} | {e.diff[:80]}", flush=True)
-    return 0
+    return EX_OK
 
 
 _sandbox_logger: logging.Logger | None = None
@@ -184,11 +203,23 @@ def _get_sandbox_logger() -> logging.Logger:
 
 
 def _run_graph_trajectory(graph_path: str) -> int:
-    """Print the trajectory chain from the persistent graph (Wave 2 P1)."""
+    """Print the trajectory chain from the persistent graph (Wave 2 P1).
+
+    Exit codes:
+      EX_OK         — chain printed (or 'no trajectory steps yet' if empty)
+      EX_PARTIAL    — Cypher failed
+      EX_NOT_FOUND  — graph file does not exist
+    """
+    from pathlib import Path
+
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
 
+    p = Path(graph_path)
+    if not p.exists() and graph_path != ":memory:":
+        print(f"graph not found: {graph_path}", flush=True)
+        _get_sandbox_logger().warning("graph_not_found path=%s", graph_path)
+        return EX_NOT_FOUND
     store = LadybugGraphStore(graph_path)
-    # Find all loops with trajectory steps.
     query = (
         "MATCH (l:RglaVertex)-[u:RglaEdge {ekind: 'uses'}]->(s:RglaVertex) "
         "WHERE s.id STARTS WITH 'trajectory_step:' "
@@ -202,11 +233,11 @@ def _run_graph_trajectory(graph_path: str) -> int:
             rows.append(r.get_next())
     except Exception as e:  # noqa: BLE001
         print(f"query error: {e}", flush=True)
-        return 1
+        _get_sandbox_logger().warning("trajectory_query_failed path=%s err=%s", graph_path, e)
+        return EX_PARTIAL
     if not rows:
         print("  no trajectory steps persisted yet", flush=True)
-        return 0
-    # Group by loop, order by step_id suffix.
+        return EX_OK
     by_loop: dict[str, list[tuple]] = {}
     for loop_id, step_id, label in rows:
         by_loop.setdefault(loop_id, []).append((step_id, label))
@@ -215,7 +246,7 @@ def _run_graph_trajectory(graph_path: str) -> int:
         print(f"\n  {loop_id}:", flush=True)
         for step_id, label in steps:
             print(f"    {step_id}  {label or '?'}", flush=True)
-    return 0
+    return EX_OK
 
 
 def _run_recommend(
@@ -244,7 +275,7 @@ def _run_recommend(
             print(f"  [{r.confidence.upper()}] {r.kind}: {r.message}", flush=True)
             for ref in r.evidence_refs[:5]:
                 print(f"    evidence: {ref}", flush=True)
-    return 0
+    return EX_OK
 
 
 def _run_compare_runs(
@@ -261,7 +292,10 @@ def _run_compare_runs(
     cmp = diff.compare(loop_a, loop_b)
     if cmp.missing_id:
         print(f"run not found: {cmp.missing_id}", flush=True)
-        return 2  # distinct exit code (M049 S04 will formalise)
+        _get_sandbox_logger().warning(
+            "compare_runs_missing a=%s b=%s missing=%s", loop_a, loop_b, cmp.missing_id,
+        )
+        return EX_NOT_FOUND
     if as_json:
         # Build JSON-safe dict.
         def _s(sum_: object) -> dict:
@@ -284,7 +318,7 @@ def _run_compare_runs(
         }, indent=2), flush=True)
     else:
         print(cmp.summary(), flush=True)
-    return 0
+    return EX_OK
 
 
 def _run_report(graph_path: str, ratchet_path: str | None, as_json: bool, log_dir: str | None) -> int:
@@ -349,13 +383,26 @@ def _run_report(graph_path: str, ratchet_path: str | None, as_json: bool, log_di
                     print(f"    {k}: {v}", flush=True)
             else:
                 print(f"    {rows}", flush=True)
-    return 0
+    return EX_OK
 
 
 def _run_graph_query(graph_path: str, cypher: str) -> int:
-    """Execute a Cypher query on the persistent graph."""
+    """Execute a Cypher query on the persistent graph.
+
+    Exit codes:
+      EX_OK         — query executed (0 rows is success, not error)
+      EX_PARTIAL    — query failed (Cypher error)
+      EX_NOT_FOUND  — graph file does not exist
+    """
+    from pathlib import Path
+
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
 
+    p = Path(graph_path)
+    if not p.exists() and graph_path != ":memory:":
+        print(f"graph not found: {graph_path}", flush=True)
+        _get_sandbox_logger().warning("graph_not_found path=%s cypher=%s", graph_path, cypher)
+        return EX_NOT_FOUND
     store = LadybugGraphStore(graph_path)
     try:
         result = store._connection().execute(cypher)
@@ -368,14 +415,27 @@ def _run_graph_query(graph_path: str, cypher: str) -> int:
             print(f"  {row}", flush=True)
     except Exception as e:  # noqa: BLE001
         print(f"query error: {e}", flush=True)
-        return 1
-    return 0
+        _get_sandbox_logger().warning("cypher_failed path=%s err=%s", graph_path, e)
+        return EX_PARTIAL
+    return EX_OK
 
 
 def _run_graph_stats(graph_path: str) -> int:
-    """Print accumulated provenance statistics."""
+    """Print accumulated provenance statistics.
+
+    Exit codes:
+      EX_OK         — stats computed (0 values are success on empty graph)
+      EX_NOT_FOUND  — graph file does not exist
+    """
+    from pathlib import Path
+
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
 
+    p = Path(graph_path)
+    if not p.exists() and graph_path != ":memory:":
+        print(f"graph not found: {graph_path}", flush=True)
+        _get_sandbox_logger().warning("graph_not_found path=%s", graph_path)
+        return EX_NOT_FOUND
     store = LadybugGraphStore(graph_path)
     stats = [
         ("total vertices", "MATCH (v) RETURN count(v)"),
@@ -389,6 +449,7 @@ def _run_graph_stats(graph_path: str) -> int:
         ("NEXT edges", "MATCH ()-[e:RglaEdge {ekind: 'next'}]->() RETURN count(e)"),
     ]
     print(f"graph: {graph_path}", flush=True)
+    failures = 0
     for label, query in stats:
         try:
             r = store._connection().execute(query)
@@ -396,7 +457,13 @@ def _run_graph_stats(graph_path: str) -> int:
             print(f"  {label}: {count}", flush=True)
         except Exception:  # noqa: BLE001
             print(f"  {label}: (query failed)", flush=True)
-    return 0
+            failures += 1
+    if failures:
+        _get_sandbox_logger().warning(
+            "graph_stats_partial path=%s failed_queries=%d", graph_path, failures,
+        )
+        return EX_PARTIAL
+    return EX_OK
 
 
 def _build_executor(executor_type: str):
@@ -456,7 +523,7 @@ def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: 
     if ratchet_path and (result.fitness.score < 1.0 or result.error):
         _write_ratchet_entry(ratchet_path, result)
 
-    return 0 if result.fitness.score == 1.0 else 1
+    return EX_OK if result.fitness.score == 1.0 else EX_PARTIAL
 
 
 def _run_multi_model(models_csv: str, graph_path: str = "runs/sandbox_graph.lbdb") -> int:
@@ -480,7 +547,7 @@ def _run_multi_model(models_csv: str, graph_path: str = "runs/sandbox_graph.lbdb
     _ = (project, store)  # available for future graph-enrichment
 
     print(report.table(), flush=True)
-    return 0 if report.winner_score == 1.0 else 1
+    return EX_OK if report.winner_score == 1.0 else EX_PARTIAL
 
 
 if __name__ == "__main__":
