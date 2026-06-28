@@ -62,6 +62,7 @@ class SandboxFitness:
         risk_ok: bool = False,
         symbols_ok: bool = False,
         docstring_ok: bool = False,
+        convention_consistency_ok: bool = True,
         loc: int = 0,
         error_detail: str | None = None,
     ) -> None:
@@ -74,6 +75,7 @@ class SandboxFitness:
         self.risk_ok = risk_ok
         self.symbols_ok = symbols_ok
         self.docstring_ok = docstring_ok
+        self.convention_consistency_ok = convention_consistency_ok
         self.loc = loc
         self.loc_ok = loc <= _R06_MAX_LOC
         self.error_detail = error_detail
@@ -81,7 +83,7 @@ class SandboxFitness:
         bools = [
             structure_ok, invariants_ok, ranking_ok, ruff_clean,
             self.ty_clean, self.pyrefly_clean, self.risk_ok,
-            self.symbols_ok, self.docstring_ok, self.loc_ok,
+            self.symbols_ok, self.docstring_ok, self.convention_consistency_ok, self.loc_ok,
         ]
         self.score = sum(bools) / len(bools)
 
@@ -96,6 +98,7 @@ class SandboxFitness:
             "risk_ok": self.risk_ok,
             "symbols_ok": self.symbols_ok,
             "docstring_ok": self.docstring_ok,
+            "convention_consistency_ok": self.convention_consistency_ok,
             "loc": self.loc,
             "loc_ok": self.loc_ok,
             "error_detail": self.error_detail,
@@ -278,6 +281,19 @@ def _check_docstrings(path: Path) -> bool:
     return True
 
 
+def _check_convention(path: Path) -> bool:
+    """GitNexus convention check (S6): is the candidate consistent with project patterns?"""
+    try:
+        from active_skill_system.application.use_cases.gitnexus_convention_check import (
+            ConventionChecker,
+        )
+
+        result = ConventionChecker().check_convention(str(path))
+        return result.consistent
+    except Exception:  # noqa: BLE001
+        return True  # graceful: don't penalise for GitNexus issues
+
+
 def _missing_file_fitness() -> SandboxFitness:
     """Fitness for a missing candidate: every axis False, score 0.0."""
     f = SandboxFitness(
@@ -303,6 +319,7 @@ def verify_candidate(path: str | Path) -> SandboxFitness:
     risk_ok = _run_riskratchet(p)
     symbols_ok = _check_symbols(p)
     docstring_ok = _check_docstrings(p)
+    convention_ok = _check_convention(p)
 
     try:
         module = _load_candidate_module(p)
@@ -312,7 +329,7 @@ def verify_candidate(path: str | Path) -> SandboxFitness:
         return SandboxFitness(
             structure_ok=False, invariants_ok=False, ranking_ok=False,
             ruff_clean=ruff_clean, ty_clean=ty_clean, pyrefly_clean=pyrefly_clean,
-            risk_ok=risk_ok, symbols_ok=symbols_ok, docstring_ok=docstring_ok, loc=loc,
+            risk_ok=risk_ok, symbols_ok=symbols_ok, docstring_ok=docstring_ok, convention_consistency_ok=convention_ok, loc=loc,
             error_detail=detail,
         )
 
@@ -321,7 +338,7 @@ def verify_candidate(path: str | Path) -> SandboxFitness:
         return SandboxFitness(
             structure_ok=False, invariants_ok=False, ranking_ok=False,
             ruff_clean=ruff_clean, ty_clean=ty_clean, pyrefly_clean=pyrefly_clean,
-            risk_ok=risk_ok, symbols_ok=symbols_ok, docstring_ok=docstring_ok, loc=loc,
+            risk_ok=risk_ok, symbols_ok=symbols_ok, docstring_ok=docstring_ok, convention_consistency_ok=convention_ok, loc=loc,
         )
 
     metrics_cls = module.CacheMetrics
@@ -338,5 +355,6 @@ def verify_candidate(path: str | Path) -> SandboxFitness:
         risk_ok=risk_ok,
         symbols_ok=symbols_ok,
         docstring_ok=docstring_ok,
+        convention_consistency_ok=convention_ok,
         loc=loc,
     )
