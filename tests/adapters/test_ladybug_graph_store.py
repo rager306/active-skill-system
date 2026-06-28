@@ -159,7 +159,7 @@ def test_ladybug_only_in_adapter_module():
     offenders = []
     for py, tree in _module_asts():
         rel = str(py.relative_to(Path("src/active_skill_system")))
-        if rel == "adapters/ladybug_graph_store.py":
+        if rel in ("adapters/ladybug_graph_store.py", "adapters/ladybug_backend.py"):
             continue
         if _imports(tree, "ladybug"):
             offenders.append(rel)
