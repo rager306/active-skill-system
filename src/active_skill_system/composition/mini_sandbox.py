@@ -84,11 +84,20 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """main implementation."""
+    """Entry point: parse args, dispatch to the appropriate handler."""
     args = _parse_args(argv)
+    _load_env()
+    from active_skill_system.composition.logging_config import configure_logging
 
-    # Load .env so SANDBOX_GRAPH_PATH / SANDBOX_RATCHET_PATH / SANDBOX_LOG_DIR
-    # are available without manual `source .env`.
+    configure_logging()
+    _get_sandbox_logger().info(
+        "session_start model=%s executor=%s graph=%s", args.model, args.executor, args.graph,
+    )
+    return _dispatch(args)
+
+
+def _load_env() -> None:
+    """Load .env so SANDBOX_* paths are available."""
     try:
         from dotenv import load_dotenv
 
@@ -96,14 +105,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     except ImportError:
         pass
 
-    from active_skill_system.composition.logging_config import configure_logging
 
-    configure_logging()
-
-    # Per-session sandbox log file (M049 cross-session log persistence).
-    sandbox_logger = _get_sandbox_logger()
-    sandbox_logger.info("session_start model=%s executor=%s graph=%s", args.model, args.executor, args.graph)
-
+def _dispatch(args: argparse.Namespace) -> int:
+    """Route parsed args to the correct handler."""
+    # Read-only query modes (no LLM, fast).
     if args.ratchet_stats:
         return _run_ratchet_stats(args.ratchet or "runs/ratchet.jsonl")
     if args.graph_trajectory:
@@ -122,6 +127,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_event_stats(args.event_log or os.environ.get("SANDBOX_EVENT_LOG", ""))
     if args.governance_check:
         return _run_governance_check()
+    # Action modes (may invoke LLM).
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:

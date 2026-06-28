@@ -19,12 +19,12 @@
     {
       "path": "src/active_skill-system/domain/feature_flag_types.py",
       "qualname": "FeatureFlagMetrics.better_than",
-      "score": 57.25,
+      "score": 58.25,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 65.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 100.0,
         "sprawl": 0.0
       },
@@ -859,12 +859,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.all_vertex_ids",
-      "score": 11.5,
+      "score": 12.5,
       "components": {
         "coverage_gap": 20.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 20.0,
         "sprawl": 0.0
       },
@@ -874,12 +874,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.close",
-      "score": 37.25,
+      "score": 38.25,
       "components": {
         "coverage_gap": 87.5,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 87.5,
         "sprawl": 0.0
       },
@@ -889,12 +889,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.count_edges",
-      "score": 37.7857,
+      "score": 38.7857,
       "components": {
         "coverage_gap": 85.7143,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 85.7143,
         "sprawl": 0.0
       },
@@ -904,12 +904,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.count_edges_of_kind",
-      "score": 14.9286,
+      "score": 15.9286,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -919,12 +919,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.count_vertices",
-      "score": 14.9286,
+      "score": 15.9286,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -934,12 +934,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.get_vertex",
-      "score": 15.4167,
+      "score": 16.4167,
       "components": {
         "coverage_gap": 26.6667,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 26.6667,
         "sprawl": 0.0
       },
@@ -949,12 +949,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.has_edge",
-      "score": 14.9286,
+      "score": 15.9286,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -964,12 +964,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.neighbours",
-      "score": 20.5833,
+      "score": 21.5833,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 33.3333,
         "sprawl": 0.0
       },
@@ -979,12 +979,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_backend.py",
       "qualname": "LadybugBackend.upsert_edge",
-      "score": 15.5833,
+      "score": 16.5833,
       "components": {
         "coverage_gap": 33.3333,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 33.3333,
         "sprawl": 0.0
       },
@@ -1084,12 +1084,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.close",
-      "score": 27.25,
+      "score": 28.25,
       "components": {
         "coverage_gap": 62.5,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 62.5,
         "sprawl": 0.0
       },
@@ -1099,12 +1099,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.count_edges",
-      "score": 13.6786,
+      "score": 14.6786,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -1114,12 +1114,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.count_edges_by_kind",
-      "score": 37.7857,
+      "score": 38.7857,
       "components": {
         "coverage_gap": 85.7143,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 85.7143,
         "sprawl": 0.0
       },
@@ -1129,12 +1129,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.count_vertices",
-      "score": 12.6786,
+      "score": 13.6786,
       "components": {
         "coverage_gap": 28.5714,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 28.5714,
         "sprawl": 0.0
       },
@@ -1144,12 +1144,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.get_vertex",
-      "score": 10.7727,
+      "score": 11.7727,
       "components": {
         "coverage_gap": 18.1818,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 18.1818,
         "sprawl": 0.0
       },
@@ -1159,12 +1159,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.has_edge",
-      "score": 13.5,
+      "score": 14.5,
       "components": {
         "coverage_gap": 25.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 25.0,
         "sprawl": 0.0
       },
@@ -1174,12 +1174,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.list_vertex_ids",
-      "score": 39.5,
+      "score": 40.5,
       "components": {
         "coverage_gap": 90.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 90.0,
         "sprawl": 0.0
       },
@@ -1189,12 +1189,12 @@
     {
       "path": "src/active_skill_system/adapters/ladybug_graph_store.py",
       "qualname": "LadybugGraphStore.query_neighbours",
-      "score": 13.5658,
+      "score": 14.5658,
       "components": {
         "coverage_gap": 15.7895,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 15.7895,
         "sprawl": 0.0
       },
@@ -1294,12 +1294,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._call_with_retry",
-      "score": 10.125,
+      "score": 11.125,
       "components": {
         "coverage_gap": 6.25,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1369,12 +1369,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider._to_activegraph_messages",
-      "score": 10.25,
+      "score": 11.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 40.0,
+        "churn": 50.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -1414,12 +1414,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.complete",
-      "score": 53.2115,
+      "score": 54.2115,
       "components": {
         "coverage_gap": 96.1538,
         "structural_complexity": 55.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 96.1538,
         "sprawl": 0.0
       },
@@ -1429,12 +1429,12 @@
     {
       "path": "src/active_skill_system/adapters/llm/minimax/_provider.py",
       "qualname": "MiniMaxProvider.count_tokens",
-      "score": 19.25,
+      "score": 20.25,
       "components": {
         "coverage_gap": 40.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 40.0,
         "sprawl": 0.0
       },
@@ -2089,12 +2089,12 @@
     {
       "path": "src/active_skill_system/adapters/simple_calc_tool.py",
       "qualname": "_eval_node",
-      "score": 11.6579,
+      "score": 12.6579,
       "components": {
         "coverage_gap": 10.5263,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2299,12 +2299,12 @@
     {
       "path": "src/active_skill_system/adapters/sqlite_event_log.py",
       "qualname": "SQLiteEventLog.close",
-      "score": 1.0,
+      "score": 2.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2704,12 +2704,12 @@
     {
       "path": "src/active_skill_system/application/budget_controller.py",
       "qualname": "BudgetController.is_exhausted",
-      "score": 13.9167,
+      "score": 14.9167,
       "components": {
         "coverage_gap": 16.6667,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 16.6667,
         "sprawl": 0.0
       },
@@ -2914,12 +2914,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "IaCEvolvable.evaluate",
-      "score": 29.3684,
+      "score": 30.3684,
       "components": {
         "coverage_gap": 18.4211,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 18.4211,
         "sprawl": 50.0
       },
@@ -2974,12 +2974,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "LogEvolvable.evaluate",
-      "score": 28.7616,
+      "score": 29.7616,
       "components": {
         "coverage_gap": 16.2791,
         "structural_complexity": 65.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 16.2791,
         "sprawl": 50.0
       },
@@ -3034,12 +3034,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "MLEvolvable.evaluate",
-      "score": 29.3684,
+      "score": 30.3684,
       "components": {
         "coverage_gap": 18.4211,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 18.4211,
         "sprawl": 50.0
       },
@@ -3139,12 +3139,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "NetworkEvolvable.evaluate",
-      "score": 29.3684,
+      "score": 30.3684,
       "components": {
         "coverage_gap": 18.4211,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 18.4211,
         "sprawl": 50.0
       },
@@ -3244,12 +3244,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "SQLEvolvable.evaluate",
-      "score": 28.3158,
+      "score": 29.3158,
       "components": {
         "coverage_gap": 15.7895,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 15.7895,
         "sprawl": 50.0
       },
@@ -3304,12 +3304,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "SecurityEvolvable.evaluate",
-      "score": 29.3684,
+      "score": 30.3684,
       "components": {
         "coverage_gap": 18.4211,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 18.4211,
         "sprawl": 50.0
       },
@@ -3364,12 +3364,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "StorageEvolvable.evaluate",
-      "score": 29.3684,
+      "score": 30.3684,
       "components": {
         "coverage_gap": 18.4211,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 18.4211,
         "sprawl": 50.0
       },
@@ -3424,12 +3424,12 @@
     {
       "path": "src/active_skill_system/application/evolvable_adapters.py",
       "qualname": "TransformationGenomeEvolvable.evaluate",
-      "score": 26.2632,
+      "score": 27.2632,
       "components": {
         "coverage_gap": 13.1579,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 13.1579,
         "sprawl": 50.0
       },
@@ -5524,12 +5524,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/gitnexus_convention_check.py",
       "qualname": "_count_better_than_patterns",
-      "score": 16.6731,
+      "score": 17.6731,
       "components": {
         "coverage_gap": 23.0769,
         "structural_complexity": 35.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -5554,12 +5554,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/iac_gap_detector.py",
       "qualname": "classify_iac_gap",
-      "score": 59.5,
+      "score": 60.5,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 70.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 100.0,
         "sprawl": 0.0
       },
@@ -5569,12 +5569,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/iac_gap_detector.py",
       "qualname": "is_iac_improved",
-      "score": 41.0,
+      "score": 42.0,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 100.0,
         "sprawl": 0.0
       },
@@ -5599,12 +5599,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/iac_optimization_loop.py",
       "qualname": "IaCOptimizationLoopUseCase.run",
-      "score": 54.5,
+      "score": 55.5,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 50.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 100.0,
         "sprawl": 0.0
       },
@@ -5749,12 +5749,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/memory_guard.py",
       "qualname": "_rss_bytes_psutil",
-      "score": 16.8333,
+      "score": 17.8333,
       "components": {
         "coverage_gap": 44.4444,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -5809,12 +5809,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/memory_guard.py",
       "qualname": "system_memory_pressure_pct",
-      "score": 21.2778,
+      "score": 22.2778,
       "components": {
         "coverage_gap": 44.4444,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 44.4444,
         "sprawl": 0.0
       },
@@ -6814,12 +6814,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/sandbox_recommender.py",
       "qualname": "SandboxRecommender.recommend",
-      "score": 28.2841,
+      "score": 29.2841,
       "components": {
         "coverage_gap": 2.2727,
         "structural_complexity": 100.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 2.2727,
         "sprawl": 13.75
       },
@@ -7249,12 +7249,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/sandbox_verifier.py",
       "qualname": "_run_riskratchet",
-      "score": 16.3947,
+      "score": 17.3947,
       "components": {
         "coverage_gap": 26.3158,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -7384,13 +7384,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "GovernanceResult.all_passed",
-      "score": 42.25,
+      "score": 2.25,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "579e7316153103b270c97e710ecee5707854207cfb205c0b8826c986012e6867",
@@ -7399,13 +7399,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "GovernanceResult.failed_axes",
-      "score": 43.5,
+      "score": 3.5,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "24223f2d5ef5bd0eb6323073593acfae6fef376e446f2c1aa2d690a1fa585153",
@@ -7414,13 +7414,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "GovernanceResult.score",
-      "score": 44.75,
+      "score": 4.75,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 0.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "83fda0c6e0b318ba6bc7d3ddddf79cb5389fe1eeaa7e65eee51c66a7eea49768",
@@ -7429,9 +7429,9 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "_run",
-      "score": 32.25,
+      "score": 12.25,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 33.3333,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
         "churn": 10.0,
@@ -7444,13 +7444,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_ast_docstrings",
-      "score": 56.0,
+      "score": 54.0952,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 95.2381,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 95.2381,
         "sprawl": 0.0
       },
       "fingerprint": "be63162dcf985d3a21f5799403fe80117ed70d487d676947144eb5a4c15ba065",
@@ -7459,13 +7459,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_convention",
-      "score": 41.0,
+      "score": 33.0,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 80.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 80.0,
         "sprawl": 0.0
       },
       "fingerprint": "8324550c4ef5ba2dace32a8b00282c4b6862266a0017b659a65bc4ca74e22ac9",
@@ -7474,13 +7474,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_layering",
-      "score": 42.25,
+      "score": 2.25,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 0.0,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 0.0,
         "sprawl": 0.0
       },
       "fingerprint": "0c067fd081d248fa2142929e941d04f78af7b6a7e646a722bb6b2c0df9a623a2",
@@ -7489,13 +7489,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_pyrefly",
-      "score": 44.75,
+      "score": 42.4167,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 91.6667,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
-        "public_surface": 100.0,
+        "churn": 20.0,
+        "public_surface": 91.6667,
         "sprawl": 0.0
       },
       "fingerprint": "13b9c424910d45e8f3826fc8c9470bfbc2c01f76d32235838f1e1d00a1ab0882",
@@ -7504,13 +7504,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_riskratchet",
-      "score": 43.5,
+      "score": 39.5,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 87.5,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
-        "public_surface": 100.0,
+        "churn": 20.0,
+        "public_surface": 87.5,
         "sprawl": 0.0
       },
       "fingerprint": "03e2fb330f4ec406ca24b2931c10256576551d48d6102e6fe48d174361b93ddd",
@@ -7519,13 +7519,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_ruff",
-      "score": 41.0,
+      "score": 27.6667,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 66.6667,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 66.6667,
         "sprawl": 0.0
       },
       "fingerprint": "3a3feda902d6598735ae976677057a79f85e35983525bf89a190b9ac962dc9f2",
@@ -7534,13 +7534,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_tests",
-      "score": 48.5,
+      "score": 45.5,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 90.0,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
-        "public_surface": 100.0,
+        "churn": 20.0,
+        "public_surface": 90.0,
         "sprawl": 0.0
       },
       "fingerprint": "64674404c84921bc3cce6eedecd5b540d7af540407bf091efdb8374c9ae24fc3",
@@ -7549,13 +7549,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "check_ty",
-      "score": 41.0,
+      "score": 27.6667,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 66.6667,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
         "churn": 10.0,
-        "public_surface": 100.0,
+        "public_surface": 66.6667,
         "sprawl": 0.0
       },
       "fingerprint": "5e06ad8f0972f6d0fd095e853b6decdaaed5ff20fa2d3a9810bb2d77c6800bb2",
@@ -7564,13 +7564,13 @@
     {
       "path": "src/active_skill_system/application/use_cases/self_governance_check.py",
       "qualname": "run_governance_check",
-      "score": 46.25,
+      "score": 11.9643,
       "components": {
-        "coverage_gap": 100.0,
+        "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
         "churn": 0.0,
-        "public_surface": 100.0,
+        "public_surface": 14.2857,
         "sprawl": 0.0
       },
       "fingerprint": "e62d0cc4efc628c1b4bbf12afbba9e071542929d8131b860ad826505aa28e453",
@@ -7624,12 +7624,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/sql_optimization_loop.py",
       "qualname": "SQLOptimizationLoopUseCase.run",
-      "score": 23.6875,
+      "score": 24.6875,
       "components": {
         "coverage_gap": 17.5,
         "structural_complexity": 50.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 17.5,
         "sprawl": 21.875
       },
@@ -8104,12 +8104,12 @@
     {
       "path": "src/active_skill_system/composition/compiler_evolution.py",
       "qualname": "_load_candidate_spec",
-      "score": 10.25,
+      "score": 11.25,
       "components": {
         "coverage_gap": 10.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8209,12 +8209,12 @@
     {
       "path": "src/active_skill_system/composition/diligence.py",
       "qualname": "main",
-      "score": 9.75,
+      "score": 10.75,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 35.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8314,12 +8314,12 @@
     {
       "path": "src/active_skill_system/composition/iac_evolution.py",
       "qualname": "_load_candidate_spec",
-      "score": 13.25,
+      "score": 14.25,
       "components": {
         "coverage_gap": 20.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8344,12 +8344,12 @@
     {
       "path": "src/active_skill_system/composition/iac_evolution.py",
       "qualname": "main",
-      "score": 23.8676,
+      "score": 24.8676,
       "components": {
         "coverage_gap": 35.2941,
         "structural_complexity": 35.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 35.2941,
         "sprawl": 0.0
       },
@@ -8359,12 +8359,12 @@
     {
       "path": "src/active_skill_system/composition/iac_evolution.py",
       "qualname": "run_iac_evolution",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8479,12 +8479,12 @@
     {
       "path": "src/active_skill_system/composition/log_evolution.py",
       "qualname": "main",
-      "score": 12.9643,
+      "score": 13.9643,
       "components": {
         "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 14.2857,
         "sprawl": 0.0
       },
@@ -8494,12 +8494,12 @@
     {
       "path": "src/active_skill_system/composition/log_evolution.py",
       "qualname": "run_log_evolution",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8614,12 +8614,12 @@
     {
       "path": "src/active_skill_system/composition/loop_graph_store.py",
       "qualname": "main",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8629,14 +8629,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_build_event_store",
-      "score": 42.9033,
+      "score": 40.9633,
       "components": {
         "coverage_gap": 94.4444,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 40.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "ef4ddd36219a61491c8b2753cb0fad647ecc574b1bd67218e6ce462626269c00",
       "signature": "eceeb996140eeb453c816ce4dbbc221ec35be2d0faa389ccd301359a8743d042"
@@ -8644,44 +8644,74 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_build_executor",
-      "score": 29.32,
+      "score": 29.38,
       "components": {
         "coverage_gap": 83.3333,
         "structural_complexity": 5.0,
         "branch_gap": 0.0,
         "churn": 0.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "99abe57954c16149713d580ab657bce10702a9462c10a792230116bd10231457",
       "signature": "f5d17089d9837c1aa9a150079eea46b447d58aae5cf28f6512d30949c54620b3"
     },
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
+      "qualname": "_dispatch",
+      "score": 33.13,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 80.0,
+        "branch_gap": 0.0,
+        "churn": 100.0,
+        "public_surface": 0.0,
+        "sprawl": 31.3
+      },
+      "fingerprint": "b82e20d969672a7c54348d03bd214fcd6006f4203f93bdeea456a8aa3a08a9d3",
+      "signature": "6993c0e59db59ed5b781f5d9917d982b8dcd56d415d0d1b4586e6417de3aebe3"
+    },
+    {
+      "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_get_sandbox_logger",
-      "score": 9.07,
+      "score": 9.13,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
         "churn": 10.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "48934da8cf9541a098c617ad11485e63acc842b7b8a824dd8f71d223dedfd80f",
       "signature": "c2abf15b974bb10a2912c9853f0167ac8952dab92f85018b9fabbba48e38f822"
     },
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
-      "qualname": "_parse_args",
-      "score": 41.82,
+      "qualname": "_load_env",
+      "score": 32.38,
       "components": {
-        "coverage_gap": 95.8333,
+        "coverage_gap": 83.3333,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 30.0,
+        "public_surface": 0.0,
+        "sprawl": 31.3
+      },
+      "fingerprint": "998620c2cc9f6e746e49e71875873559b623d01f19fe8a33abc77d98243adb8a",
+      "signature": "ed251d7628907fd1303210222b54cc0c18578c0ffc9338c240ab454d41bf12dd"
+    },
+    {
+      "path": "src/active_skill_system/composition/mini_sandbox.py",
+      "qualname": "_parse_args",
+      "score": 13.13,
+      "components": {
+        "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
         "churn": 100.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "7ed6c790bcb13db1703b702b5a48fb2da169e0e087d81a16da81366252eb0a9e",
       "signature": "7302838d1c9e7aead878a220253a0d407d03c814b30de834aedb74c5a1fcfa31"
@@ -8689,14 +8719,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_check",
-      "score": 33.82,
+      "score": 33.88,
       "components": {
         "coverage_gap": 90.0,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
         "churn": 0.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "d5764ed8c33609ebd728c59241e13a34bb9f86e814b66d918536cedf406f8c40",
       "signature": "6a0d3b35bb18110d20548d08d829ccafaa860f012e2bdf429b1d00520fe5272a"
@@ -8704,14 +8734,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_compare_runs",
-      "score": 19.1582,
+      "score": 20.2182,
       "components": {
         "coverage_gap": 35.2941,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 30.0,
+        "churn": 40.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "9faef43e7cfa6b1db3a46e5f0981b506346a1769296982b6852d6363fcdf3ad9",
       "signature": "6dd7f382746ece7d8ef3035a54dba05b8a99fcb554b4b6d5b1e2b9ed10bcc5d4"
@@ -8719,14 +8749,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_compare_runs._s",
-      "score": 34.07,
+      "score": 35.13,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "975ceb44baeb0fbfd97e32a190d1cecb79f5327425ad3d15131586fa9027266e",
       "signature": "7a4fb775d0388e743b0329b86248704bcda80699244be0b31c1a754ff3669cab"
@@ -8734,14 +8764,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_event_stats",
-      "score": 35.32,
+      "score": 35.38,
       "components": {
         "coverage_gap": 91.6667,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
         "churn": 10.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "7665e5495e08c72c4bf82497e09afa3e8b6ea0bab88bd216c3edf3fbcf0c5b6b",
       "signature": "28556bac89cbb6de6935097d4607e9186de5e049b5daed888ca1cb3293a3c924"
@@ -8749,14 +8779,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_governance_check",
-      "score": 39.5123,
+      "score": 39.5723,
       "components": {
         "coverage_gap": 92.3077,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
         "churn": 50.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "93a6c19c4c670c582c59b187bf8fcb69b2f254b32b8e7a352e0651a1f90a9808",
       "signature": "133346ebb4d07a5a962ca74e1adefa8d80abf0e337ae6cecb023f990dd39d157"
@@ -8764,14 +8794,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_graph_query",
-      "score": 28.8852,
+      "score": 29.9452,
       "components": {
         "coverage_gap": 65.2174,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 10.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "04c1f5da3d30bafb9da0a5a4e8bb2e62f7ce19e934c65d1cda124020e45e88c8",
       "signature": "89359433c7cacccc911a2cfcc187a149906eb77be7d919ad72c4b151d91f9ddf"
@@ -8779,14 +8809,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_graph_stats",
-      "score": 31.57,
+      "score": 32.63,
       "components": {
         "coverage_gap": 66.6667,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "856542c58baf84f023432c13da9765384997e73ebae57f6e4acc2684e34a1f3a",
       "signature": "e00a3854603d8098fdbd7f9a27621dbca2b0a052a830f2c8ab971593c8349f74"
@@ -8794,14 +8824,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_graph_trajectory",
-      "score": 37.82,
+      "score": 38.88,
       "components": {
         "coverage_gap": 75.0,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "a70ddcc60c0bbb11f825303f796a2e6cb8ce57587ba64cad9c75bb7f9e792401",
       "signature": "e00a3854603d8098fdbd7f9a27621dbca2b0a052a830f2c8ab971593c8349f74"
@@ -8809,14 +8839,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_multi_model",
-      "score": 34.6771,
+      "score": 34.7371,
       "components": {
         "coverage_gap": 92.8571,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
         "churn": 0.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "41266614c861c5bc67d6cb9c750986f682d9d217cd23b8d28d61141a99f2a1f6",
       "signature": "79b28b07d64195123f34e9533eb89cf4d8c7fe8a644aff90e6ff8f390f266b59"
@@ -8824,14 +8854,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_program_bench",
-      "score": 54.7312,
+      "score": 54.7912,
       "components": {
         "coverage_gap": 98.2456,
         "structural_complexity": 40.0,
         "branch_gap": 0.0,
         "churn": 100.0,
         "public_surface": 0.0,
-        "sprawl": 52.575
+        "sprawl": 53.175
       },
       "fingerprint": "e93b931650f226516b5da03af61413e08e27e7db8db20d90572f205d8fca91c3",
       "signature": "a27242bf65be3379d145e71ed39dc6e48d8a82daf7407d01785c18b3163018f2"
@@ -8839,14 +8869,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_ratchet_stats",
-      "score": 18.4271,
+      "score": 20.4871,
       "components": {
         "coverage_gap": 42.8571,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 0.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "9b242bda3bef63219643952a5ca38445392dd743deddfc1a8cf6d4751e62fbb7",
       "signature": "8bff35d2392c308c1a3c502cc96dd490a24fae24ca5f8eabed9574aced194749"
@@ -8854,14 +8884,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_recommend",
-      "score": 41.1414,
+      "score": 41.2014,
       "components": {
         "coverage_gap": 95.2381,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
         "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "8146cb9bde63e30f51f59b9db8d1987e1fe56f9fafa65fdaafdb91b40e55e97e",
       "signature": "a06b94b3e79654aa51e2c83cc3d6cb85ba5bb19f9bbc967fd724d0c27cc50d02"
@@ -8869,14 +8899,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_report",
-      "score": 48.1609,
+      "score": 49.2209,
       "components": {
         "coverage_gap": 96.9697,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "4c799df6644da4a0a9cb2563858df9c5e771d318466f428b006066a88417efa4",
       "signature": "a06b94b3e79654aa51e2c83cc3d6cb85ba5bb19f9bbc967fd724d0c27cc50d02"
@@ -8884,14 +8914,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_run_single_model",
-      "score": 55.0556,
+      "score": 55.1156,
       "components": {
         "coverage_gap": 98.0769,
         "structural_complexity": 85.0,
         "branch_gap": 0.0,
         "churn": 10.0,
         "public_surface": 0.0,
-        "sprawl": 33.825
+        "sprawl": 34.425
       },
       "fingerprint": "6fdf801ba96f008472cb199332a7a6436b8350ab19fd4e915fe7ffa1efa38d1e",
       "signature": "2a8b111f329c57695f9126e0e4253ab41e0c94c7bcb64f4e5a53e555752d3577"
@@ -8899,14 +8929,14 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "_write_ratchet_entry",
-      "score": 37.57,
+      "score": 37.63,
       "components": {
         "coverage_gap": 90.0,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
         "churn": 0.0,
         "public_surface": 0.0,
-        "sprawl": 30.7
+        "sprawl": 31.3
       },
       "fingerprint": "7db1a53fc8d9b1e3cee70e755d7b1462c7329a1d0a79db05f14516ceaddd0864",
       "signature": "0d99b268537e0bf168cd44d60a95be2be36470fb10980eafe8b478286ffa239e"
@@ -8914,16 +8944,16 @@
     {
       "path": "src/active_skill_system/composition/mini_sandbox.py",
       "qualname": "main",
-      "score": 73.32,
+      "score": 44.4157,
       "components": {
-        "coverage_gap": 97.5,
-        "structural_complexity": 85.0,
+        "coverage_gap": 85.7143,
+        "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 100.0,
-        "public_surface": 97.5,
-        "sprawl": 30.7
+        "churn": 70.0,
+        "public_surface": 85.7143,
+        "sprawl": 31.3
       },
-      "fingerprint": "0772a5e7f988e5c89eb1c546d429175afdee21e4c3b17f856b8a125c69c9e7ee",
+      "fingerprint": "5ae1a0402d5e5f735c84541b4558cefd1ee84c1e717cdfb38e476089a1ef7d24",
       "signature": "f43ddd2d8355b3b996bff515fab44a13e9a381a7b8d4699e30b97c22c715040b"
     },
     {
@@ -9034,12 +9064,12 @@
     {
       "path": "src/active_skill_system/composition/ml_evolution.py",
       "qualname": "main",
-      "score": 12.9643,
+      "score": 13.9643,
       "components": {
         "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 14.2857,
         "sprawl": 0.0
       },
@@ -9049,12 +9079,12 @@
     {
       "path": "src/active_skill_system/composition/ml_evolution.py",
       "qualname": "run_ml_evolution",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -9169,12 +9199,12 @@
     {
       "path": "src/active_skill_system/composition/network_evolution.py",
       "qualname": "main",
-      "score": 12.9643,
+      "score": 13.9643,
       "components": {
         "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 14.2857,
         "sprawl": 0.0
       },
@@ -9184,12 +9214,12 @@
     {
       "path": "src/active_skill_system/composition/network_evolution.py",
       "qualname": "run_network_evolution",
-      "score": 8.5,
+      "score": 9.5,
       "components": {
         "coverage_gap": 12.5,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 12.5,
         "sprawl": 0.0
       },
@@ -9304,12 +9334,12 @@
     {
       "path": "src/active_skill_system/composition/security_evolution.py",
       "qualname": "main",
-      "score": 12.9643,
+      "score": 13.9643,
       "components": {
         "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 14.2857,
         "sprawl": 0.0
       },
@@ -9319,12 +9349,12 @@
     {
       "path": "src/active_skill_system/composition/security_evolution.py",
       "qualname": "run_security_evolution",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -9439,12 +9469,12 @@
     {
       "path": "src/active_skill_system/composition/sql_evolution.py",
       "qualname": "_load_candidate_spec",
-      "score": 13.25,
+      "score": 14.25,
       "components": {
         "coverage_gap": 20.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -9484,12 +9514,12 @@
     {
       "path": "src/active_skill_system/composition/sql_evolution.py",
       "qualname": "main",
-      "score": 27.9625,
+      "score": 28.9625,
       "components": {
         "coverage_gap": 26.0,
         "structural_complexity": 60.0,
         "branch_gap": 0.0,
-        "churn": 20.0,
+        "churn": 30.0,
         "public_surface": 26.0,
         "sprawl": 5.625
       },
@@ -9619,12 +9649,12 @@
     {
       "path": "src/active_skill_system/composition/storage_evolution.py",
       "qualname": "main",
-      "score": 12.9643,
+      "score": 13.9643,
       "components": {
         "coverage_gap": 14.2857,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 14.2857,
         "sprawl": 0.0
       },
@@ -9634,12 +9664,12 @@
     {
       "path": "src/active_skill_system/composition/storage_evolution.py",
       "qualname": "run_storage_evolution",
-      "score": 3.5,
+      "score": 4.5,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -11614,12 +11644,12 @@
     {
       "path": "src/active_skill_system/domain/sandbox_cache_task.py",
       "qualname": "candidate_field_names",
-      "score": 35.5,
+      "score": 36.5,
       "components": {
         "coverage_gap": 80.0,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 80.0,
         "sprawl": 0.0
       },
@@ -11794,12 +11824,12 @@
     {
       "path": "src/active_skill_system/domain/trajectory.py",
       "qualname": "TrajectoryRecorder.__len__",
-      "score": 21.0,
+      "score": 22.0,
       "components": {
         "coverage_gap": 50.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 50.0,
         "sprawl": 0.0
       },
