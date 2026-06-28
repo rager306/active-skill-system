@@ -296,18 +296,57 @@ The reactive half.
 
 ---
 
-## 7. Open questions for the user
+## 7. Decisions (2026-06-28, user-confirmed)
 
-1. **Wave ordering**: A (port split) → B (fork-diff) → C (reactive). Confirm
-   or reorder?
-2. **Activegraph as dependency**: Wave B's fork adapter uses
-   `activegraph.Runtime.fork` directly. Acceptable, or do we want a pure
-   Native fork first (more work, no activegraph dependency)?
-3. **Backend priority**: after Wave A, which backend do you want second?
-   HelixDB (Rust, vector+graph), FalkorDB (Redis, Cypher), or stay
-   LadybugDB-only for now?
-4. **Scope of Wave C**: full reactive (behaviors + relation-behaviors +
-   patterns + policies) or subset?
+1. **Wave ordering**: A → B → C. Confirmed.
+2. **EventStore abstraction**: the SQLiteEventStore needs its OWN abstraction
+   so SQLite and PostgreSQL can be swapped. We introduce a third L2 port —
+   `EventLogBackend` — with adapters `SQLiteEventLog`, `PostgresEventLog`,
+   `InMemoryEventLog`. (See §7.1 below.)
+3. **Activegraph as dependency (Wave B)**: lean toward the **adapter** — i.e.
+   `ActivegraphForkAdapter` implements our `ForkEngine` port by delegating
+   to `activegraph.Runtime.fork`. Acceptable. (A pure Native fork can be
+   added later if we need to run without activegraph.)
+4. **Backend priority**: **stay on LadybugDB** for the graph store. The
+   abstraction (`GraphBackend`) is built so HelixDB/FalkorDB are possible
+   later, but no second adapter is written in Wave A.
+5. **Scope of Wave C**: **full reactive** — behaviors + relation-behaviors +
+   patterns + policies + patches. Confirmed as the richer, more flexible path.
 
-This document is the design. The next step is to pick a wave and plan the
-first milestone.
+### 7.1 The three-port split (Wave A, refined)
+
+Because the user wants SQLite vs PostgreSQL swappable for the event log,
+Wave A introduces **three** orthogonal ports instead of two:
+
+```
+GraphBackend     ← generic Vertex/Edge; adapters translate to graph dialect
+                   (LadybugBackend now; HelixBackend/FalkorBackend later)
+                   CURRENT: LadybugGraphStore becomes LadybugBackend.
+
+EventStore       ← semantic event-log port (OUR GraphEvent type).
+                   Methods: append, iter_events, events_since, events_until.
+
+EventLogBackend  ← raw persistence seam (the new one).
+                   Adapters: SQLiteEventLog (stdlib sqlite3),
+                             PostgresEventLog (psycopg3 when needed),
+                             InMemoryEventLog (tests).
+                   EventStore delegates to EventLogBackend.
+```
+
+Why two layers (EventStore + EventLogBackend) for events:
+- `EventStore` is semantic: it speaks `GraphEvent` objects.
+- `EventLogBackend` is dialect: it speaks rows/tuples for whatever DB.
+- Mirrors the GraphBackend split: semantic port above, dialect adapter below.
+- Swapping SQLite → Postgres = one new `EventLogBackend` adapter; EventStore
+  and everything above it are unchanged.
+
+Wave A deliverables (M051):
+- domain: `GraphEvent`, generic `Vertex`, generic `Edge`.
+- ports: `GraphBackend`, `EventStore`, `EventLogBackend`.
+- adapters: `LadybugBackend` (from existing LadybugGraphStore),
+  `SQLiteEventLog`, `InMemoryEventLog`.
+- refactor: existing `GraphStore` Protocol becomes a thin facade delegating
+  to `GraphBackend`, so 50 milestones of callers keep working unchanged.
+- Composition wiring: `--event-log sqlite:<path>` flag.
+
+This document is the design. Wave A is the next milestone.
