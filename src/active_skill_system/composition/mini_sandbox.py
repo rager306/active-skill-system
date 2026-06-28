@@ -70,8 +70,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--ratchet-stats", action="store_true",
                         help="Print accumulated ratchet entries.")
     parser.add_argument("--strategy", type=str, default="plain",
-                        choices=("plain", "dspy"),
-                        help="Reasoning strategy (M051 S01): plain (LLMProviderPort direct) or dspy (DSPy.ChainOfThought via LiteLLM).")
+                        choices=("plain", "dspy", "fast-rlm"),
+                        help="Reasoning strategy: plain (M043), dspy (M051), fast-rlm (M052).")
     parser.add_argument("--bench", type=str, default=None, choices=("cache-types", "program-bench"),
                         help="Benchmark to run (M042 cache_types or M053 program-bench smallest-CLI).")
     return parser.parse_args(argv)
@@ -502,6 +502,15 @@ def _run_single_model(
             engine = PlainLLMStrategy(provider=MiniMaxProvider())
         else:
             print(f"dspy_strategy: configured (model={engine._dspy_lm.model})", flush=True)
+    elif strategy == "fast-rlm":
+        from active_skill_system.adapters.fast_rlm_strategy import FastRLMStrategy
+
+        engine = FastRLMStrategy()
+        if engine.is_stub:
+            print(f"fast_rlm_strategy: stub mode ({engine.stub_reason}); falling back to plain", flush=True)
+            engine = PlainLLMStrategy(provider=MiniMaxProvider())
+        else:
+            print(f"fast_rlm_strategy: configured (primary={engine._resolved_primary})", flush=True)
     else:
         engine = PlainLLMStrategy(provider=MiniMaxProvider())
     code_executor = _build_executor(executor_type)
