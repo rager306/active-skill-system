@@ -42,6 +42,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Execute a Cypher query on the persistent graph and print results.")
     parser.add_argument("--graph-stats", action="store_true",
                         help="Print accumulated provenance statistics from the persistent graph.")
+    parser.add_argument("--graph-trajectory", action="store_true",
+                        help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
     parser.add_argument("--ratchet", type=str, default=None,
                         help="Ratchet ledger path. If set, failed runs (fitness<1.0 or error) write permanent entries.")
     parser.add_argument("--ratchet-stats", action="store_true",
@@ -58,6 +60,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.ratchet_stats:
         return _run_ratchet_stats(args.ratchet or "runs/ratchet.jsonl")
+    if args.graph_trajectory:
+        return _run_graph_trajectory(args.graph)
     if args.graph_query is not None:
         return _run_graph_query(args.graph, args.graph_query)
     if args.graph_stats:
@@ -119,6 +123,41 @@ def _run_ratchet_stats(ratchet_path: str) -> int:
     return 0
 
 
+def _run_graph_trajectory(graph_path: str) -> int:
+    """Print the trajectory chain from the persistent graph (Wave 2 P1)."""
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+
+    store = LadybugGraphStore(graph_path)
+    # Find all loops with trajectory steps.
+    query = (
+        "MATCH (l:RglaVertex)-[u:RglaEdge {ekind: 'uses'}]->(s:RglaVertex) "
+        "WHERE s.id STARTS WITH 'trajectory_step:' "
+        "RETURN l.id, s.id, s.label"
+    )
+    print(f"graph: {graph_path} (trajectory)", flush=True)
+    try:
+        r = store._connection().execute(query)
+        rows: list[tuple] = []
+        while r.has_next():
+            rows.append(r.get_next())
+    except Exception as e:  # noqa: BLE001
+        print(f"query error: {e}", flush=True)
+        return 1
+    if not rows:
+        print("  no trajectory steps persisted yet", flush=True)
+        return 0
+    # Group by loop, order by step_id suffix.
+    by_loop: dict[str, list[tuple]] = {}
+    for loop_id, step_id, label in rows:
+        by_loop.setdefault(loop_id, []).append((step_id, label))
+    for loop_id, steps in sorted(by_loop.items()):
+        steps.sort(key=lambda t: t[0])
+        print(f"\n  {loop_id}:", flush=True)
+        for step_id, label in steps:
+            print(f"    {step_id}  {label or '?'}", flush=True)
+    return 0
+
+
 def _run_graph_query(graph_path: str, cypher: str) -> int:
     """Execute a Cypher query on the persistent graph."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
@@ -152,6 +191,8 @@ def _run_graph_stats(graph_path: str) -> int:
         ("USES edges", "MATCH ()-[e:RglaEdge {ekind: 'uses'}]->() RETURN count(e)"),
         ("LEARNS_FROM edges", "MATCH ()-[e:RglaEdge {ekind: 'learns_from'}]->() RETURN count(e)"),
         ("CREATED edges", "MATCH ()-[e:RglaEdge {ekind: 'created'}]->() RETURN count(e)"),
+        ("trajectory steps", "MATCH (v:RglaVertex) WHERE v.id STARTS WITH 'trajectory_step:' RETURN count(v)"),
+        ("NEXT edges", "MATCH ()-[e:RglaEdge {ekind: 'next'}]->() RETURN count(e)"),
     ]
     print(f"graph: {graph_path}", flush=True)
     for label, query in stats:
