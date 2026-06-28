@@ -19,7 +19,11 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import logging
+import os
 from collections.abc import Sequence
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 
@@ -36,16 +40,18 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--models", type=str, default=None, help="(S03) Comma-separated model list.")
     parser.add_argument("--executor", type=str, default="inprocess", choices=("inprocess", "bwrap"),
                         help="Code executor for LLM-generated code: inprocess (tests) or bwrap (isolated).")
-    parser.add_argument("--graph", type=str, default="runs/sandbox_graph.lbdb",
-                        help="LadybugDB graph path (default: runs/sandbox_graph.lbdb for disk persistence). Use :memory: for ephemeral.")
+    _default_graph = os.environ.get("SANDBOX_GRAPH_PATH", "runs/sandbox_graph.lbdb")
+    parser.add_argument("--graph", type=str, default=_default_graph,
+                        help=f"LadybugDB graph path (default: {_default_graph} for disk persistence). Use :memory: for ephemeral.")
+    _default_ratchet = os.environ.get("SANDBOX_RATCHET_PATH", "runs/ratchet.jsonl")
+    parser.add_argument("--ratchet", type=str, default=_default_ratchet,
+                        help=f"Ratchet ledger path (default: {_default_ratchet}). Failed runs write permanent entries.")
     parser.add_argument("--graph-query", type=str, default=None,
                         help="Execute a Cypher query on the persistent graph and print results.")
     parser.add_argument("--graph-stats", action="store_true",
                         help="Print accumulated provenance statistics from the persistent graph.")
     parser.add_argument("--graph-trajectory", action="store_true",
                         help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
-    parser.add_argument("--ratchet", type=str, default=None,
-                        help="Ratchet ledger path. If set, failed runs (fitness<1.0 or error) write permanent entries.")
     parser.add_argument("--ratchet-stats", action="store_true",
                         help="Print accumulated ratchet entries.")
     return parser.parse_args(argv)
@@ -57,6 +63,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     from active_skill_system.composition.logging_config import configure_logging
 
     configure_logging()
+
+    # Per-session sandbox log file (M049 cross-session log persistence).
+    sandbox_logger = _get_sandbox_logger()
+    sandbox_logger.info("session_start model=%s executor=%s graph=%s", args.model, args.executor, args.graph)
 
     if args.ratchet_stats:
         return _run_ratchet_stats(args.ratchet or "runs/ratchet.jsonl")
@@ -121,6 +131,33 @@ def _run_ratchet_stats(ratchet_path: str) -> int:
     for e in entries[-20:]:
         print(f"  {e.id} | {e.area} | {e.diff[:80]}", flush=True)
     return 0
+
+
+_sandbox_logger: logging.Logger | None = None
+
+
+def _get_sandbox_logger() -> logging.Logger:
+    """Lazy module-level sandbox session logger (M049)."""
+    global _sandbox_logger
+    if _sandbox_logger is not None:
+        return _sandbox_logger
+    log_dir = Path(os.environ.get("SANDBOX_LOG_DIR", "logs/sandbox"))
+    log_dir.mkdir(parents=True, exist_ok=True)
+    session_ts = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    sandbox_log_path = log_dir / f"sandbox-{session_ts}.log"
+    logger = logging.getLogger("sandbox.session")
+    if not any(
+        isinstance(h, logging.FileHandler)
+        and getattr(h, "baseFilename", "") == str(sandbox_log_path)
+        for h in logger.handlers
+    ):
+        fh = logging.FileHandler(sandbox_log_path, encoding="utf-8")
+        fh.setFormatter(logging.Formatter("%(asctime)sZ %(levelname)s %(message)s"))
+        logger.addHandler(fh)
+        logger.setLevel(logging.INFO)
+    print(f"sandbox log: {sandbox_log_path}", flush=True)
+    _sandbox_logger = logger
+    return logger
 
 
 def _run_graph_trajectory(graph_path: str) -> int:
@@ -231,6 +268,13 @@ def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: 
     store = LadybugGraphStore(graph_path)
     graph = project(result.loop, trajectory=result.trajectory)
     store.store_loop_graph(graph)
+
+    # Per-run structured log entry (M049).
+    _get_sandbox_logger().info(
+        "run_complete run_id=%s model=%s score=%.2f trajectory_steps=%d generated=%s error=%s",
+        result.loop.id, result.model, result.fitness.score,
+        len(result.trajectory), result.generated_path or "none", result.error or "none",
+    )
 
     print(f"model: {result.model}", flush=True)
     print(f"loop: {result.loop.id} state={result.loop.state.value}", flush=True)

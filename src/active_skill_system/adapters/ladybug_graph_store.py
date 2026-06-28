@@ -37,10 +37,29 @@ class LadybugGraphStore:
     instance (e.g. for a quick ``query_neighbours`` in a fresh DB) does not error.
     """
 
-    def __init__(self, path: str = ":memory:") -> None:
+    def __init__(
+        self,
+        path: str | None = None,
+        *,
+        auto_checkpoint: bool | None = None,
+        checkpoint_threshold: int | None = None,
+    ) -> None:
+        # Resolve defaults from env (M049 cross-session persistence).
+        import os
+        if path is None:
+            path = os.environ.get("SANDBOX_GRAPH_PATH", ":memory:")
+        if auto_checkpoint is None:
+            auto_checkpoint = os.environ.get("LADYBUG_AUTO_CHECKPOINT", "true").lower() == "true"
+        if checkpoint_threshold is None:
+            try:
+                checkpoint_threshold = int(os.environ.get("LADYBUG_CHECKPOINT_THRESHOLD", "100000"))
+            except ValueError:
+                checkpoint_threshold = 100000
         if not isinstance(path, str) or not path.strip():
             raise ValueError(f"path must be a non-empty string (got {path!r})")
         self._path = path
+        self._auto_checkpoint = auto_checkpoint
+        self._checkpoint_threshold = checkpoint_threshold
         self._db = None
         self._conn = None
         self._initialised = False
@@ -51,7 +70,11 @@ class LadybugGraphStore:
         if self._conn is None:
             import ladybug
 
-            self._db = ladybug.Database(self._path)
+            self._db = ladybug.Database(
+                self._path,
+                auto_checkpoint=self._auto_checkpoint,
+                checkpoint_threshold=self._checkpoint_threshold,
+            )
             self._conn = ladybug.Connection(self._db)
         return self._conn
 
