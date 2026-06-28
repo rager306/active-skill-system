@@ -188,7 +188,7 @@ def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: 
 
     # Project the Loop to LoopGraph and store provenance (disk-persistent).
     store = LadybugGraphStore(graph_path)
-    graph = project(result.loop)
+    graph = project(result.loop, trajectory=result.trajectory)
     store.store_loop_graph(graph)
 
     print(f"model: {result.model}", flush=True)

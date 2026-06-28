@@ -35,6 +35,7 @@ class LoopVertexKind(StrEnum):
     VERIFIER = "verifier"
     FAILURE = "failure"
     CONTEXT = "context"
+    TRAJECTORY_STEP = "trajectory_step"
 
 
 class LoopEdgeKind(StrEnum):
@@ -47,6 +48,7 @@ class LoopEdgeKind(StrEnum):
     FIXES = "fixes"
     SUPERSEDES = "supersedes"
     DEPENDS_ON = "depends_on"
+    NEXT = "next"
 
 
 RUNTIME_EDGE_KINDS = frozenset({LoopEdgeKind.USES, LoopEdgeKind.DEPENDS_ON})
@@ -54,6 +56,7 @@ PROVENANCE_EDGE_KINDS = frozenset(
     {LoopEdgeKind.CREATED, LoopEdgeKind.VERIFIED_BY, LoopEdgeKind.LEARNS_FROM,
      LoopEdgeKind.FIXES, LoopEdgeKind.SUPERSEDES}
 )
+TRAJECTORY_EDGE_KINDS = frozenset({LoopEdgeKind.NEXT})
 
 
 @dataclass(frozen=True)
@@ -161,8 +164,12 @@ def _vid(kind: LoopVertexKind, key: str) -> str:
     return f"{kind.value}:{key}"
 
 
-def project(loop: Any) -> LoopGraph:
+def project(loop: Any, trajectory: tuple[Any, ...] = ()) -> LoopGraph:
     """Project a Loop's lifecycle into a LoopGraph (D009 §4.2).
+
+    Optional ``trajectory`` is a tuple of TrajectoryStep dataclass instances;
+    when provided, each step becomes a TRAJECTORY_STEP vertex connected by
+    NEXT edges (forming an ordered chain).
 
     Derivation rules:
       - CREATED: intent vertex -> loop vertex (emitted on STARTED).
@@ -226,5 +233,22 @@ def project(loop: Any) -> LoopGraph:
                 _add_edge(LoopEdge(LoopEdgeKind.FIXES, loop_vid, f_vid))
             else:
                 _add_edge(LoopEdge(LoopEdgeKind.LEARNS_FROM, loop_vid, f_vid))
+
+    # ── Trajectory subgraph (D009 §4.2 extension, Wave 2 P1) ───────────
+    if trajectory:
+        prev_vid: str | None = None
+        for step in trajectory:
+            step_vid = _vid(LoopVertexKind.TRAJECTORY_STEP, step.id)
+            _add_vertex(LoopVertex(step_vid, LoopVertexKind.TRAJECTORY_STEP, step.step_kind))
+            payload: dict[str, Any] = {
+                "step_kind": step.step_kind,
+                "timestamp": getattr(step, "timestamp", None),
+                "duration_ms": getattr(step, "duration_ms", None),
+                "model": getattr(step, "model", None),
+            }
+            _add_edge(LoopEdge(LoopEdgeKind.USES, loop_vid, step_vid, payload=payload))
+            if prev_vid is not None:
+                _add_edge(LoopEdge(LoopEdgeKind.NEXT, prev_vid, step_vid))
+            prev_vid = step_vid
 
     return LoopGraph(vertices=tuple(vertices), edges=tuple(edges))

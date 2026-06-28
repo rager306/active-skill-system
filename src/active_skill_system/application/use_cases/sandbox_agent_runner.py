@@ -21,6 +21,7 @@ import re
 import textwrap
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from active_skill_system.application.ports.reasoning_engine import (
     ReasoningEnginePort,
@@ -32,6 +33,7 @@ from active_skill_system.application.use_cases.sandbox_verifier import (
 )
 from active_skill_system.domain.loop import Budget, Loop, LoopEvent, LoopEventKind, LoopState
 from active_skill_system.domain.sandbox_cache_task import REQUIRED_FIELDS
+from active_skill_system.domain.trajectory import TrajectoryRecorder, TrajectoryStepKind
 
 _log = logging.getLogger("active_skill_system.application.sandbox_agent_runner")
 
@@ -101,6 +103,7 @@ class SandboxRunResult:
     model: str
     generated_path: str | None = None
     error: str | None = None
+    trajectory: tuple[Any, ...] = ()
 
 
 class SandboxAgentRunner:
@@ -145,6 +148,9 @@ class SandboxAgentRunner:
         import uuid
         run_id = f"sandbox-run-{uuid.uuid4().hex[:8]}"
 
+        # ── Trajectory recorder (Wave 2 P1) ─────────────────────────────────
+        recorder = TrajectoryRecorder(run_id=run_id)
+
         loop = Loop.start(
             id=run_id,
             intent=f"Generate cache_types via {resolved_model}",
@@ -154,6 +160,7 @@ class SandboxAgentRunner:
 
         # ── Generate via reasoning engine (strategy-agnostic) ───────────
         prompt = _build_prompt()
+        recorder.add(TrajectoryStepKind.PROMPT_BUILD, model=resolved_model)
         request = ReasoningRequest(
             system="You are a Python code generator. Output only code.",
             prompt=prompt,
@@ -163,10 +170,12 @@ class SandboxAgentRunner:
             timeout_seconds=timeout_seconds,
         )
         response = self._engine.forward(request)
+        recorder.add(TrajectoryStepKind.LLM_RESPOND, model=resolved_model)
 
         if response.error:
             error = response.error
             _log.warning("sandbox run %s reasoning failed: %s", run_id, error)
+            recorder.add(TrajectoryStepKind.FAILURE, note=error)
             failed_loop = loop.advance(
                 LoopEvent.now(LoopEventKind.FAILED, LoopState.FAILED, {"error": error})
             )
@@ -175,33 +184,44 @@ class SandboxAgentRunner:
                 fitness=_zero_fitness(),
                 model=resolved_model,
                 error=error,
+                trajectory=recorder.steps(),
             )
 
         raw_text = response.text
         code = _extract_code(raw_text)
+        recorder.add(TrajectoryStepKind.CODE_EXTRACT)
 
         # ── Write candidate ─────────────────────────────────────────────
         self._sandbox_dir.mkdir(parents=True, exist_ok=True)
         candidate_path = self._sandbox_dir / f"{run_id}_cache_types.py"
         candidate_path.write_text(code, encoding="utf-8")
+        recorder.add(TrajectoryStepKind.CANDIDATE_WRITE)
         _autofix(candidate_path)
+        recorder.add(TrajectoryStepKind.AUTOFIX)
 
         # ── Security gate (D018): run candidate in isolated executor ────
         if self._code_executor is not None:
             exec_result = self._code_executor.execute(str(candidate_path))
+            recorder.add(
+                TrajectoryStepKind.EXECUTOR_GATE,
+                note=("ok" if exec_result.ok else f"rejected: {exec_result.error}"),
+            )
             if not exec_result.ok:
                 error = f"code_executor rejected: {exec_result.error}"
                 _log.warning("sandbox run %s executor gate failed: %s", run_id, error)
+                recorder.add(TrajectoryStepKind.FAILURE, note=error)
                 failed_loop = loop.advance(
                     LoopEvent.now(LoopEventKind.FAILED, LoopState.FAILED, {"error": error})
                 )
                 return SandboxRunResult(
                     loop=failed_loop, fitness=_zero_fitness(),
                     model=resolved_model, error=error,
+                    trajectory=recorder.steps(),
                 )
 
         # ── Verify ──────────────────────────────────────────────────────
         fitness = verify_candidate(candidate_path)
+        recorder.add(TrajectoryStepKind.VERIFY, note=f"score={fitness.score:.2f}")
 
         # ── Record Loop outcome ─────────────────────────────────────────
         if fitness.score == 1.0:
@@ -220,11 +240,16 @@ class SandboxAgentRunner:
             )
 
         _log.info("sandbox run %s model=%s score=%.2f", run_id, resolved_model, fitness.score)
+        recorder.add(
+            TrajectoryStepKind.FINISH if fitness.score == 1.0 else TrajectoryStepKind.FAILURE,
+            note=f"score={fitness.score:.2f}",
+        )
         return SandboxRunResult(
             loop=final_loop,
             fitness=fitness,
             model=resolved_model,
             generated_path=str(candidate_path),
+            trajectory=recorder.steps(),
         )
 
 
