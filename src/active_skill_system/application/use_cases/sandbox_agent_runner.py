@@ -142,7 +142,8 @@ class SandboxAgentRunner:
         """Generate + verify a cache_types candidate. Returns a SandboxRunResult."""
         resolved_model = model or "minimax/MiniMax-M3"
         self._counter += 1
-        run_id = f"sandbox-run-{self._counter}"
+        import uuid
+        run_id = f"sandbox-run-{uuid.uuid4().hex[:8]}"
 
         loop = Loop.start(
             id=run_id,

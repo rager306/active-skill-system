@@ -5,7 +5,7 @@ from enum import StrEnum
 
 
 class CacheNodeKind(StrEnum):
-    """Enumeration of cache node kinds surfaced in metrics reporting."""
+    """Kinds of nodes surfaced by the cache metrics domain."""
 
     ENTRY = "entry"
     EVICTION = "eviction"
@@ -16,8 +16,9 @@ class CacheNodeKind(StrEnum):
 class CacheMetrics:
     """Immutable snapshot of cache performance counters.
 
-    ``hit_count`` is the primary axis: higher is better (inverse).
-    All counters are non-negative integers.
+    All fields are non-negative ints. ``hit_count`` is the primary axis:
+    higher is better (an inverse axis), so comparisons favor larger
+    ``hit_count`` values first.
     """
 
     hit_count: int
@@ -26,10 +27,11 @@ class CacheMetrics:
     memory_bytes: int
 
     def better_than(self, other: CacheMetrics) -> bool:
-        """Return True if these metrics dominate ``other``.
+        """Return True if ``self`` dominates ``other`` on the primary axis.
 
-        Dominance is defined as a strictly higher ``hit_count``, or an equal
-        ``hit_count`` paired with a strictly lower ``miss_count``.
+        A metrics snapshot is better when its ``hit_count`` is strictly
+        greater, or when ``hit_count`` is equal and ``miss_count`` is
+        strictly lower.
         """
         if self.hit_count != other.hit_count:
             return self.hit_count > other.hit_count

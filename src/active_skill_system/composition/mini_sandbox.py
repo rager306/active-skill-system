@@ -35,6 +35,8 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--models", type=str, default=None, help="(S03) Comma-separated model list.")
     parser.add_argument("--executor", type=str, default="inprocess", choices=("inprocess", "bwrap"),
                         help="Code executor for LLM-generated code: inprocess (tests) or bwrap (isolated).")
+    parser.add_argument("--graph", type=str, default="runs/sandbox_graph.lbdb",
+                        help="LadybugDB graph path (default: runs/sandbox_graph.lbdb for disk persistence). Use :memory: for ephemeral.")
     return parser.parse_args(argv)
 
 
@@ -48,9 +50,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
-        return _run_single_model(args.model, args.executor)
+        return _run_single_model(args.model, args.executor, args.graph)
     if args.models is not None:
-        return _run_multi_model(args.models)
+        return _run_multi_model(args.models, args.graph)
     print("nothing to do: pass --check / --model / --models", flush=True)
     return 0
 
@@ -77,7 +79,7 @@ def _build_executor(executor_type: str):
     return InProcessExecutor()
 
 
-def _run_single_model(model: str, executor_type: str = "inprocess") -> int:
+def _run_single_model(model: str, executor_type: str = "inprocess", graph_path: str = "runs/sandbox_graph.lbdb") -> int:
     """Run one model on the benchmark; record Loop + LoopGraph provenance."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
@@ -90,8 +92,8 @@ def _run_single_model(model: str, executor_type: str = "inprocess") -> int:
     runner = SandboxAgentRunner(engine=engine, code_executor=code_executor)
     result = runner.run(model=model)
 
-    # Project the Loop to LoopGraph and store provenance.
-    store = LadybugGraphStore(":memory:")
+    # Project the Loop to LoopGraph and store provenance (disk-persistent).
+    store = LadybugGraphStore(graph_path)
     graph = project(result.loop)
     store.store_loop_graph(graph)
 
@@ -117,7 +119,7 @@ def _run_single_model(model: str, executor_type: str = "inprocess") -> int:
     return 0 if result.fitness.score == 1.0 else 1
 
 
-def _run_multi_model(models_csv: str) -> int:
+def _run_multi_model(models_csv: str, graph_path: str = "runs/sandbox_graph.lbdb") -> int:
     """Run the benchmark across N models; print comparative report + reader query."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
     from active_skill_system.adapters.llm.minimax import MiniMaxProvider
@@ -131,7 +133,7 @@ def _run_multi_model(models_csv: str) -> int:
     report = harness.run_all()
 
     # Store all Loops' LoopGraph provenance in one store.
-    store = LadybugGraphStore(":memory:")
+    store = LadybugGraphStore(graph_path)
     # Re-run projection is not stored here (harness returns summaries); the
     # report itself is the human-readable provenance. GraphStore wiring for
     # multi-run provenance is a future enrichment.
