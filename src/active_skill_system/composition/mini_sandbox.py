@@ -53,7 +53,9 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--report", action="store_true",
                         help="Print a comprehensive insight report over the accumulated graph + ratchet + logs (M049 S01).")
     parser.add_argument("--json", action="store_true",
-                        help="With --report, output JSON instead of human-readable.")
+                        help="With --report or --compare-runs, output JSON instead of human-readable.")
+    parser.add_argument("--compare-runs", nargs=2, metavar=("ID_A", "ID_B"), default=None,
+                        help="Compare two runs side-by-side (score, length, model, trajectory kind diff).")
     parser.add_argument("--graph-trajectory", action="store_true",
                         help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
     parser.add_argument("--ratchet-stats", action="store_true",
@@ -91,6 +93,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_graph_stats(args.graph)
     if args.report:
         return _run_report(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
+    if args.compare_runs is not None:
+        return _run_compare_runs(args.graph, args.compare_runs[0], args.compare_runs[1], args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
@@ -207,6 +211,46 @@ def _run_graph_trajectory(graph_path: str) -> int:
         print(f"\n  {loop_id}:", flush=True)
         for step_id, label in steps:
             print(f"    {step_id}  {label or '?'}", flush=True)
+    return 0
+
+
+def _run_compare_runs(
+    graph_path: str, loop_a: str, loop_b: str, as_json: bool, log_dir: str | None,
+) -> int:
+    """Compare two runs side-by-side (M049 S02)."""
+    import json as json_mod
+
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+    from active_skill_system.application.use_cases.sandbox_run_diff import SandboxRunDiff
+
+    graph = LadybugGraphStore(graph_path)
+    diff = SandboxRunDiff(graph=graph, log_dir=log_dir)
+    cmp = diff.compare(loop_a, loop_b)
+    if cmp.missing_id:
+        print(f"run not found: {cmp.missing_id}", flush=True)
+        return 2  # distinct exit code (M049 S04 will formalise)
+    if as_json:
+        # Build JSON-safe dict.
+        def _s(sum_: object) -> dict:
+            return {
+                "loop_id": sum_.loop_id,  # type: ignore[attr-defined]
+                "score": sum_.score,  # type: ignore[attr-defined]
+                "trajectory_kinds": sum_.trajectory_kinds,  # type: ignore[attr-defined]
+                "trajectory_length": sum_.trajectory_length,  # type: ignore[attr-defined]
+                "model": sum_.model,  # type: ignore[attr-defined]
+            }
+        print(json_mod.dumps({
+            "loop_a": _s(cmp.loop_a),
+            "loop_b": _s(cmp.loop_b),
+            "kinds_only_in_a": list(cmp.kinds_only_in_a),
+            "kinds_only_in_b": list(cmp.kinds_only_in_b),
+            "kinds_in_both": list(cmp.kinds_in_both),
+            "score_delta": cmp.score_delta,
+            "length_delta": cmp.length_delta,
+            "models_match": cmp.models_match,
+        }, indent=2), flush=True)
+    else:
+        print(cmp.summary(), flush=True)
     return 0
 
 
