@@ -74,6 +74,10 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Reasoning strategy: plain (M043), dspy (M051), fast-rlm (M052).")
     parser.add_argument("--bench", type=str, default=None, choices=("cache-types", "program-bench"),
                         help="Benchmark to run (M042 cache_types or M053 program-bench smallest-CLI).")
+    parser.add_argument("--event-log", type=str, default=None,
+                        help="Event audit-trail backend (M051 S03). 'sqlite:<path>' for disk, 'inmemory' for ephemeral, or unset to disable.")
+    parser.add_argument("--event-stats", action="store_true",
+                        help="Print accumulated event counts from the event audit trail.")
     return parser.parse_args(argv)
 
 
@@ -111,12 +115,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_compare_runs(args.graph, args.compare_runs[0], args.compare_runs[1], args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.recommend:
         return _run_recommend(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
+    if args.event_stats:
+        return _run_event_stats(args.event_log or os.environ.get("SANDBOX_EVENT_LOG", ""))
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
         if args.bench == "program-bench":
             return _run_program_bench(args.model, args.executor, args.graph, args.ratchet, args.strategy)
-        return _run_single_model(args.model, args.executor, args.graph, args.ratchet, args.strategy)
+        event_store = _build_event_store(args.event_log or os.environ.get("SANDBOX_EVENT_LOG"))
+        return _run_single_model(args.model, args.executor, args.graph, args.ratchet, args.strategy, event_store)
     if args.models is not None:
         return _run_multi_model(args.models, args.graph)
     print("nothing to do: pass --check / --model / --models", flush=True)
@@ -237,6 +244,54 @@ def _run_program_bench(
         "program_bench_passed run_id=%s model=%s score=1.0",
         run_id, model,
     )
+    return EX_OK
+
+
+def _build_event_store(spec: str | None):
+    """Build an EventStore from a --event-log spec (M051 S03).
+
+    Accepts:
+      - None / empty → None (event trail disabled)
+      - 'inmemory' → InMemoryEventLog (ephemeral)
+      - 'sqlite:<path>' or 'sqlite:///<path>' → SQLiteEventLog (disk)
+    Returns an EventStoreImpl or None.
+    """
+    if not spec:
+        return None
+    from active_skill_system.adapters.event_store_impl import EventStoreImpl
+
+    if spec == "inmemory":
+        from active_skill_system.adapters.inmemory_event_log import InMemoryEventLog
+
+        return EventStoreImpl(InMemoryEventLog())
+    if spec.startswith("sqlite"):
+        from active_skill_system.adapters.sqlite_event_log import SQLiteEventLog
+
+        # Normalise 'sqlite:runs/events.db' → 'runs/events.db'
+        path = spec.split(":", 1)[1] if ":" in spec else spec
+        if path.startswith("///"):
+            path = path[3:]
+        elif path.startswith("//"):
+            path = path[2:]
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        return EventStoreImpl(SQLiteEventLog(path))
+    print(f"event-log: unknown spec {spec!r} (use 'inmemory' or 'sqlite:<path>')", flush=True)
+    return None
+
+
+def _run_event_stats(spec: str) -> int:
+    """Print accumulated event counts from the event audit trail."""
+    from collections import Counter
+
+    store = _build_event_store(spec)
+    if store is None:
+        print("event-log: disabled (pass --event-log sqlite:<path>)", flush=True)
+        return EX_OK
+    events = list(store.iter_events())
+    print(f"event-log: {spec} ({len(events)} events)", flush=True)
+    by_type: Counter[str] = Counter(e.type for e in events)
+    for etype, count in by_type.most_common():
+        print(f"  {etype}: {count}", flush=True)
     return EX_OK
 
 
@@ -604,6 +659,7 @@ def _run_single_model(
     graph_path: str = "runs/sandbox_graph.lbdb",
     ratchet_path: str | None = None,
     strategy: str = "plain",
+    event_store=None,
 ) -> int:
     """Run one model on the benchmark; record Loop + LoopGraph provenance."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
@@ -647,6 +703,17 @@ def _run_single_model(
         result.loop.id, result.model, result.fitness.score,
         len(result.trajectory), result.generated_path or "none", result.error or "none",
     )
+
+    # Emit trajectory events to the audit trail (M051 S03, additive).
+    if event_store is not None and result.trajectory:
+        from active_skill_system.application.use_cases.emit_trajectory_events import (
+            emit_trajectory_events,
+        )
+
+        n = emit_trajectory_events(
+            steps=result.trajectory, store=event_store, run_id=result.loop.id,
+        )
+        print(f"event-log: emitted {n} events for {result.loop.id}", flush=True)
 
     print(f"model: {result.model}", flush=True)
     print(f"loop: {result.loop.id} state={result.loop.state.value}", flush=True)
