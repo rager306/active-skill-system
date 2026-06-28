@@ -63,6 +63,12 @@ class InMemoryGraphStore:
     def count_edges(self) -> int:
         return len(self._edges)
 
+    def list_vertex_ids(self) -> tuple[str, ...]:
+        return tuple(self._vertices.keys())
+
+    def count_edges_by_kind(self, kind_value: str) -> int:
+        return sum(1 for k in self._edges if k[0] == kind_value)
+
 
 
 # ── Tests against the reference implementation ────────────────────────

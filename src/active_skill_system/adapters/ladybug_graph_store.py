@@ -205,6 +205,30 @@ class LadybugGraphStore:
         except Exception as e:  # noqa: BLE001
             raise ToolError(f"count_edges failed: {e}", phase="graph_store") from None
 
+    def list_vertex_ids(self) -> tuple[str, ...]:
+        """Enumerate all stored vertex ids (M049 S01 ReportReader)."""
+        self._ensure_schema()
+        try:
+            res = self._connection().execute(f"MATCH (v:{_NODE_TABLE}) RETURN v.id")
+            ids: list[str] = []
+            while res.has_next():
+                ids.append(str(res.get_next()[0]))
+            return tuple(ids)
+        except Exception as e:  # noqa: BLE001
+            raise ToolError(f"list_vertex_ids failed: {e}", phase="graph_store") from None
+
+    def count_edges_by_kind(self, kind_value: str) -> int:
+        """Count edges whose ekind matches ``kind_value``."""
+        self._ensure_schema()
+        try:
+            res = self._connection().execute(
+                f"MATCH ()-[r:{_REL_TABLE}]->() WHERE r.ekind = $k RETURN count(r)",
+                {"k": kind_value},
+            )
+            return int(res.get_next()[0]) if res.has_next() else 0
+        except Exception as e:  # noqa: BLE001
+            raise ToolError(f"count_edges_by_kind failed: {e}", phase="graph_store") from None
+
 
 # LadybugGraphStore structurally satisfies the GraphStore Protocol.
 _: GraphStore = LadybugGraphStore()  # type: ignore[assignment]

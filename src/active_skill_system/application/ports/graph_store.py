@@ -80,3 +80,21 @@ class GraphStore(Protocol):
     def count_edges(self) -> int:
         """Number of stored edges."""
         ...
+
+    def list_vertex_ids(self) -> tuple[str, ...]:
+        """All stored vertex ids (read-only snapshot).
+
+        Used by aggregation use-cases (ReportReader, Recommender) that need
+        to scan vertex kinds/labels. Adapters may return an empty tuple
+        when the backing store cannot enumerate.
+        """
+        ...
+
+    def count_edges_by_kind(self, kind_value: str) -> int:
+        """Count edges of a given kind (e.g. 'created', 'verified_by').
+
+        Adapters backed by Cypher-backed stores can issue a precise
+        MATCH..RETURN count; in-memory adapters may scan. Returns 0 when
+        the store cannot enumerate.
+        """
+        ...

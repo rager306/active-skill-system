@@ -50,6 +50,10 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Execute a Cypher query on the persistent graph and print results.")
     parser.add_argument("--graph-stats", action="store_true",
                         help="Print accumulated provenance statistics from the persistent graph.")
+    parser.add_argument("--report", action="store_true",
+                        help="Print a comprehensive insight report over the accumulated graph + ratchet + logs (M049 S01).")
+    parser.add_argument("--json", action="store_true",
+                        help="With --report, output JSON instead of human-readable.")
     parser.add_argument("--graph-trajectory", action="store_true",
                         help="Print the trajectory chain (TRAJECTORY_STEP vertices with NEXT edges) from the persistent graph.")
     parser.add_argument("--ratchet-stats", action="store_true",
@@ -59,6 +63,15 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parse_args(argv)
+
+    # Load .env so SANDBOX_GRAPH_PATH / SANDBOX_RATCHET_PATH / SANDBOX_LOG_DIR
+    # are available without manual `source .env`.
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv()
+    except ImportError:
+        pass
 
     from active_skill_system.composition.logging_config import configure_logging
 
@@ -76,6 +89,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _run_graph_query(args.graph, args.graph_query)
     if args.graph_stats:
         return _run_graph_stats(args.graph)
+    if args.report:
+        return _run_report(args.graph, args.ratchet, args.json, os.environ.get("SANDBOX_LOG_DIR"))
     if args.check is not None:
         return _run_check(args.check)
     if args.model is not None:
@@ -192,6 +207,71 @@ def _run_graph_trajectory(graph_path: str) -> int:
         print(f"\n  {loop_id}:", flush=True)
         for step_id, label in steps:
             print(f"    {step_id}  {label or '?'}", flush=True)
+    return 0
+
+
+def _run_report(graph_path: str, ratchet_path: str | None, as_json: bool, log_dir: str | None) -> int:
+    """Comprehensive insight report from accumulated graph + ratchet (M049 S01)."""
+    import json as json_mod
+    from pathlib import Path
+
+    from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
+    from active_skill_system.application.use_cases.sandbox_insight_report import ReportReader
+    from harness import RatchetLedger
+
+    graph = LadybugGraphStore(graph_path)
+    ratchet = None
+    if ratchet_path:
+        rp = Path(ratchet_path)
+        if rp.exists():
+            ratchet = RatchetLedger.load(rp)
+    reader = ReportReader(graph=graph, ratchet=ratchet, log_dir=log_dir)
+    report = reader.read()
+
+    if as_json:
+        # InsightReport.facts() returns ordered (label, value) pairs.
+        print(json_mod.dumps(dict(report.facts()), indent=2, default=str), flush=True)
+    else:
+        print("=== sandbox insight report ===", flush=True)
+        print(f"graph: {graph_path}", flush=True)
+        print(f"ratchet: {ratchet_path or '(none)'}", flush=True)
+        print(flush=True)
+        sections = [
+            ("Runs", [
+                ("total_loops", report.total_loops),
+                ("runs_with_score_1", report.runs_with_score_1),
+                ("runs_with_score_lt_1", report.runs_with_score_lt_1),
+                ("verifier_pass_rate", f"{report.verifier_pass_rate:.2%}"),
+            ]),
+            ("Graph", [
+                ("total_vertices", report.total_vertices),
+                ("total_edges", report.total_edges),
+                ("created_edges", report.created_edges),
+            ]),
+            ("Models", report.model_breakdown),
+            ("Trajectory", {
+                "trajectory_lengths": list(report.trajectory_lengths),
+                "kinds": report.trajectory_kinds,
+            }),
+            ("Failures", [
+                ("executor_failures", report.executor_failures),
+                ("ratchet_entries", report.ratchet_entries),
+            ]),
+            ("Skill usage", report.skill_usage),
+            ("Verifier usage", report.verifier_usage),
+        ]
+        for title, rows in sections:
+            print(f"  [{title}]", flush=True)
+            if isinstance(rows, dict):
+                if not rows:
+                    print("    (none)", flush=True)
+                for k, v in rows.items():
+                    print(f"    {k}: {v}", flush=True)
+            elif isinstance(rows, list) and rows and isinstance(rows[0], tuple):
+                for k, v in rows:
+                    print(f"    {k}: {v}", flush=True)
+            else:
+                print(f"    {rows}", flush=True)
     return 0
 
 
