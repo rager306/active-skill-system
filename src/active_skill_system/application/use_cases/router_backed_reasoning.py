@@ -20,6 +20,7 @@ import logging
 from typing import Any
 
 from active_skill_system.application.llm_router import LLMRouter
+from active_skill_system.application.model_selector import StageType
 from active_skill_system.application.ports.reasoning_engine import (
     ReasoningRequest,
     ReasoningResult,
@@ -81,7 +82,7 @@ class RouterBackedReasoningEngine:
         # Route to cheapest healthy provider (FAST capability = cheapest tier).
         try:
             routing = self._router.route_with_fallback(
-                stage=self._stage,
+                stage=StageType(self._stage) if self._stage in StageType.__members__.values() else StageType.SYNTHESIZE,
                 required_capabilities=frozenset({ModelCapability.FAST}),
                 request=request_dict,
             )
@@ -106,7 +107,7 @@ class RouterBackedReasoningEngine:
         # routing.genome.provider_id tells us which provider served.
         # The actual text response is in routing (provider.complete was called
         # by the router). We extract from genome or return metadata.
-        used_model = routing.genome.model_id if routing.genome else request.model
+        used_model = routing.genome.id if routing.genome else request.model
 
         # The router's RoutingResult doesn't carry the response text directly —
         # it carries routing metadata. The provider.complete call happened

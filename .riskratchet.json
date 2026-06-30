@@ -439,12 +439,12 @@
     {
       "path": "src/active_skill_system/adapters/dspy_strategy.py",
       "qualname": "DSPyStrategy._setup_lm",
-      "score": 29.25,
+      "score": 30.25,
       "components": {
         "coverage_gap": 65.0,
         "structural_complexity": 35.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -454,12 +454,12 @@
     {
       "path": "src/active_skill_system/adapters/dspy_strategy.py",
       "qualname": "DSPyStrategy.forward",
-      "score": 36.1786,
+      "score": 37.1786,
       "components": {
         "coverage_gap": 78.5714,
         "structural_complexity": 15.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 78.5714,
         "sprawl": 0.0
       },
@@ -514,12 +514,12 @@
     {
       "path": "src/active_skill_system/adapters/event_emitting_behavior_runtime.py",
       "qualname": "EventEmittingBehaviorRuntime._dispatch",
-      "score": 13.5,
+      "score": 14.5,
       "components": {
         "coverage_gap": 4.1667,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -754,12 +754,12 @@
     {
       "path": "src/active_skill_system/adapters/fast_rlm_strategy.py",
       "qualname": "FastRLMStrategy._setup",
-      "score": 33.0192,
+      "score": 34.0192,
       "components": {
         "coverage_gap": 69.2308,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -889,12 +889,12 @@
     {
       "path": "src/active_skill_system/adapters/inmemory_behavior_runtime.py",
       "qualname": "InMemoryBehaviorRuntime._dispatch",
-      "score": 12.25,
+      "score": 13.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2267,6 +2267,51 @@
       "signature": "918da934f314d429eb053ab001b01f13fd52bbc1868511fd43d6ce35db94a8e3"
     },
     {
+      "path": "src/active_skill_system/adapters/native_replay_engine.py",
+      "qualname": "NativeReplayEngine.__init__",
+      "score": 3.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 20.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "92a9a1f279cdd1c12c626dabcf268a67ed229afdbb657c782d7f2f93390f1017",
+      "signature": "bf550fb556786e2a08286df89ab52927ec9faf1899689b81cc2a8af7cf984a30"
+    },
+    {
+      "path": "src/active_skill_system/adapters/native_replay_engine.py",
+      "qualname": "NativeReplayEngine._apply_event_to_graph",
+      "score": 18.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 70.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0ad5f7b5f8c6a2a99f6670f9ef567715c25c71cf3fd12e1e1763b57e09744ba2",
+      "signature": "d2ea587fb22650fdcd889fe43f66bab04f1e8c502267e26cb9aac1ccc2c26b5c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/native_replay_engine.py",
+      "qualname": "NativeReplayEngine.replay",
+      "score": 13.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 45.0,
+        "branch_gap": 0.0,
+        "churn": 20.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "eaa375eb78dc8c2b171c2c941b27b306addbe7b652fb1af69784e1f50bb6f53f",
+      "signature": "81801c69fe6ccfa23ee17b41dc8a95e13c52bc8779110fca38935bf19534d188"
+    },
+    {
       "path": "src/active_skill_system/adapters/network_tool_stub.py",
       "qualname": "NetworkToolStub.invoke",
       "score": 28.5431,
@@ -2344,12 +2389,12 @@
     {
       "path": "src/active_skill_system/adapters/pattern_behavior_runtime.py",
       "qualname": "PatternBehaviorRuntime._dispatch_pattern_handler",
-      "score": 10.6429,
+      "score": 11.6429,
       "components": {
         "coverage_gap": 7.1429,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -2505,6 +2550,96 @@
       },
       "fingerprint": "2f46e9ab0f3b3800c4d0ec6482052cc309203ecc43e3eeba445cb77338788e6f",
       "signature": "561894093702b9e4a3959463b36c91fb33d3465d6c370919eace4408f4fe4d52"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationBehaviorRuntime.__init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "813f2f5af382f46465de8cb74adb107dc13644c0f9c5fae2a5652a46bd3b6bba",
+      "signature": "14e55fa858bc417d4ff91bd9ba06b0fc88e8a8b9a74dccc3c85fcb84e5f2b72b"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationBehaviorRuntime._dispatch_relation_handler",
+      "score": 10.8077,
+      "components": {
+        "coverage_gap": 7.6923,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2068ad5157a1a38a5e0c4e50279f726b8786d125f3a75c5402433fde7421bdc0",
+      "signature": "7a93775ad1fa2c932c99927666e2c45c17f48b4e0ad9ffc696d6457f52d192db"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationBehaviorRuntime.check_relations",
+      "score": 11.9783,
+      "components": {
+        "coverage_gap": 8.6957,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 8.6957,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ea300158e19c75f74930c8743c8e7b9fa0782208dfd75702391ab7d7d38f6866",
+      "signature": "f0c1b9cf18774d89a4330622df3eba2d1b46415a574f888a0f8dce02f58a29a4"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationBehaviorRuntime.list_relation_triggers",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "5764805bb055316c1f466ea59bce130d9190cc419b63fded27e2e693a3942d7e",
+      "signature": "20e4880b2d9da3bdc0f0affa47a3d00ca51c535b3a3907a8c07184715abfd511"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationBehaviorRuntime.register_relation_behavior",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "46c872d7c62f2e0a74ea950a248ba6375870102cc4f860ff98ab74449711063d",
+      "signature": "dd44a056cf6439f8113a68ced00d5c0bf889b61229899587512f0a85c6c0e9a2"
+    },
+    {
+      "path": "src/active_skill_system/adapters/relation_behavior_runtime.py",
+      "qualname": "RelationTriggerRegistration.__init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "588ebf42e49009b7fb93985c87f354fd0ca4546af79b7bb59effffc06b5377c8",
+      "signature": "dd44a056cf6439f8113a68ced00d5c0bf889b61229899587512f0a85c6c0e9a2"
     },
     {
       "path": "src/active_skill_system/adapters/runtime/activegraph.py",
@@ -6002,6 +6137,21 @@
       "signature": "6a03028364c20a78d647102beaa63fde3ee8791a675df770fc0d65cb0da66d3c"
     },
     {
+      "path": "src/active_skill_system/application/ports/replay_engine.py",
+      "qualname": "ReplayEngine.replay",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0706adee88607640b3c33c1c24569c2125767e55f67dea357efb91dee739c9e1",
+      "signature": "f99579e90662b0ae674b57467b1f874f074bbcb566a7028e1572c521a6ccbf50"
+    },
+    {
       "path": "src/active_skill_system/application/ports/runtime.py",
       "qualname": "RuntimePort.diff",
       "score": 1.0,
@@ -6872,6 +7022,111 @@
       "signature": "cf4c0f7acd15d48844dc0b0e276237fb7e1721d40b8f87995107bae9e63ccfa4"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder.__init__",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b145cf6675564d045c2cf6687655489c0fb5fe0379c7d18f848975a5f3604977",
+      "signature": "d331082bfaed64688f7f837d36f56f9f1771974ec755481e9392fb95daa3bcb5"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder._get_all_edges",
+      "score": 18.5,
+      "components": {
+        "coverage_gap": 50.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "723431efd84c76a841e025d3bacccd5c598017059b394d124dd7fced7736ebd9",
+      "signature": "b00ad6eeee594d559a227f79752b5203d08d15d1e62f096532d76c9d9dec4996"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder._get_all_vertices",
+      "score": 31.5769,
+      "components": {
+        "coverage_gap": 76.9231,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "eb816c29e622275c3d652f3186d5ea1c639ef60622e0ae799788e989fd742028",
+      "signature": "8c03fd6b449b732d187121bda93bc02227d3b67deb14840de5292833e1bb042d"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder.filter_by_edge_kind",
+      "score": 7.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "08701326b125f49f0375cb3568352cc6a07f70bec305e370cce81a134514480e",
+      "signature": "e9eb304268554baed0cb5d830cd444200b77e134738553e7aafd72cac7aaea47"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder.filter_by_type",
+      "score": 7.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "48db19decc751124d340ce993fd94077cbbb8f16a6867e22ed0cd3580b47b409",
+      "signature": "8c49c0cf0e7cb03c69dd9d788c4636f6d4baeb20112e730596d6aa1164c974b8"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder.full_view",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "380444eab5430fab5e665105f7ef8569f1fba498610c0f2a06a0d494b5a0eaf6",
+      "signature": "68ed975f6ffe86b47c44f45417a8ae05f53ce4ddcd5eda59920dd4c45ba1fe3c"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/graph_view_builder.py",
+      "qualname": "GraphViewBuilder.subgraph",
+      "score": 7.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "dc6fcf5c9b6660051d2f0a1403f8ad14b5abaa018ac98cc5ab3219623ecff748",
+      "signature": "d08ad6920f27ee39450d33bd83c6076a7070adc04804623b42b1bb170ec2be7d"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/iac_gap_detector.py",
       "qualname": "classify_iac_gap",
       "score": 60.5,
@@ -7487,6 +7742,51 @@
       "signature": "4e0ad3ff2193677148d16122861a8271cafaf10a144615f51cf24f8a43599212"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/reactive_sandbox_agent_runner.py",
+      "qualname": "ReactiveSandboxAgentRunner.__init__",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "5712e297cfd9cbfa12cea2682ca967b5949238ce9c106f80b60765faef3f8206",
+      "signature": "f7bfa89984715ddb180407139b6eff9d90f3103a328ed68ffcedc58b5762c21b"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/reactive_sandbox_agent_runner.py",
+      "qualname": "ReactiveSandboxAgentRunner._publish",
+      "score": 15.6591,
+      "components": {
+        "coverage_gap": 36.3636,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7c37d6412bb9b405dfe8d3ef5ae127a1c0865cc61862f028d8aca26f1a39e40f",
+      "signature": "61e8eab91c946cf82a17c7dcfedb1aaae235dd07723f9ab0b7ee72e717301e06"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/reactive_sandbox_agent_runner.py",
+      "qualname": "ReactiveSandboxAgentRunner.run",
+      "score": 15.3125,
+      "components": {
+        "coverage_gap": 10.0,
+        "structural_complexity": 40.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 10.0,
+        "sprawl": 3.125
+      },
+      "fingerprint": "5c9983912f9c89762a12bd40628ef6267f654fe6cdb981ee0b9ae76689fa1ec1",
+      "signature": "84b123e926885e769401846203acb395d296a278d165f81daefccf222cbe28af"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/repair_loop.py",
       "qualname": "RepairLoopUseCase.__init__",
       "score": 3.5,
@@ -7575,6 +7875,51 @@
       },
       "fingerprint": "586b126a7b2e9b13cb57f13319770b18460a3aa53cb2d3967d4a7f9fe84158f3",
       "signature": "bb5aae157ad9c269fcce0d676834a00d92fbbdf9eae906696462c7c78385d68d"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/router_backed_reasoning.py",
+      "qualname": "RouterBackedReasoningEngine.__init__",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ee51e6c16a30e14035a0b6dd6e869b7c6cb1106a3cb8f8da8d6887f4b399dc5f",
+      "signature": "825ccb813fc23e7c3dfe54966467b4a6ca8d5cc4a2f816960daeea484879c59e"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/router_backed_reasoning.py",
+      "qualname": "RouterBackedReasoningEngine.default_model",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b647057cd4c0277cbbdef83084353792541a97686c7207a7ee1960b479d5af36",
+      "signature": "1fa80d4fdab59bd2f1d197a872cbc18e90cc4199582f0e0d24d2571ce292b97f"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/router_backed_reasoning.py",
+      "qualname": "RouterBackedReasoningEngine.forward",
+      "score": 7.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c9718706c63283cf102d8250e84908942b1a0b3d1a85b23595e8a0b1942dde74",
+      "signature": "f69bfdfce062b62dbdf726aedbdd5638b048c77c771b4c83e18c14fc8226a802"
     },
     {
       "path": "src/active_skill_system/application/use_cases/run_reasoning.py",
@@ -7984,12 +8329,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/sandbox_insight_report.py",
       "qualname": "RatchetLedgerPort.entries",
-      "score": 1.0,
+      "score": 2.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -8149,12 +8494,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/sandbox_recommender.py",
       "qualname": "RatchetLedgerPort.entries",
-      "score": 1.0,
+      "score": 2.0,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -9274,9 +9619,9 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 10.6154,
+      "score": 8.3077,
       "components": {
-        "coverage_gap": 15.3846,
+        "coverage_gap": 7.6923,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
         "churn": 10.0,
@@ -10444,12 +10789,12 @@
     {
       "path": "src/active_skill_system/composition/sandbox/graphs.py",
       "qualname": "run_graph_query",
-      "score": 36.3409,
+      "score": 37.3409,
       "components": {
         "coverage_gap": 72.7273,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 72.7273,
         "sprawl": 0.0
       },
@@ -10459,12 +10804,12 @@
     {
       "path": "src/active_skill_system/composition/sandbox/graphs.py",
       "qualname": "run_graph_stats",
-      "score": 38.0652,
+      "score": 39.0652,
       "components": {
         "coverage_gap": 73.913,
         "structural_complexity": 30.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 73.913,
         "sprawl": 0.0
       },
@@ -10474,12 +10819,12 @@
     {
       "path": "src/active_skill_system/composition/sandbox/graphs.py",
       "qualname": "run_graph_trajectory",
-      "score": 44.5081,
+      "score": 45.5081,
       "components": {
         "coverage_gap": 80.6452,
         "structural_complexity": 45.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 80.6452,
         "sprawl": 0.0
       },
@@ -10519,12 +10864,12 @@
     {
       "path": "src/active_skill_system/composition/sandbox/queries.py",
       "qualname": "run_compare_runs",
-      "score": 17.6176,
+      "score": 18.6176,
       "components": {
         "coverage_gap": 35.2941,
         "structural_complexity": 10.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 35.2941,
         "sprawl": 0.0
       },
@@ -10534,12 +10879,12 @@
     {
       "path": "src/active_skill_system/composition/sandbox/queries.py",
       "qualname": "run_compare_runs._s",
-      "score": 31.0,
+      "score": 32.0,
       "components": {
         "coverage_gap": 100.0,
         "structural_complexity": 0.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -12900,6 +13245,216 @@
       },
       "fingerprint": "c4d6a096704d50c004fa2506fae2198b0637ee76b91f26d9ea9c7ade714a9342",
       "signature": "fd6a68cf3c9051cd1169145066a83f838681d5a79a8b89942ab7d43ec5688f70"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "FrameBudget.exhausted_by",
+      "score": 8.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "abb9da153d98d624b11c0e226d3e711b381d6a6a257e6b296145da8e3b0e5bb9",
+      "signature": "1fa80d4fdab59bd2f1d197a872cbc18e90cc4199582f0e0d24d2571ce292b97f"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "FrameBudget.is_exhausted",
+      "score": 7.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "68beca69922cca5e4d1acccde742ba3a7b932cd621ba0e81e0195aa40423b710",
+      "signature": "6a03028364c20a78d647102beaa63fde3ee8791a675df770fc0d65cb0da66d3c"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "FrameBudget.record_behavior_firing",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "30505a0596509746c9f6fdd263c358dc2005c7b644fdf58d6d57a6c05a371e98",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "FrameBudget.record_llm_call",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "2b2ba327b875531d50a6f348236e9e026d9fa86ce6785754b1772932c53d0f72",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "FrameBudget.record_patch_proposal",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e7a5317704847fab15ad52ad4315bdcfc070f39ecf1980146a1c6de34e31946c",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "ReactiveFrame.__post_init__",
+      "score": 18.5,
+      "components": {
+        "coverage_gap": 25.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 25.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "6aab0e38431e96fbae13129cd946d5b57ef77cad63cf6d1c8f9e35ced6be414b",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "ReactiveFrame.is_behavior_active",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "21a826896646fc999e9ea8326c5745e9fe9596331ea20f0c9ef60249745b29b7",
+      "signature": "e8a436946510716ad3e8cebbffb3d2acc7018a41fa3b8879b3430bad3072e65e"
+    },
+    {
+      "path": "src/active_skill_system/domain/reactive_frame.py",
+      "qualname": "ReactiveFrame.is_policy_active",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "3ff5085118b57df824899d3ca3bb26c0511fac6d473733f027dd3db379afb40f",
+      "signature": "8dd77f1ce458873314d5aa0bcdd95c1e61b97aafc8c20531a13bd307b7379acf"
+    },
+    {
+      "path": "src/active_skill_system/domain/relation.py",
+      "qualname": "Relation.__post_init__",
+      "score": 14.9167,
+      "components": {
+        "coverage_gap": 6.6667,
+        "structural_complexity": 45.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 6.6667,
+        "sprawl": 0.0
+      },
+      "fingerprint": "05f1ff3aac62c2f15489dcaf4dca76109a5ebf6ef6bb3cac93a4fde66048aac6",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/relation.py",
+      "qualname": "Relation.matches_edge",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "c5667d7fd20a8c5a56c5cd6b84dcbc316f30348d1e8dc58fe0f7848ad49d0648",
+      "signature": "60784b61b931530cbee2fdfd3e2813a69eccaebfffcde216dde2c02a0904a992"
+    },
+    {
+      "path": "src/active_skill_system/domain/relation.py",
+      "qualname": "RelationBehavior.__post_init__",
+      "score": 13.0833,
+      "components": {
+        "coverage_gap": 8.3333,
+        "structural_complexity": 35.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 8.3333,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7ed9adbcbb7ae0010dc6d747ee695aae6050ca4196492ba56a3ff1eaccbdc6be",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/relation.py",
+      "qualname": "RelationBehavior.matches_edge",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ce8bf92adef89ef683b191759f030f51de9beeb098889c6b15f2e4039eba5e98",
+      "signature": "60784b61b931530cbee2fdfd3e2813a69eccaebfffcde216dde2c02a0904a992"
+    },
+    {
+      "path": "src/active_skill_system/domain/replay.py",
+      "qualname": "ReplayResult.__post_init__",
+      "score": 23.5,
+      "components": {
+        "coverage_gap": 18.75,
+        "structural_complexity": 60.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 18.75,
+        "sprawl": 0.0
+      },
+      "fingerprint": "12cd2cdd801620ecadb456c2b7dda99efd4b0fb326b8da94e685602e25e3e28d",
+      "signature": "d7165dd8b609091aea5aeb273dc3dc0c6f2c44991ccb68f53af457f3a42c411f"
+    },
+    {
+      "path": "src/active_skill_system/domain/replay.py",
+      "qualname": "ReplayResult.summary",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8e51baa6e62383560b9cc4ee5498354ebce213a64a0bf80e840700ac9764dd84",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
     },
     {
       "path": "src/active_skill_system/domain/runtime/cancellation.py",

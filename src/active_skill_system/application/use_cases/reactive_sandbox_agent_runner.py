@@ -99,9 +99,23 @@ class ReactiveSandboxAgentRunner:
                 "exhausted_by": self._frame.budget.exhausted_by,
             }, run_id=f"reactive-{resolved_model}")
             # Return a minimal failed result (can't run with exhausted budget).
+            from active_skill_system.domain.loop import Budget, Loop
+            failed_loop = Loop.start(
+                id=f"reactive-{resolved_model}",
+                intent="budget exhausted",
+                budget=Budget(max_llm_calls=1),
+                skills=(),
+            )
+            from active_skill_system.application.use_cases.sandbox_verifier import SandboxFitness
+            failed_fitness = SandboxFitness(
+                structure_ok=False, invariants_ok=False, ranking_ok=False,
+                ruff_clean=False, ty_clean=False, pyrefly_clean=False,
+                loc=0,
+            )
+            failed_fitness.score = 0.0
             return SandboxRunResult(
-                loop=self._runner._engine,  # type: ignore[arg-type]
-                fitness=type("F", (), {"score": 0.0, "passed": False, "details": "budget exhausted"})(),
+                loop=failed_loop,
+                fitness=failed_fitness,
                 model=resolved_model,
                 error="frame budget exhausted before run",
             )

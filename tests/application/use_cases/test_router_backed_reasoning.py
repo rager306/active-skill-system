@@ -18,7 +18,7 @@ def _mock_routing_result(provider_id: str = "minimax", model_id: str = "MiniMax-
     result.provider_id = provider_id
     result.used_fallback = False
     result.genome = MagicMock()
-    result.genome.model_id = model_id
+    result.genome.id = model_id
     return result
 
 
