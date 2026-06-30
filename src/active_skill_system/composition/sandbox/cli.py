@@ -68,6 +68,10 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Model override for forked run (use with --fork).")
     parser.add_argument("--diff", nargs=2, metavar=("RUN_A", "RUN_B"), default=None,
                         help="Structural diff of two runs.")
+    parser.add_argument("--behaviors", action="store_true",
+                        help="Enable reactive behavior mode (events trigger behaviors).")
+    parser.add_argument("--behavior-demo", action="store_true",
+                        help="Run reactive behavior demo (creates claim, fires behaviors).")
     return parser.parse_args(argv)
 
 
@@ -108,6 +112,10 @@ def dispatch(args: argparse.Namespace) -> int:
         from active_skill_system.composition.sandbox.fork_ops import run_diff
 
         return run_diff(args.diff[0], args.diff[1], args.event_log)
+    if args.behavior_demo:
+        from active_skill_system.composition.sandbox.reactive_ops import run_behavior_demo
+
+        return run_behavior_demo(args.event_log)
     if args.check is not None:
         return run_check(args.check)
     if args.model is not None:
