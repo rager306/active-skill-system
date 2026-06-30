@@ -37,7 +37,7 @@ class GraphReaderPort(Protocol):
 class RatchetLedgerPort(Protocol):
     """RatchetLedgerPort class."""
     @property
-    def entries(self) -> tuple[Any, ...]: ...
+    def entries(self) -> list[Any]: ...
 
 
 @dataclass(frozen=True)

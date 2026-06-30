@@ -78,7 +78,7 @@ class FastRLMStrategy:
                 _log.warning("fast_rlm_strategy_stubbed reason=%s", self._stub_reason)
                 return
 
-            import fast_rlm  # noqa: PLC0415 — lazy import per M052 design
+            import fast_rlm  # noqa: PLC0415 -- ty: ignore[unresolved-import]  # pyrefly: ignore  # ty:ignore[unresolved-import]
 
             api_base = self._api_base or os.environ.get("ANTHROPIC_BASE_URL")
             api_key = self._api_key or os.environ.get("ANTHROPIC_AUTH_TOKEN")

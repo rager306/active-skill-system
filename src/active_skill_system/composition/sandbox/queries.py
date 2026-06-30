@@ -5,6 +5,8 @@ Read-only insight modes: --report, --compare-runs, --recommend.
 
 from __future__ import annotations
 
+from typing import Any
+
 from active_skill_system.composition.cli_exit import EX_NOT_FOUND, EX_OK
 from active_skill_system.composition.sandbox.helpers import get_sandbox_logger
 
@@ -90,7 +92,7 @@ def run_compare_runs(
         get_sandbox_logger().warning("compare_runs_missing a=%s b=%s missing=%s", loop_a, loop_b, cmp.missing_id)
         return EX_NOT_FOUND
     if as_json:
-        def _s(sum_: object) -> dict:
+        def _s(sum_: Any) -> dict:
             return {
                 "loop_id": sum_.loop_id,
                 "score": sum_.score,

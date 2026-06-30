@@ -136,14 +136,14 @@ class PatternBehaviorRuntime(InMemoryBehaviorRuntime):
                 events_processed=self._events_processed,
             )
             reg.handler(ctx)
-            if span_id is not None:
+            if span_id is not None and self._trace is not None:
                 self._trace.end_span(span_id, status="ok")
         except Exception as e:  # noqa: BLE001
             logger.error(
                 "pattern trigger %s failed: %s", reg.behavior_name, e,
                 exc_info=True,
             )
-            if span_id is not None:
+            if span_id is not None and self._trace is not None:
                 self._trace.end_span(span_id, status="error", error=str(e))
 
     def list_pattern_triggers(self) -> list[PatternTriggerRegistration]:

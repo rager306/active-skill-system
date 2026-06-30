@@ -120,7 +120,7 @@ class InMemoryBehaviorRuntime:
                 )
                 reg.handler(ctx)
                 reg.fire_count += 1
-                if span_id is not None:
+                if span_id is not None and self._trace is not None:
                     self._trace.end_span(span_id, status="ok")
             except Exception as e:  # noqa: BLE001
                 reg.error_count += 1
@@ -130,7 +130,7 @@ class InMemoryBehaviorRuntime:
                     b.name, event.id, e,
                     exc_info=True,
                 )
-                if span_id is not None:
+                if span_id is not None and self._trace is not None:
                     self._trace.end_span(span_id, status="error", error=str(e))
 
     def list_registrations(self) -> list[BehaviorRegistration]:

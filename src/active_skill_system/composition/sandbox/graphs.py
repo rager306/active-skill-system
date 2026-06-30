@@ -7,6 +7,7 @@ Read-only graph operations: --graph-stats, --graph-query, --graph-trajectory,
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from active_skill_system.composition.cli_exit import EX_NOT_FOUND, EX_OK, EX_PARTIAL
 from active_skill_system.composition.sandbox.helpers import get_sandbox_logger
@@ -37,7 +38,7 @@ def run_graph_stats(graph_path: str) -> int:
     failures = 0
     for label, query in stats:
         try:
-            r = store._connection().execute(query)
+            r: Any = store._connection().execute(query)
             count = r.get_next()[0] if r.has_next() else 0
             print(f"  {label}: {count}", flush=True)
         except Exception:  # noqa: BLE001
@@ -60,7 +61,7 @@ def run_graph_query(graph_path: str, cypher: str) -> int:
 
     store = LadybugGraphStore(graph_path)
     try:
-        result = store._connection().execute(cypher)
+        result: Any = store._connection().execute(cypher)
         rows = []
         while result.has_next():
             rows.append(result.get_next())
@@ -92,10 +93,10 @@ def run_graph_trajectory(graph_path: str) -> int:
     )
     print(f"graph: {graph_path} (trajectory)", flush=True)
     try:
-        r = store._connection().execute(query)
+        r: Any = store._connection().execute(query)
         rows: list[tuple] = []
-        while r.has_next():
-            rows.append(r.get_next())
+        while r.has_next():  # type: ignore[union-attr]
+            rows.append(r.get_next())  # type: ignore[union-attr]
     except Exception as e:  # noqa: BLE001
         print(f"query error: {e}", flush=True)
         get_sandbox_logger().warning("trajectory_query_failed path=%s err=%s", graph_path, e)

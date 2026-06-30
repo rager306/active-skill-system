@@ -90,7 +90,7 @@ python-version = "3.13"
 # ── pyrefly (Meta): type checker ──────────────────────────────────────────
 [tool.pyrefly]
 python-version = "3.13"
-search-path = ["src"]
+search-path = ["src", "."]
 # LadybugDB has no type stubs; pyrefly cannot resolve QueryResult.has_next/get_next.
 # We run pyrefly for OUR code quality, not vendor stub coverage. The errors are
 # real but unfixable without ladybug publishing stubs. The governance check

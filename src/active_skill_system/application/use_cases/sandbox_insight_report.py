@@ -49,7 +49,7 @@ class RatchetLedgerPort(Protocol):
     """Minimal read interface for RatchetLedger."""
 
     @property
-    def entries(self) -> tuple[Any, ...]: ...
+    def entries(self) -> list[Any]: ...
 
 
 @dataclass(frozen=True)

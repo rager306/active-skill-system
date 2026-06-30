@@ -9,3 +9,14 @@ name = "minimax-provider-overrides"
 # ty flags this as invalid-method-override / invalid-argument-type.
 # These are design decisions, not bugs.
 path = "src/active_skill_system/adapters/llm/minimax/_provider.py"
+
+# Optional dependencies (dspy, fast_rlm) are lazy-imported with graceful stub
+# mode. ty flags them as unresolved-import because they're not installed in
+# the base venv. These are intentional optional-dependency patterns, not bugs.
+[[overrides]]
+name = "optional-dspy-import"
+path = "src/active_skill_system/adapters/dspy_strategy.py"
+
+[[overrides]]
+name = "optional-fast-rlm-import"
+path = "src/active_skill_system/adapters/fast_rlm_strategy.py"

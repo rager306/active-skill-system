@@ -68,7 +68,7 @@ class DSPyStrategy:
         try:
             import os
 
-            import dspy  # noqa: PLC0415 — lazy import per M051 design
+            import dspy  # noqa: PLC0415 -- ty: ignore[unresolved-import]  # pyrefly: ignore  # ty:ignore[unresolved-import]
 
             api_base = self._api_base or os.environ.get("ANTHROPIC_BASE_URL")
             api_key = self._api_key or os.environ.get("ANTHROPIC_AUTH_TOKEN")
@@ -123,7 +123,7 @@ class DSPyStrategy:
                 error=f"dspy stub: {self._stub_reason}",
             )
         try:
-            import dspy  # noqa: PLC0415
+            import dspy  # noqa: PLC0415 -- ty: ignore[unresolved-import]  # pyrefly: ignore  # ty:ignore[unresolved-import]
 
             # DSPy signature: input -> output text. We use a simple Signature.
             class GenerateSignature(dspy.Signature):  # type: ignore[misc]

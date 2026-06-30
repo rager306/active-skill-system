@@ -56,7 +56,7 @@ class Policy:
     rule: PolicyRule
     description: str = ""
     priority: int = 0
-    patch_filter: dict[str, Any] = None  # type: ignore[assignment]
+    patch_filter: dict[str, Any] | None = None
 
     def __post_init__(self) -> None:
         errors: list[str] = []
