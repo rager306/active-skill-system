@@ -4,97 +4,99 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
+import pytest
+
 from active_skill_system.composition import cli_exit
-from active_skill_system.composition.mini_sandbox import _dispatch, _parse_args
+from active_skill_system.composition.sandbox.cli import dispatch, parse_args
 
 
 def _parse(*argv: str) -> object:
     """Parse CLI args, return namespace."""
-    return _parse_args(list(argv))
+    return parse_args(list(argv))
 
 
 def test_dispatch_ratchet_stats() -> None:
     args = _parse("--ratchet-stats", "--ratchet", "/tmp/nonexistent.jsonl")
-    with patch("active_skill_system.composition.mini_sandbox._run_ratchet_stats", return_value=cli_exit.EX_NOT_FOUND):
-        assert _dispatch(args) == cli_exit.EX_NOT_FOUND
+    with patch("active_skill_system.composition.sandbox.cli.run_ratchet_stats", return_value=cli_exit.EX_NOT_FOUND):
+        assert dispatch(args) == cli_exit.EX_NOT_FOUND
 
 
 def test_dispatch_graph_stats() -> None:
     args = _parse("--graph-stats", "--graph", "/tmp/nonexistent.lbdb")
-    with patch("active_skill_system.composition.mini_sandbox._run_graph_stats", return_value=cli_exit.EX_NOT_FOUND):
-        assert _dispatch(args) == cli_exit.EX_NOT_FOUND
+    with patch("active_skill_system.composition.sandbox.cli.run_graph_stats", return_value=cli_exit.EX_NOT_FOUND):
+        assert dispatch(args) == cli_exit.EX_NOT_FOUND
 
 
 def test_dispatch_graph_trajectory() -> None:
     args = _parse("--graph-trajectory", "--graph", "/tmp/nonexistent.lbdb")
-    with patch("active_skill_system.composition.mini_sandbox._run_graph_trajectory", return_value=cli_exit.EX_NOT_FOUND):
-        assert _dispatch(args) == cli_exit.EX_NOT_FOUND
+    with patch("active_skill_system.composition.sandbox.cli.run_graph_trajectory", return_value=cli_exit.EX_NOT_FOUND):
+        assert dispatch(args) == cli_exit.EX_NOT_FOUND
 
 
 def test_dispatch_graph_query() -> None:
     args = _parse("--graph-query", "MATCH (v) RETURN count(v)", "--graph", "/tmp/x.lbdb")
-    with patch("active_skill_system.composition.mini_sandbox._run_graph_query", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_graph_query", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_report() -> None:
     args = _parse("--report")
-    with patch("active_skill_system.composition.mini_sandbox._run_report", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_report", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_recommend() -> None:
     args = _parse("--recommend")
-    with patch("active_skill_system.composition.mini_sandbox._run_recommend", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_recommend", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_event_stats() -> None:
     args = _parse("--event-stats")
-    with patch("active_skill_system.composition.mini_sandbox._run_event_stats", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_event_stats", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_governance_check() -> None:
     args = _parse("--governance-check")
-    with patch("active_skill_system.composition.mini_sandbox._run_governance_check", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_governance_check", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_check() -> None:
     args = _parse("--check", "some_file.py")
-    with patch("active_skill_system.composition.mini_sandbox._run_check", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_check", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_model_cache_types() -> None:
     args = _parse("--model", "test-model")
-    with patch("active_skill_system.composition.mini_sandbox._build_event_store", return_value=None), \
-         patch("active_skill_system.composition.mini_sandbox._run_single_model", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.build_event_store", return_value=None), \
+         patch("active_skill_system.composition.sandbox.cli.run_single_model", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_model_program_bench() -> None:
     args = _parse("--model", "test-model", "--bench", "program-bench")
-    with patch("active_skill_system.composition.mini_sandbox._run_program_bench", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_program_bench", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_models() -> None:
     args = _parse("--models", "a,b,c")
-    with patch("active_skill_system.composition.mini_sandbox._run_multi_model", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_multi_model", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_dispatch_no_args_returns_usage() -> None:
     args = _parse()
-    assert _dispatch(args) == cli_exit.EX_USAGE
+    assert dispatch(args) == cli_exit.EX_USAGE
 
 
 def test_dispatch_compare_runs() -> None:
     args = _parse("--compare-runs", "run-a", "run-b")
-    with patch("active_skill_system.composition.mini_sandbox._run_compare_runs", return_value=cli_exit.EX_OK):
-        assert _dispatch(args) == cli_exit.EX_OK
+    with patch("active_skill_system.composition.sandbox.cli.run_compare_runs", return_value=cli_exit.EX_OK):
+        assert dispatch(args) == cli_exit.EX_OK
 
 
 def test_governance_result_score() -> None:
@@ -133,10 +135,9 @@ def test_governance_check_with_trace() -> None:
     )
 
     tc = InMemoryTraceCollector()
-    # Run only the fast axes to keep test quick.
     result = run_governance_check(axes=("layering_ok",), trace=tc)
     assert "layering_ok" in result.axes
-    assert tc.span_count() >= 2  # parent + at least 1 axis span
+    assert tc.span_count() >= 2
     spans = list(tc.iter_spans())
     operations = [s.operation for s in spans]
     assert "governance.check" in operations

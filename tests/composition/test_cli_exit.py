@@ -39,7 +39,7 @@ def test_name_for_unknown_code() -> None:
 
 def test_run_ratchet_stats_missing_file_returns_ex_not_found(tmp_path: Path) -> None:
     """End-to-end: --ratchet-stats on a missing file returns EX_NOT_FOUND (2)."""
-    from active_skill_system.composition.mini_sandbox import _run_ratchet_stats
+    from active_skill_system.composition.sandbox.graphs import run_ratchet_stats as _run_ratchet_stats
 
     missing = tmp_path / "does_not_exist.jsonl"
     code = _run_ratchet_stats(str(missing))
@@ -47,7 +47,7 @@ def test_run_ratchet_stats_missing_file_returns_ex_not_found(tmp_path: Path) -> 
 
 
 def test_run_graph_stats_missing_file_returns_ex_not_found(tmp_path: Path) -> None:
-    from active_skill_system.composition.mini_sandbox import _run_graph_stats
+    from active_skill_system.composition.sandbox.graphs import run_graph_stats as _run_graph_stats
 
     missing = tmp_path / "missing.lbdb"
     code = _run_graph_stats(str(missing))
@@ -55,7 +55,7 @@ def test_run_graph_stats_missing_file_returns_ex_not_found(tmp_path: Path) -> No
 
 
 def test_run_graph_query_missing_file_returns_ex_not_found(tmp_path: Path) -> None:
-    from active_skill_system.composition.mini_sandbox import _run_graph_query
+    from active_skill_system.composition.sandbox.graphs import run_graph_query as _run_graph_query
 
     missing = tmp_path / "missing.lbdb"
     code = _run_graph_query(str(missing), "MATCH (v) RETURN count(v)")
@@ -63,7 +63,7 @@ def test_run_graph_query_missing_file_returns_ex_not_found(tmp_path: Path) -> No
 
 
 def test_run_graph_trajectory_missing_file_returns_ex_not_found(tmp_path: Path) -> None:
-    from active_skill_system.composition.mini_sandbox import _run_graph_trajectory
+    from active_skill_system.composition.sandbox.graphs import run_graph_trajectory as _run_graph_trajectory
 
     missing = tmp_path / "missing.lbdb"
     code = _run_graph_trajectory(str(missing))
@@ -73,7 +73,7 @@ def test_run_graph_trajectory_missing_file_returns_ex_not_found(tmp_path: Path) 
 def test_run_compare_runs_missing_returns_ex_not_found(tmp_path: Path) -> None:
     """End-to-end: --compare-runs on a missing run id returns EX_NOT_FOUND."""
     from active_skill_system.adapters.ladybug_graph_store import LadybugGraphStore
-    from active_skill_system.composition.mini_sandbox import _run_compare_runs
+    from active_skill_system.composition.sandbox.queries import run_compare_runs as _run_compare_runs
 
     # Build a real graph with one loop, then ask for a missing run id.
     graph_path = tmp_path / "graph.lbdb"
