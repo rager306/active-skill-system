@@ -36,11 +36,13 @@ class NativeReplayEngine:
         self,
         event_store: EventStore,
         behavior_runtime: Any = None,
+        trace: Any = None,
     ) -> None:
         if event_store is None:
             raise TypeError("event_store must be a non-None EventStore")
         self._store = event_store
         self._runtime = behavior_runtime
+        self._trace = trace
 
     def replay(self, run_id: str, mode: str = ReplayMode.STRICT) -> ReplayResult:
         """Replay the event log for a run into a reconstructed graph.
@@ -54,6 +56,17 @@ class NativeReplayEngine:
         """
         if mode not in (ReplayMode.STRICT, ReplayMode.PERMISSIVE):
             raise ValueError(f"mode must be strict/permissive (got {mode!r})")
+
+        # Start trace span for replay operation.
+        span_id = None
+        if self._trace is not None:
+            span_id = self._trace.start_span(
+                f"replay.{mode}",
+                parent=None,
+                layer="application",
+                run_id=run_id,
+                mode=mode,
+            )
 
         start_ns = time.monotonic_ns()
         events = list(self._store.iter_events(run_id=run_id))
@@ -73,6 +86,17 @@ class NativeReplayEngine:
             self._apply_event_to_graph(event, graph, edges)
 
         duration_ns = time.monotonic_ns() - start_ns
+
+        # End trace span.
+        if span_id is not None and self._trace is not None:
+            self._trace.end_span(
+                span_id,
+                status="ok",
+                events_replayed=len(events),
+                vertices_reconstructed=len(graph),
+                behaviors_fired=behaviors_fired,
+                duration_ns=duration_ns,
+            )
 
         return ReplayResult(
             run_id=run_id,
