@@ -812,6 +812,66 @@
       "signature": "a173e112fd3ec813a8f44664b33a62ac255464cf0657bf650ff65eddf0da05ec"
     },
     {
+      "path": "src/active_skill_system/adapters/fork_replay_cache_engine.py",
+      "qualname": "ForkReplayCacheEngine.__init__",
+      "score": 4.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "509b5daeba3856e50e11ba18b3b8a2dd67d61753e2df483ff1b10dd0c5fb1a46",
+      "signature": "651ee8b5b4b7872c9f5a96c8e210d6e5d01c6afb8f38610cd8bca5af8122ec3a"
+    },
+    {
+      "path": "src/active_skill_system/adapters/fork_replay_cache_engine.py",
+      "qualname": "ForkReplayCacheEngine.diff_with_cache_analysis",
+      "score": 23.7206,
+      "components": {
+        "coverage_gap": 41.1765,
+        "structural_complexity": 25.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 41.1765,
+        "sprawl": 0.0
+      },
+      "fingerprint": "aa49a03f70a0e7eeb3473af6f4f1161f8282485653e48b8a5f424fc9f8ba56a7",
+      "signature": "a315650872c96356cd26db149cc28ad6df4b9cc0419c8678a2cb4c729c8d347c"
+    },
+    {
+      "path": "src/active_skill_system/adapters/fork_replay_cache_engine.py",
+      "qualname": "ForkReplayCacheEngine.fork_with_replay",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8672e8a3983fe3d20032d6cc200f91825614bbef043273f84ab3cc6be92b42a1",
+      "signature": "fd3f9651c93eab77214941b5fcc8c9c5df9bd6dca4cdaef557e466bd1a151c78"
+    },
+    {
+      "path": "src/active_skill_system/adapters/fork_replay_cache_engine.py",
+      "qualname": "ForkReplayCacheEngine.populate_cache_from_prefix",
+      "score": 6.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 20.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "81ce2686bf9ea29a41d6d7e187fb4229bccb6298c3d2e6bc9e011eb9d245ceac",
+      "signature": "fdca567f4d341a6b6b5f281584a5b282680875fd5a71c4b42ccf0f7d8665dcd4"
+    },
+    {
       "path": "src/active_skill_system/adapters/iac_tool_stub.py",
       "qualname": "IaCToolStub.invoke",
       "score": 21.6466,
@@ -3615,6 +3675,171 @@
       },
       "fingerprint": "0d2583b3006f24790a94c2dd7a176e23d8e8f7b5db679b00449f1a4e9cce3bb0",
       "signature": "3c9431c86e51216ff4ec3b7bad690362b9efefeac29c305b4bea1f41bb29d43a"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "evidence_linker_handler_factory",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "8624b27b862d8353700042a0356cb24512eb0acf04f57b14201cfd8f352180bb",
+      "signature": "c95ec7f3abb9aaddd69904394105c9ac9b3d7fafd2ec7b4f5a6c17b181595982"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "evidence_linker_handler_factory.handler",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0b7b08a50547be33936babbe214e7b9558ecb0630ef6c1b1063f20d15bbf1c31",
+      "signature": "7465ea5cfc011476f357a8013a2aa42bf029b73cd72b751aa49b4878f3eafc71"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "evidence_linker_relation_behavior",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "807aabef2ee1c454d0f39b4b1a272e47962bd6f2345182af367ddba944e9a72f",
+      "signature": "c3b14c05d32b990991dfcc3effa0474f5b04f5ecc1b1aa7e89f161d7145e04b4"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "get_diligence_preset",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "e5cd062eb8e4754ceae1e957e53c41e1386e9a6db4903356398d352b1f55dc95",
+      "signature": "0d2c905886ad47d946d44266d9e205d0a61764af7035c955da12b5ead34b148d"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "list_diligence_presets",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "81a7933cd4ea956ed65f5ee967a343d1f4cf865b72fcb282950fe5db31da5554",
+      "signature": "07710b5c344e323e7a82060a9d627d85c88de8fd244df998e32a1e36b72f43e6"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "question_generator_behavior",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bee4ed72b3b2e710e32a74fec3d4b5fd834c623672411fc7b9f8e3517af2e3fa",
+      "signature": "1463285f51930c34f822aea806bb136967e8e2d20c518259b203176a029be673"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "question_generator_handler_factory",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f15701b0638f45ecbf9f04d9a04ec990f637c5413f650fe105c7791221e01ecf",
+      "signature": "c95ec7f3abb9aaddd69904394105c9ac9b3d7fafd2ec7b4f5a6c17b181595982"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "question_generator_handler_factory.handler",
+      "score": 2.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "bdd49bec858453c7c0566304c02add0bdcaf3895a4aaa7f727f62cbce9458e12",
+      "signature": "7465ea5cfc011476f357a8013a2aa42bf029b73cd72b751aa49b4878f3eafc71"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "risk_assessor_handler_factory",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "1b056be43458a88d536e03386473368f8de335a7617b5029355fbda5a34f0be6",
+      "signature": "c95ec7f3abb9aaddd69904394105c9ac9b3d7fafd2ec7b4f5a6c17b181595982"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "risk_assessor_handler_factory.handler",
+      "score": 3.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 10.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "71c04ecb660da811bdd08ba1d33904850b918cf53286d49ef121ac374392eb3d",
+      "signature": "7465ea5cfc011476f357a8013a2aa42bf029b73cd72b751aa49b4878f3eafc71"
+    },
+    {
+      "path": "src/active_skill_system/application/behaviors/diligence_pack.py",
+      "qualname": "risk_assessor_relation_behavior",
+      "score": 1.0,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 0.0,
+        "branch_gap": 0.0,
+        "churn": 10.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "dfcc736f7be46e0575cfc003a11994e63ac92535fe8b28b16eb8fbc63c018af8",
+      "signature": "c3b14c05d32b990991dfcc3effa0474f5b04f5ecc1b1aa7e89f161d7145e04b4"
     },
     {
       "path": "src/active_skill_system/application/behaviors/presets.py",
@@ -6977,6 +7202,141 @@
       "signature": "1723c23417ee575a1a926b9b411ae391bb3b726d1ed066d08ed94fe901294296"
     },
     {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysis.summary",
+      "score": 8.75,
+      "components": {
+        "coverage_gap": 12.5,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 12.5,
+        "sprawl": 0.0
+      },
+      "fingerprint": "95d8f8d0843d8e6c3bd1e78f7b6ae0999135d1aee51e63e47fb1c581f01b2f55",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase.__init__",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b6d94d23bca543bc44391eb102f005f3095a64b264c422beffe379ffa237d1da",
+      "signature": "b7a2a39e60097fb1305ba44cb5c034782abd103205a95d5afd8dcb2ad23ace50"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase._count_by_behavior",
+      "score": 7.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "7204086df0a259295a36c8c54b45a112bfe8f1bcaaa8ebed877b9a23ada83540",
+      "signature": "1d1573f19c896aa36f7de1b029e531bc56d4c2f6eeccfaaf1f7c0948b5e68bec"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase._count_by_proposer",
+      "score": 12.1154,
+      "components": {
+        "coverage_gap": 15.3846,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "9c2e35afe752775b045c8133c34dc948c79392d571510a8752198a68dbb9c85b",
+      "signature": "1d1573f19c896aa36f7de1b029e531bc56d4c2f6eeccfaaf1f7c0948b5e68bec"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase._count_patterns",
+      "score": 16.7308,
+      "components": {
+        "coverage_gap": 30.7692,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "0cf0feb7e5bcc18937ff5cd5ac407a2dd341e72081df9d980e63c74daea05673",
+      "signature": "1d1573f19c896aa36f7de1b029e531bc56d4c2f6eeccfaaf1f7c0948b5e68bec"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase._policy_decisions",
+      "score": 7.5,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 30.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "da691d0b9cb5a4b75c2e4ef5042791269fa8a999c447ddc0227911d57e59cadc",
+      "signature": "a8444e2dd1598c243ba47c158b90d6a7489b39db587b64c353340497f64e3e96"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ForkAnalysisUseCase.analyze",
+      "score": 1.25,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 5.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "ad508fbd95c89d635a29cf1dec40c06f9cc8f89f0c1dc9111e0345aed0d88915",
+      "signature": "99e1bbfdb8d909ff4319fb8919ef5f99b285f07c173c096e3abf557841200949"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ReactiveDivergence.has_divergence",
+      "score": 3.75,
+      "components": {
+        "coverage_gap": 0.0,
+        "structural_complexity": 15.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 0.0,
+        "sprawl": 0.0
+      },
+      "fingerprint": "f8a17b5bf3cface0b920e5821627f8cac27c75b0ebcefcd5de3f52bb10633769",
+      "signature": "6a03028364c20a78d647102beaa63fde3ee8791a675df770fc0d65cb0da66d3c"
+    },
+    {
+      "path": "src/active_skill_system/application/use_cases/fork_analysis.py",
+      "qualname": "ReactiveDivergence.summary",
+      "score": 18.1618,
+      "components": {
+        "coverage_gap": 23.5294,
+        "structural_complexity": 35.0,
+        "branch_gap": 0.0,
+        "churn": 0.0,
+        "public_surface": 23.5294,
+        "sprawl": 0.0
+      },
+      "fingerprint": "b059d55207d39b70d23cef0de54fce08f6bafd6ffd1a5c60e551141acbf5d74a",
+      "signature": "a8145509666af08894d546c7d9943b72d3ea06084c71bea311690ffcba2118cd"
+    },
+    {
       "path": "src/active_skill_system/application/use_cases/gitnexus_convention_check.py",
       "qualname": "ConventionChecker.check_convention",
       "score": 30.1071,
@@ -7774,16 +8134,16 @@
     {
       "path": "src/active_skill_system/application/use_cases/reactive_sandbox_agent_runner.py",
       "qualname": "ReactiveSandboxAgentRunner.run",
-      "score": 15.3125,
+      "score": 16.3875,
       "components": {
-        "coverage_gap": 10.0,
+        "coverage_gap": 8.0,
         "structural_complexity": 40.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
-        "public_surface": 10.0,
-        "sprawl": 3.125
+        "churn": 20.0,
+        "public_surface": 8.0,
+        "sprawl": 11.875
       },
-      "fingerprint": "5c9983912f9c89762a12bd40628ef6267f654fe6cdb981ee0b9ae76689fa1ec1",
+      "fingerprint": "5af95fc0ba24a86013524b66f058333e65d3cda9ac467b8232ee2ff6cd777ed3",
       "signature": "84b123e926885e769401846203acb395d296a278d165f81daefccf222cbe28af"
     },
     {
@@ -7909,12 +8269,12 @@
     {
       "path": "src/active_skill_system/application/use_cases/router_backed_reasoning.py",
       "qualname": "RouterBackedReasoningEngine.forward",
-      "score": 7.25,
+      "score": 8.25,
       "components": {
         "coverage_gap": 0.0,
         "structural_complexity": 25.0,
         "branch_gap": 0.0,
-        "churn": 10.0,
+        "churn": 20.0,
         "public_surface": 0.0,
         "sprawl": 0.0
       },
@@ -9619,9 +9979,9 @@
     {
       "path": "src/active_skill_system/application/use_cases/validate_task_graph.py",
       "qualname": "_goal_supported",
-      "score": 8.3077,
+      "score": 10.6154,
       "components": {
-        "coverage_gap": 7.6923,
+        "coverage_gap": 15.3846,
         "structural_complexity": 20.0,
         "branch_gap": 0.0,
         "churn": 10.0,
