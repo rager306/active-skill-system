@@ -147,3 +147,36 @@ def test_counter_increments_across_runs(tmp_path: Path):
     r1 = runner.run()
     r2 = runner.run()
     assert r1.loop.id != r2.loop.id
+
+
+def test_runner_with_trace_emits_spans() -> None:
+    """SandboxAgentRunner with TraceCollector emits agent.run span."""
+    from active_skill_system.adapters.inmemory_trace_collector import (
+        InMemoryTraceCollector,
+    )
+
+    class _FakeEngine:
+        def forward(self, request):
+            from active_skill_system.application.ports.reasoning_engine import (
+                ReasoningResult,
+            )
+            return ReasoningResult(
+                text="```python\nx = 1\n```",
+                model=request.model,
+                finish_reason="end_turn",
+            )
+
+    tc = InMemoryTraceCollector()
+    runner = SandboxAgentRunner(
+        engine=_FakeEngine(),
+        sandbox_dir="runs/sandbox_test_trace",
+        trace=tc,
+    )
+    result = runner.run(model="test-model")
+    assert tc.span_count() >= 1
+    spans = list(tc.iter_spans())
+    ops = [s.operation for s in spans]
+    assert "agent.run" in ops
+    agent_span = [s for s in spans if s.operation == "agent.run"][0]
+    assert agent_span.attributes.get("model") == "test-model"
+    assert agent_span.attributes.get("score") == result.fitness.score

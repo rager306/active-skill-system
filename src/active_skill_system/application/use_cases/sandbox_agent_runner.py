@@ -121,6 +121,7 @@ class SandboxAgentRunner:
         engine: ReasoningEnginePort,
         sandbox_dir: str | Path = "runs/sandbox",
         code_executor: Any = None,
+        trace: Any = None,
     ) -> None:
         if engine is None:
             raise TypeError("engine must be a non-None ReasoningEnginePort")
@@ -133,6 +134,7 @@ class SandboxAgentRunner:
         # (offline tests); a CodeExecutorPort = run candidate in isolation
         # before verification.
         self._code_executor = code_executor
+        self._trace = trace
 
     def run(
         self,
@@ -147,6 +149,14 @@ class SandboxAgentRunner:
         self._counter += 1
         import uuid
         run_id = f"sandbox-run-{uuid.uuid4().hex[:8]}"
+
+        # Trace: start agent.run span (M052 S03).
+        _parent_span = None
+        if self._trace is not None:
+            _parent_span = self._trace.start_span(
+                "agent.run", layer="application",
+                run_id=run_id, model=resolved_model,
+            )
 
         # ── Trajectory recorder (Wave 2 P1) ─────────────────────────────────
         recorder = TrajectoryRecorder(run_id=run_id)
@@ -239,6 +249,14 @@ class SandboxAgentRunner:
                 )
             )
 
+        # Trace: end agent.run span (M052 S03).
+        if self._trace is not None and _parent_span is not None:
+            self._trace.end_span(
+                _parent_span,
+                status="ok" if fitness.score == 1.0 else "error",
+                score=fitness.score,
+                trajectory_steps=len(recorder.steps()),
+            )
         _log.info("sandbox run %s model=%s score=%.2f", run_id, resolved_model, fitness.score)
         recorder.add(
             TrajectoryStepKind.FINISH if fitness.score == 1.0 else TrajectoryStepKind.FAILURE,
