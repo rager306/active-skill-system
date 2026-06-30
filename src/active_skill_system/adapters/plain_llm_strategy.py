@@ -12,6 +12,8 @@ Loop degradation, D009).
 
 from __future__ import annotations
 
+from typing import Any
+
 from active_skill_system.application.ports.llm import LLMMessage, LLMProviderPort
 from active_skill_system.application.ports.reasoning_engine import (
     ReasoningRequest,
