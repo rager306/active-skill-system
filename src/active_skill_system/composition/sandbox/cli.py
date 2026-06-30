@@ -62,6 +62,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--event-log", type=str, default=None)
     parser.add_argument("--event-stats", action="store_true")
     parser.add_argument("--governance-check", action="store_true")
+    parser.add_argument("--fork", nargs=2, metavar=("RUN_ID", "AT_EVENT"), default=None,
+                        help="Fork a run at a specific event.")
+    parser.add_argument("--fork-model", type=str, default=None,
+                        help="Model override for forked run (use with --fork).")
+    parser.add_argument("--diff", nargs=2, metavar=("RUN_A", "RUN_B"), default=None,
+                        help="Structural diff of two runs.")
     return parser.parse_args(argv)
 
 
@@ -94,6 +100,14 @@ def dispatch(args: argparse.Namespace) -> int:
         return run_event_stats(args.event_log or os.environ.get("SANDBOX_EVENT_LOG", ""))
     if args.governance_check:
         return run_governance_check()
+    if args.fork is not None:
+        from active_skill_system.composition.sandbox.fork_ops import run_fork
+
+        return run_fork(args.fork[0], args.fork[1], args.fork_model, args.event_log)
+    if args.diff is not None:
+        from active_skill_system.composition.sandbox.fork_ops import run_diff
+
+        return run_diff(args.diff[0], args.diff[1], args.event_log)
     if args.check is not None:
         return run_check(args.check)
     if args.model is not None:
