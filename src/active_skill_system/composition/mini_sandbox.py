@@ -258,13 +258,13 @@ def _run_program_bench(
     return EX_OK
 
 
-def _run_governance_check() -> int:
+def _run_governance_check(trace=None) -> int:
     """Self-governance check: apply our own tools to our own codebase."""
     from active_skill_system.application.use_cases.self_governance_check import (
         run_governance_check,
     )
 
-    result = run_governance_check()
+    result = run_governance_check(trace=trace)
     print(f"=== governance check (score {result.score:.2%}) ===", flush=True)
     for name, ok in result.axes.items():
         status = "OK" if ok else "FAIL"

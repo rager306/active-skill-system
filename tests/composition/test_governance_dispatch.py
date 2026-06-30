@@ -121,3 +121,33 @@ def test_governance_check_run_all_axes() -> None:
     result = run_governance_check(axes=("layering_ok",))
     assert "layering_ok" in result.axes
     assert len(result.axes) == 1
+
+
+def test_governance_check_with_trace() -> None:
+    """run_governance_check with a TraceCollector emits spans per axis."""
+    from active_skill_system.adapters.inmemory_trace_collector import (
+        InMemoryTraceCollector,
+    )
+    from active_skill_system.application.use_cases.self_governance_check import (
+        run_governance_check,
+    )
+
+    tc = InMemoryTraceCollector()
+    # Run only the fast axes to keep test quick.
+    result = run_governance_check(axes=("layering_ok",), trace=tc)
+    assert "layering_ok" in result.axes
+    assert tc.span_count() >= 2  # parent + at least 1 axis span
+    spans = list(tc.iter_spans())
+    operations = [s.operation for s in spans]
+    assert "governance.check" in operations
+    assert any("layering" in op for op in operations)
+
+
+def test_governance_check_without_trace_works() -> None:
+    """run_governance_check without trace still works."""
+    from active_skill_system.application.use_cases.self_governance_check import (
+        run_governance_check,
+    )
+
+    result = run_governance_check(axes=("layering_ok",))
+    assert "layering_ok" in result.axes

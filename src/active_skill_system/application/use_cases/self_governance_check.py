@@ -196,11 +196,15 @@ GOVERNANCE_AXES = (
 )
 
 
-def run_governance_check(axes: tuple[str, ...] | None = None) -> GovernanceResult:
+def run_governance_check(
+    axes: tuple[str, ...] | None = None,
+    trace=None,
+) -> GovernanceResult:
     """Run the self-governance check over the project's own source.
 
     Args:
         axes: optional subset of axis names to run. None = all 8.
+        trace: optional TraceCollector to record per-axis spans.
 
     Returns:
         GovernanceResult with per-axis pass/fail + details.
@@ -208,13 +212,38 @@ def run_governance_check(axes: tuple[str, ...] | None = None) -> GovernanceResul
     selected = axes or tuple(name for name, _ in GOVERNANCE_AXES)
     results: dict[str, bool] = {}
     details: dict[str, str] = {}
+    parent_span = None
+    if trace is not None:
+        parent_span = trace.start_span(
+            "governance.check",
+            layer="application",
+            axes=list(selected),
+        )
     for name, checker in GOVERNANCE_AXES:
         if name not in selected:
             continue
+        span_id = None
+        if trace is not None:
+            span_id = trace.start_span(
+                f"governance.{name}",
+                parent_span_id=parent_span,
+                layer="application",
+                axis=name,
+            )
         try:
             ok, detail = checker()
         except Exception as e:  # noqa: BLE001
             ok, detail = False, f"{type(e).__name__}: {e}"
         results[name] = ok
         details[name] = detail
+        if trace is not None and span_id is not None:
+            trace.end_span(span_id, status="ok" if ok else "error", detail=detail[:200])
+    if trace is not None and parent_span is not None:
+        passed = sum(1 for v in results.values() if v)
+        trace.end_span(
+            parent_span,
+            status="ok" if all(results.values()) else "error",
+            passed=passed,
+            total=len(results),
+        )
     return GovernanceResult(axes=results, details=details)
