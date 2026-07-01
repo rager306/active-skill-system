@@ -1,7 +1,9 @@
 # Trace & Observability — Reactive/Async Debugging Foundation
 
-> Status: **research / design**. Companion to D019 (reactive+async assessment).
-> Source: activegraph 1.1.0 observability module + our EventStore (M051).
+> Status: **DELIVERED** ✅. Implemented in M052 S01-S03 + M053 S06 + M054 S04.
+> TraceEnvelope domain type + TraceCollector port + InMemoryTraceCollector adapter.
+> Instrumented into governance check, SandboxAgentRunner, BehaviorRuntime, ReplayEngine.
+> Originally a research/design doc companion to D019/D020; now production code.
 >
 > Question: how do we get **traces** for debugging reactive/async processes,
 > leveraging activegraph's state ideology while accounting for our hexagonal

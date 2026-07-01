@@ -1,14 +1,39 @@
-# Architecture Status — ActiveGraph Integration Audit (2026-06-28)
+# Architecture Status — ActiveGraph Integration Audit
 
-**Context:** Project audit after Wave 1 (M047), Wave 2 (M048), Wave 3 (M049). All three waves closed; 1398 tests passing; layering KEPT. Goal: fix the structural misalignment between our implementation and the activegraph framework we depend on.
+> **Updated 2026-06-30** after Waves A/B/C/D (M051-M054) completion.
+> Original audit was 2026-06-28 (pre-absorption); this is the post-absorption status.
+>
+> **TL;DR: All 12 activegraph primitives are now absorbed into our hexagonal
+> architecture. The parallel-abstractions gap identified in the original audit
+> is CLOSED. ActiveGraph is used as ONE adapter behind our ports, not imported
+> directly. The reactive runtime is production-ready.**
 
-## TL;DR
+## Original Problem (2026-06-28, now resolved)
 
-We built **parallel abstractions** to activegraph instead of building **on** activegraph. About 70% of the activegraph surface area we depend on is **not wired into our composition flow**. Three adapters exist but are not called anywhere (dead code), one composition entrypoint imports the Diligence pack but does not invoke it. Real-LLM tests caught this drift; production-grade resilience (M038 LLMRouter) is missing from one composition path.
+We built **parallel abstractions** to activegraph instead of building **on**
+activegraph. About 70% of the activegraph surface area we depended on was
+**not wired into our composition flow**. Three adapters existed but were not
+called anywhere (dead code), one composition entrypoint imported the Diligence
+pack but did not invoke it.
 
-The architectural decision at M002 (or earlier) to build our own `Loop`/`LoopGraph`/`ToolRegistry`/`GraphStore`/`ReasoningEnginePort`/`CodeExecutorPort` was deliberate — the contracts are explicit ports (R002), the layering is enforced (R007), the ports compose via composition. But that choice means activegraph is mostly used as **LLM provider surface only**. We get the protocol conformance, the retry semantics, the structured-message types — and nothing else.
+The architectural decision at M002 to build our own `Loop`/`LoopGraph`/
+`ToolRegistry`/`GraphStore`/`ReasoningEnginePort`/`CodeExecutorPort` was
+deliberate — the contracts are explicit ports (R002), the layering is enforced
+(R007). But that choice meant activegraph was mostly used as **LLM provider
+surface only**.
 
-## What We Use From activegraph 1.1.0
+## Resolution (Waves A/B/C/D, M051-M054)
+
+We did NOT rewrite onto activegraph runtime. Instead, we **absorbed the
+concepts** into our own ports and domain types:
+
+- 12 activegraph primitives → our domain types + 13 ports
+- activegraph becomes ONE adapter option behind ports
+- Every new port has a Native* adapter (no activegraph dependency)
+- Existing Loop/LoopGraph/SandboxAgentRunner keep working (one driver)
+- New reactive runtime is a second driver (for use cases that need it)
+
+## Current Surface Usage (2026-06-30)
 
 | Surface | Files | Status |
 |---|---|---|
@@ -79,16 +104,42 @@ Remove `activegraph_event_sink.py`, `activegraph_experiment_workspace.py`, `runt
 - **Benefit**: honest scope; no false promises; cleanup.
 - **Trade-off**: leaves potential on the table; future option B becomes Option A later.
 
-## Recorded Decision (today)
+## Recorded Decision (RESOLVED)
 
-We **continue with Wave 4 (DSPy/FastRLM adapters, M051-M053)** and **defer the activegraph-integration choice** to a future Wave 5 / Wave 6. The audit lives here so the next milestone can decide which option to take. No code changes — this is **fixation of state**.
+The original audit deferred the activegraph-integration choice to a future wave.
+**That choice was made and executed in Waves A/B/C/D (M051-M054):**
+
+**Option B-Plus (Hybrid with full absorption) was implemented.** We kept our
+4+ generic ports + 11-axis verifier AND absorbed all 12 activegraph primitives
+into our own domain types + ports. activegraph becomes ONE adapter option
+behind our ports. Dead adapters remain documented but not deleted (historical
+reference). M038 LLMRouter gap CLOSED (M054 S08).
+
+## 12 Primitive Coverage (2026-06-30)
+
+| # | Primitive | Status | Port / Adapter |
+|---|-----------|--------|----------------|
+| 1 | Graph | ✅ | GraphBackend (LadybugBackend) |
+| 2 | Events | ✅ | EventStore + EventLogBackend |
+| 3 | Behaviors | ✅ | BehaviorRuntime (InMemory/Pattern/Relation/EventEmitting) |
+| 4 | Relations | ✅ | RelationBehaviorRuntime |
+| 5 | Patches | ✅ | PatchApplier (InMemory/EventEmitting) |
+| 6 | Views | ✅ | GraphViewBuilder |
+| 7 | Frames | ✅ | ReactiveFrame + FrameBudget |
+| 8 | Policies | ✅ | PolicyGate (4 rules) |
+| 9 | Patterns | ✅ | PatternMatcher (EXISTS/NOT_EXISTS) |
+| 10 | Replay | ✅ | NativeReplayEngine (strict/permissive) |
+| 11 | Fork-and-diff | ✅ | ForkEngine + AsyncForkEngine + ForkReplayCacheEngine |
+| 12 | Failure model | ✅ | behavior.failed events + Loop FAILED |
 
 ## What This Means Going Forward
 
-1. **Wave 4 (DSPy / FastRLM)** proceeds without touching activegraph. DSPy becomes a ReasoningEnginePort strategy behind our `PlainLLMStrategy`. FastRLM gets its own adapter. RLM / ACP delegation is M052.
-2. **Future wave** may choose Option A, B, or C. Option B is the most likely compromise — keeps our investment in 4 ports + verifier, gets activegraph event log + tools + metrics.
-3. **M038 LLMRouter gap** in `composition/diligence.py` remains an open issue. Mark as follow-up.
-4. **Dead-code cleanup** is a 30-minute task (Option C) and can be done at any time without waiting for strategy.
+1. **All 12 primitives absorbed** — no more parallel-abstractions gap.
+2. **Reactive runtime production-ready** — ReactiveSandboxAgentRunner fires
+   behaviors during REAL LLM agent runs, not just demo mode.
+3. **M038 LLMRouter gap CLOSED** — RouterBackedReasoningEngine (M054 S08).
+4. **Dead adapters** remain documented (historical reference); not deleted.
+5. **Next: Wave E (M055)** — Maxi scaling: multi-domain benchmarks, Golden Sessions.
 
 ## Cross-References
 

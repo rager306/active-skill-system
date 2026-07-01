@@ -1,10 +1,15 @@
 # Architecture Proposal — Absorb ActiveGraph Core into Hexagonal/Onion (2026-06-28)
 
-> Status: **proposal**. Not committed code. This document designs how to absorb
-> the 12 activegraph primitives into our hexagonal/onion architecture WITHOUT
-> becoming a thin wrapper around activegraph runtime. It also solves the
-> LadybugDB lock-in by introducing a layered port hierarchy that makes the
-> backend (LadybugDB / HelixDB / FalkorDB / SQLite) swappable.
+> Status: **DELIVERED** ✅. All 3 waves (A/B/C/D) complete as of M054 (2026-06-30).
+> This document was the design; the implementation is now production-ready.
+> See `doc/ROADMAP.md` for current state and `doc/architecture-status-activegraph-integration.md`
+> for the updated integration audit.
+>
+> Originally this document designed how to absorb the 12 activegraph primitives
+> into our hexagonal/onion architecture WITHOUT becoming a thin wrapper around
+> activegraph runtime. It also solved the LadybugDB lock-in by introducing a
+> layered port hierarchy that makes the backend (LadybugDB / HelixDB / FalkorDB /
+> SQLite) swappable.
 
 ## 0. Why this document
 
@@ -349,4 +354,10 @@ Wave A deliverables (M051):
   to `GraphBackend`, so 50 milestones of callers keep working unchanged.
 - Composition wiring: `--event-log sqlite:<path>` flag.
 
-This document is the design. Wave A is the next milestone.
+This document was the design. All waves are now DELIVERED:
+- Wave A (M051) ✅ — GraphBackend + EventStore + EventLogBackend
+- Wave B (M052) ✅ — ForkEngine + LLMCache + TraceCollector + AsyncForkEngine
+- Wave C (M053) ✅ — BehaviorRuntime + PatchApplier + PolicyGate + PatternMatcher
+- Wave D (M054) ✅ — RelationBehaviorRuntime + GraphViewBuilder + ReactiveFrame + ReplayEngine + real-run integration
+
+All 12 activegraph primitives absorbed. 13 ports. 1838 tests. Governance 100%.

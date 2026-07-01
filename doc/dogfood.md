@@ -1,8 +1,9 @@
 # Dogfooding the architecture — applying RGLA to our own dev process
 
-> Status: **design / stance**. Companion to D012. No code yet — this fixes the
-> contract for one scoped dogfood loop before building it, the same discipline
-> used for RGLA (D009), LadybugDB (D010), RLM (D011), OKF.
+> Status: **DELIVERED** ✅. Implemented as `--governance-check` (8 axes) +
+> GSD PreVerify hook (scripts/hooks/pre-verify.sh). The project validates
+> ITSELF with its own verification tools. Governance score 100%.
+> Companion to D012. Originally a design/stance doc; now production code.
 >
 > Decision: D012. Inputs: the 4 real-LLM bugs (MEM044-046), the empty
 > RatchetLedger (M033), the RGLA build (M041).

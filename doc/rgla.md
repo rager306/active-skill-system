@@ -1,9 +1,10 @@
 # Recursive Graph Loop Architecture (RGLA) — Design Document
 
-> Status: **design / research artifact**. No production code yet. This document
-> synthesizes a conceptual proposal ("Recursive Graph Loop Architecture") into an
-> engineering architecture for `active-skill-system`, grounded in what the project
-> already implements and what it does not.
+> Status: **DELIVERED** ✅. RGLA is the core architecture of active-skill-system.
+> Loop (event-sourced unit of work), LoopGraph (typed provenance),
+> GraphBackend (swappable storage), EventStore (audit trail), reactive runtime
+> (all 12 primitives) — all production code as of M054 (2026-06-30).
+> This document was the design; it is now implemented.
 >
 > Companion decision: D009 (RGLA adoption scope and sequencing).
 > Inputs: Loop Engineering, Harness Engineering, RLM/OpenProse, SkillGenome,
